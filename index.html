@@ -3,114 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feriasoft - Soluciones de Software</title>
+    <title>Transformar Voz a Texto</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background-color: #af4c4c;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-            position: relative;
-        }
-        header img {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            height: 50px;
-        }
-        nav {
             display: flex;
-            justify-content: center;
-            background-color: #333;
-        }
-        nav a {
-            color: white;
-            padding: 14px 20px;
-            text-decoration: none;
-            text-align: center;
-        }
-        nav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        .container {
-            padding: 20px;
-        }
-        .services, .contact {
-            margin: 20px 0;
-        }
-        .services-grid {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-        .service-box {
-            background-color: #4CAF50;
-            color: white;
-            width: 200px;
-            height: 200px;
-            margin: 10px;
-            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            border-radius: 10px;
+            height: 100vh;
+            margin: 0;
+        }
+        #output {
+            width: 80%;
+            height: 150px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 16px;
+            resize: none;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            margin: 5px;
         }
-        .service-box:hover {
-            background-color: #053ef7;
+        .button-container {
+            display: flex;
+            justify-content: center;
         }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <header>
-        <img src="1.jpeg" alt="Logo de Feriasoft">
-        <h1>Feriasoft</h1>
-        <p>Soluciones de Software a Medida</p>
-    </header>
-    <nav>
-        <a href="#about">Nosotros</a>
-        <a href="#services">Servicios</a>
-        <a href="#contact">Contacto</a>
-    </nav>
-    <div class="container">
-        <section id="about">
-            <h2>Nosotros</h2>
-            <p>En Feriasoft nos especializamos en desarrollar soluciones de software personalizadas para satisfacer las necesidades de nuestros clientes. Con un equipo de expertos en tecnología, nos dedicamos a ofrecer productos de alta calidad y servicio excepcional.</p>
-        </section>
-        <section id="services" class="services">
-            <h2>Servicios</h2>
-            <div class="services-grid">
-                <div class="service-box" onclick="location.href='https://ejemplo.com/base-de-datos'">Base de Datos</div>
-                <div class="service-box" onclick="location.href='https://ejemplo.com/apps'">Aplicaciones</div>
-                <div class="service-box" onclick="location.href='https://ejemplo.com/consultoria'">Consultoría</div>
-                <div class="service-box" onclick="location.href='https://ejemplo.com/soporte'">Soporte</div>
-            </div>
-        </section>
-        <section id="contact" class="contact">
-            <h2>Contacto</h2>
-            <p>Para más información, por favor contáctanos:</p>
-            <p>Email: info@feriasoft.com</p>
-            <p>Teléfono: +34 123 456 789</p>
-        </section>
+    <h1>Transformar Voz a Texto</h1>
+    <div class="button-container">
+        <button onclick="startRecognition()">Iniciar Reconocimiento de Voz</button>
+        <button onclick="stopRecognition()">Detener Reconocimiento de Voz</button>
+        <button onclick="downloadText()">Descargar como TXT</button>
     </div>
-   
+    <textarea id="output" readonly></textarea>
+
+    <div class="footer">
+        <p>© 2024 Elian Mamani. Todos los derechos reservados.</p>
+        <a href="https://feriasoft.github.io/" target="_blank">Visita nuestra página</a>
+    </div>
+
+    <script>
+        const output = document.getElementById('output');
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'es-ES';
+        recognition.continuous = true;
+
+        recognition.onspeechend = function() {
+            recognition.stop();
+        };
+
+        recognition.onresult = function(event) {
+            let transcript = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                transcript += event.results[i][0].transcript;
+            }
+            if (output.value.endsWith(' ')) {
+                output.value += transcript.trimStart();
+            } else {
+                output.value += ' ' + transcript.trimStart();
+            }
+        };
+
+        recognition.onerror = function(event) {
+            output.value += 'Error: ' + event.error + '\n';
+        };
+
+        function startRecognition() {
+            recognition.start();
+            output.readOnly = false;
+        }
+
+        function stopRecognition() {
+            recognition.stop();
+        }
+
+        function downloadText() {
+            const text = output.value;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'texto.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
 </body>
 </html>
