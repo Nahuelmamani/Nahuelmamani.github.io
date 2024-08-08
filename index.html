@@ -1,13 +1,22 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subir y Mostrar Imágenes</title>
+    <title>Aplicación Combinada</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .section {
+            margin-bottom: 40px;
         }
         .image-preview {
             margin-top: 20px;
@@ -18,40 +27,173 @@
             border: 1px solid #ddd;
             padding: 5px;
         }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        input[type="number"] {
+            width: 60px;
+            text-align: right;
+        }
+        button {
+            margin-top: 10px;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+        .iframe-container {
+            margin-top: 20px;
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
         footer {
             margin-top: 40px;
-            font-size: 14px;
+            text-align: center;
+            font-size: 0.9em;
             color: #555;
-        }
-        footer a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-        footer a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>Subir y Mostrar Imágenes</h1>
-    <form id="uploadForm">
-        <input type="file" id="imageInput" accept="image/*">
-    </form>
-    <div class="image-preview" id="imagePreview">
-        <!-- La imagen cargada se mostrará aquí -->
+    <div class="container">
+        <!-- Subir y Mostrar Imágenes -->
+        <div class="section">
+            <h1>Subir y Mostrar Imágenes</h1>
+            <form id="uploadForm">
+                <input type="file" id="imageInput" accept="image/*">
+            </form>
+            <div class="image-preview" id="imagePreview">
+                <!-- La imagen cargada se mostrará aquí -->
+            </div>
+        </div>
+
+        <!-- Contador de Filas -->
+        <div class="section">
+            <h1>Contador de Cajas</h1>
+            <textarea id="textInput" placeholder="Escribe tu texto aquí..." oninput="countLines()"></textarea>
+            <p>Número de Cajas: <span id="lineCount">0</span></p>
+        </div>
+
+        <!-- Recibo -->
+        <div class="section">
+            <h1>Recibo</h1>
+            <table id="reciboTable">
+                <tr>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>6x</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>J5</th>
+                    <th>Jaulón</th>
+                    <th>Total cajas</th>
+                </tr>
+                <tr id="izquierdaRow">
+                    <td><input type="number" id="izquierda5" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="izquierda6" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="izquierda6x" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="izquierda7" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="izquierda8" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="izquierdaJ5" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="izquierdaJaulon" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="totalIzquierda" readonly></td>
+                </tr>
+                <tr id="derechaRow">
+                    <td><input type="number" id="derecha5" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="derecha6" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="derecha6x" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="derecha7" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="derecha8" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="derechaJ5" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="derechaJaulon" oninput="calcularSuma()"></td>
+                    <td><input type="number" id="totalDerecha" readonly></td>
+                </tr>
+                <tr id="totalRow">
+                    <td id="total5"></td>
+                    <td id="total6"></td>
+                    <td id="total6x"></td>
+                    <td id="total7"></td>
+                    <td id="total8"></td>
+                    <td id="totalJ5"></td>
+                    <td id="totalJaulon"></td>
+                    <td id="totalCajas"></td>
+                </tr>
+            </table>
+            <button onclick="reiniciarCampos()">Reiniciar</button>
+            <button onclick="copiarResultados()">Copiar Resultados</button>
+        </div>
+
+        <!-- Menú Desplegable con Visor -->
+        <div class="section">
+            <h1>Menú Desplegable</h1>
+            <div class="dropdown">
+                <button class="dropbtn">Seleccionar Número de Socio</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="showForm('https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 1</a>
+                    <a href="#" onclick="showForm('https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 2</a>
+                    <a href="#" onclick="showForm('https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 3</a>
+                    <a href="#" onclick="showForm('https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 4</a>
+                    <a href="#" onclick="showForm('https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 5</a>
+                </div>
+            </div>
+            <div class="iframe-container">
+                <iframe id="form-iframe" src=""></iframe>
+            </div>
+        </div>
+
+        <footer>
+            &copy; 2024 Elian Mamani. Todos los derechos reservados. <a href="https://feriasoft.github.io/">Visita nuestra página web</a>
+        </footer>
     </div>
 
-    <footer>
-        © 2024 Elian Mamani. Todos los derechos reservados. 
-        <a href="https://feriasoft.github.io/" target="_blank">Visita nuestra página web</a>
-    </footer>
-
     <script>
-        document.getElementById('imageInput').addEventListener('change', function() {
+        // Funcionalidad de Subir y Mostrar Imágenes
+        document.getElementById('imageInput').addEventListener('change', previewImage);
+
+        function previewImage() {
             const input = document.getElementById('imageInput');
             const preview = document.getElementById('imagePreview');
-
-            // Limpiar cualquier imagen previa
             preview.innerHTML = '';
 
             if (input.files && input.files[0]) {
@@ -66,7 +208,128 @@
 
                 reader.readAsDataURL(file);
             }
-        });
-    </script>
+        }
+
+        // Funcionalidad de Contador de Filas
+        function countLines() {
+            const text = document.getElementById('textInput').value;
+            const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
+            document.getElementById('lineCount').textContent = lines.length;
+        }
+
+        // Funcionalidad de Recibo
+        function calcularSuma() {
+            var izquierda5 = parseInt(document.getElementById('izquierda5').value || 0);
+            var izquierda6 = parseInt(document.getElementById('izquierda6').value || 0);
+            var izquierda6x = parseInt(document.getElementById('izquierda6x').value || 0);
+            var izquierda7 = parseInt(document.getElementById('izquierda7').value || 0);
+            var izquierda8 = parseInt(document.getElementById('izquierda8').value || 0);
+            var izquierdaJ5 = parseInt(document.getElementById('izquierdaJ5').value || 0);
+            var izquierdaJaulon = parseInt(document.getElementById('izquierdaJaulon').value || 0);
+            var derecha5 = parseInt(document.getElementById('derecha5').value || 0);
+            var derecha6 = parseInt(document.getElementById('derecha6').value || 0);
+            var derecha6x = parseInt(document.getElementById('derecha6x').value || 0);
+            var derecha7 = parseInt(document.getElementById('derecha7').value || 0);
+            var derecha8 = parseInt(document.getElementById('derecha8').value || 0);
+            var derechaJ5 = parseInt(document.getElementById('derechaJ5').value || 0);
+            var derechaJaulon = parseInt(document.getElementById('derechaJaulon').value || 0);
+
+            var totalIzquierda = izquierda5 + izquierda6 + izquierda6x + izquierda7 + izquierda8 + izquierdaJ5 + izquierdaJaulon;
+            var totalDerecha = derecha5 + derecha6 + derecha6x + derecha7 + derecha8 + derechaJ5 + derechaJaulon;
+
+            document.getElementById('totalIzquierda').value = totalIzquierda;
+            document.getElementById('totalDerecha').value = totalDerecha;
+
+            document.getElementById('total5').innerText = izquierda5 + derecha5;
+            document.getElementById('total6').innerText = izquierda6 + derecha6;
+            document.getElementById('total6x').innerText = izquierda6x + derecha6x;
+            document.getElementById('total7').innerText = izquierda7 + derecha7;
+            document.getElementById('total8').innerText = izquierda8 + derecha8;
+            document.getElementById('totalJ5').innerText = izquierdaJ5 + derechaJ5;
+            document.getElementById('totalJaulon').innerText = izquierdaJaulon + derechaJaulon;
+            document.getElementById('totalCajas').innerText = totalIzquierda + totalDerecha;
+
+            // Guardar datos en localStorage
+            saveToLocalStorage();
+        }
+
+        function saveToLocalStorage() {
+            var data = {
+                izquierda5: document.getElementById('izquierda5').value || 0,
+                izquierda6: document.getElementById('izquierda6').value || 0,
+                izquierda6x: document.getElementById('izquierda6x').value || 0,
+                izquierda7: document.getElementById('izquierda7').value || 0,
+                izquierda8: document.getElementById('izquierda8').value || 0,
+                izquierdaJ5: document.getElementById('izquierdaJ5').value || 0,
+                izquierdaJaulon: document.getElementById('izquierdaJaulon').value || 0,
+                derecha5: document.getElementById('derecha5').value || 0,
+                derecha6: document.getElementById('derecha6').value || 0,
+                derecha6x: document.getElementById('derecha6x').value || 0,
+                derecha7: document.getElementById('derecha7').value || 0,
+                derecha8: document.getElementById('derecha8').value || 0,
+                derechaJ5: document.getElementById('derechaJ5').value || 0,
+                derechaJaulon: document.getElementById('derechaJaulon').value || 0
+            };
+
+            localStorage.setItem('reciboData', JSON.stringify(data));
+        }
+
+        function loadFromLocalStorage() {
+            var data = localStorage.getItem('reciboData');
+            if (data) {
+                data = JSON.parse(data);
+
+                document.getElementById('izquierda5').value = data.izquierda5;
+                document.getElementById('izquierda6').value = data.izquierda6;
+                document.getElementById('izquierda6x').value = data.izquierda6x;
+                document.getElementById('izquierda7').value = data.izquierda7;
+                document.getElementById('izquierda8').value = data.izquierda8;
+                document.getElementById('izquierdaJ5').value = data.izquierdaJ5;
+                document.getElementById('izquierdaJaulon').value = data.izquierdaJaulon;
+                document.getElementById('derecha5').value = data.derecha5;
+                document.getElementById('derecha6').value = data.derecha6;
+                document.getElementById('derecha6x').value = data.derecha6x;
+                document.getElementById('derecha7').value = data.derecha7;
+                document.getElementById('derecha8').value = data.derecha8;
+                document.getElementById('derechaJ5').value = data.derechaJ5;
+                document.getElementById('derechaJaulon').value = data.derechaJaulon;
+
+                calcularSuma();
+            }
+        }
+
+        function reiniciarCampos() {
+            var inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => input.value = '');
+            calcularSuma();
+            localStorage.removeItem('reciboData');
+        }
+
+        function copiarResultados() {
+            var total5 = document.getElementById('total5').innerText;
+            var total6 = document.getElementById('total6').innerText;
+            var total6x = document.getElementById('total6x').innerText;
+            var total7 = document.getElementById('total7').innerText;
+            var total8 = document.getElementById('total8').innerText;
+            var totalJ5 = document.getElementById('totalJ5').innerText;
+            var totalJaulon = document.getElementById('totalJaulon').innerText;
+            var totalCajas = document.getElementById('totalCajas').innerText;
+
+            var resultados = `Total 5: ${total5}\nTotal 6: ${total6}\nTotal 6x: ${total6x}\nTotal 7: ${total7}\nTotal 8: ${total8}\nTotal J5: ${totalJ5}\nTotal Jaulón: ${totalJaulon}\nTotal Cajas: ${totalCajas}`;
+            navigator.clipboard.writeText(resultados);
+            alert('Resultados copiados al portapapeles');
+        }
+
+        // Funcionalidad del Menú Desplegable con Visor
+        function showForm(link) {
+            var iframe = document.getElementById('form-iframe');
+            iframe.src = link;
+        }
+
+        // Cargar datos al inicio
+        window.onload = function() {
+            loadFromLocalStorage();
+        }
+   </script>
 </body>
 </html>
