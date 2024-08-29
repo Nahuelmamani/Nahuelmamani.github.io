@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Ventas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        #iframe-container {
+            margin-top: 20px;
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            display: none;
+        }
+        #iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .footer a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Registro de Ventas</h1>
+    <form id="formVenta">
+        <label>Producto:</label>
+        <input type="text" id="producto" required>
+
+        <label>Precio:</label>
+        <input type="number" id="precio" required min="0" step="any">
+
+        <label>Cantidad:</label>
+        <input type="number" id="cantidad" required min="1">
+
+        <button type="button" class="btn" onclick="agregarProducto()">Agregar Producto</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody id="listaVentas">
+        </tbody>
+    </table>
+
+    <div>
+        <label>Total Venta: </label>
+        <span id="totalVenta">0.00</span>
+    </div>
+
+    <div>
+        <label>Pago Recibido:</label>
+        <input type="number" id="pagoRecibido" min="0" step="any" onchange="calcularCambio()">
+    </div>
+
+    <div>
+        <label>Cambio: </label>
+        <span id="cambio">0.00</span>
+    </div>
+
+    <button class="btn" onclick="copiarVentas()">Copiar Ventas Realizadas</button>
+    <button class="btn" onclick="mostrarPaginaWeb1()">Enviar Datos</button>
+    <button class="btn" onclick="mostrarPaginaWeb2()">Calcular Cantidad y Total</button>
+
+    <div id="iframe-container">
+        <iframe id="iframeWeb" src=""></iframe>
+    </div>
+</div>
+
+<div class="footer">
+    <p>© 2024 Elian Mamani. Todos los derechos reservados. <a href="https://feriasoft.github.io/" target="_blank">Visita nuestra página web.</a></p>
+</div>
+
+<script>
+    let ventas = [];
+
+    function agregarProducto() {
+        const producto = document.getElementById('producto').value;
+        const precio = parseFloat(document.getElementById('precio').value);
+        const cantidad = parseInt(document.getElementById('cantidad').value);
+        const total = precio * cantidad;
+
+        ventas.push({ producto, precio, cantidad, total });
+        actualizarTabla();
+        limpiarFormulario();
+    }
+
+    function actualizarTabla() {
+        const tbody = document.getElementById('listaVentas');
+        tbody.innerHTML = '';
+        let totalVenta = 0;
+
+        ventas.forEach((venta, index) => {
+            totalVenta += venta.total;
+            const row = `
+                <tr>
+                    <td>${venta.producto}</td>
+                    <td>${venta.precio.toFixed(2)}</td>
+                    <td>${venta.cantidad}</td>
+                    <td>${venta.total.toFixed(2)}</td>
+                    <td><button onclick="eliminarProducto(${index})">Eliminar</button></td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+
+        document.getElementById('totalVenta').textContent = totalVenta.toFixed(2);
+    }
+
+    function eliminarProducto(index) {
+        ventas.splice(index, 1);
+        actualizarTabla();
+        calcularCambio();
+    }
+
+    function limpiarFormulario() {
+        document.getElementById('producto').value = '';
+        document.getElementById('precio').value = '';
+        document.getElementById('cantidad').value = '';
+    }
+
+    function calcularCambio() {
+        const totalVenta = parseFloat(document.getElementById('totalVenta').textContent);
+        const pagoRecibido = parseFloat(document.getElementById('pagoRecibido').value || 0);
+        const cambio = pagoRecibido - totalVenta;
+
+        document.getElementById('cambio').textContent = cambio >= 0 ? cambio.toFixed(2) : '0.00';
+    }
+
+    function copiarVentas() {
+        let textoVentas = ventas.map(v => `Producto: ${v.producto}, Precio: ${v.precio.toFixed(2)}, Cantidad: ${v.cantidad}, Total: ${v.total.toFixed(2)}`).join('\n');
+        navigator.clipboard.writeText(textoVentas).then(() => {
+            alert('Ventas copiadas al portapapeles');
+        }).catch(err => {
+            alert('Error al copiar ventas: ' + err);
+        });
+    }
+
+    function mostrarPaginaWeb1() {
+        const iframe = document.getElementById('iframeWeb');
+        const container = document.getElementById('iframe-container');
+        iframe.src = 'https://feria-soft.blogspot.com/2024/08/formulario.html';
+        container.style.display = 'block';
+    }
+
+    function mostrarPaginaWeb2() {
+        const iframe = document.getElementById('iframeWeb');
+        const container = document.getElementById('iframe-container');
+        iframe.src = 'https://feria-soft.blogspot.com/2024/08/calcular-cantidad-y-total-de-productos.html';  // Reemplaza esta URL con la página que desees mostrar
+        container.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
