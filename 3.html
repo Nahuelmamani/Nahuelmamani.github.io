@@ -41,6 +41,7 @@
             border: none;
             cursor: pointer;
             margin-top: 10px;
+            margin-right: 5px;
         }
         .btn:hover {
             background-color: #45a049;
@@ -49,19 +50,6 @@
             width: 100%;
             padding: 8px;
             margin-top: 5px;
-        }
-        .link-box {
-            margin-top: 20px;
-            padding: 15px;
-            border: 2px solid #4CAF50;
-            border-radius: 5px;
-            background-color: #e8f5e9;
-            text-align: center;
-        }
-        .link-box a {
-            text-decoration: none;
-            color: #4CAF50;
-            font-weight: bold;
         }
         #iframe-container {
             margin-top: 20px;
@@ -135,7 +123,8 @@
     </div>
 
     <button class="btn" onclick="copiarVentas()">Copiar Ventas Realizadas</button>
-    <button class="btn" onclick="mostrarPaginaWeb()">Enviar Datos</button>
+    <button class="btn" onclick="mostrarPaginaWeb1()">Enviar Datos</button>
+    <button class="btn" onclick="mostrarPaginaWeb2()">Calcular Cantidad y Total</button>
 
     <div id="iframe-container">
         <iframe id="iframeWeb" src=""></iframe>
@@ -211,10 +200,17 @@
         });
     }
 
-    function mostrarPaginaWeb() {
+    function mostrarPaginaWeb1() {
         const iframe = document.getElementById('iframeWeb');
         const container = document.getElementById('iframe-container');
         iframe.src = 'https://feria-soft.blogspot.com/2024/08/formulario.html';
+        container.style.display = 'block';
+    }
+
+    function mostrarPaginaWeb2() {
+        const iframe = document.getElementById('iframeWeb');
+        const container = document.getElementById('iframe-container');
+        iframe.src = 'https://nahuelmamani.github.io/4.html';  // Reemplaza esta URL con la página que desees mostrar
         container.style.display = 'block';
     }
 </script>
