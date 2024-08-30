@@ -7,18 +7,53 @@
     <title>Registro de Ventas</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f7f7;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
         .container {
-            max-width: 800px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+            display: block;
+        }
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 10px);
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
         }
         table {
             width: 100%;
@@ -27,35 +62,28 @@
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
             text-align: center;
         }
         th {
-            background-color: #4CAF50;
+            background-color: #007bff;
             color: white;
+            font-weight: 600;
+            border-bottom: 2px solid #0056b3;
         }
-        .btn {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-            margin-right: 5px;
+        td {
+            background-color: #f9f9f9;
+            color: #333;
+            border-bottom: 1px solid #ddd;
         }
-        .btn:hover {
-            background-color: #45a049;
-        }
-        input[type="number"], input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
+        tr:hover td {
+            background-color: #f1f1f1;
         }
         #iframe-container {
             margin-top: 20px;
             height: 500px;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 10px;
             overflow: hidden;
             display: none;
         }
@@ -63,15 +91,17 @@
             width: 100%;
             height: 100%;
             border: none;
+            border-radius: 10px;
         }
         .footer {
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: center;
             font-size: 14px;
+            color: #777;
         }
         .footer a {
             text-decoration: none;
-            color: #4CAF50;
+            color: #007bff;
             font-weight: bold;
         }
     </style>
@@ -107,24 +137,23 @@
         </tbody>
     </table>
 
-    <div>
+    <div style="margin-top: 20px;">
         <label>Total Venta: </label>
         <span id="totalVenta">0.00</span>
     </div>
 
-    <div>
+    <div style="margin-top: 20px;">
         <label>Pago Recibido:</label>
         <input type="number" id="pagoRecibido" min="0" step="any" onchange="calcularCambio()">
     </div>
 
-    <div>
+    <div style="margin-top: 20px;">
         <label>Cambio: </label>
         <span id="cambio">0.00</span>
     </div>
 
-    <button class="btn" onclick="copiarVentas()">Copiar Ventas Realizadas</button>
-    <button class="btn" onclick="mostrarPaginaWeb1()">Enviar Datos</button>
-    <button class="btn" onclick="mostrarPaginaWeb2()">Calcular Cantidad y Total</button>
+    <button class="btn" style="margin-top: 20px;" onclick="copiarVentas()">Copiar Ventas Realizadas</button>
+    <button class="btn" style="margin-top: 10px;" onclick="mostrarPaginaWeb1()">Enviar Datos</button>
 
     <div id="iframe-container">
         <iframe id="iframeWeb" src=""></iframe>
@@ -162,7 +191,7 @@
                     <td>${venta.precio.toFixed(2)}</td>
                     <td>${venta.cantidad}</td>
                     <td>${venta.total.toFixed(2)}</td>
-                    <td><button onclick="eliminarProducto(${index})">Eliminar</button></td>
+                    <td><button class="btn" onclick="eliminarProducto(${index})">Eliminar</button></td>
                 </tr>
             `;
             tbody.innerHTML += row;
@@ -206,17 +235,158 @@
         iframe.src = 'https://feria-soft.blogspot.com/2024/08/formulario.html';
         container.style.display = 'block';
     }
+</script>
 
-    function mostrarPaginaWeb2() {
-        const iframe = document.getElementById('iframeWeb');
-        const container = document.getElementById('iframe-container');
-        iframe.src = 'https://nahuelmamani.github.io/4.html';  // Reemplaza esta URL con la página que desees mostrar
-        container.style.display = 'block';
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcular Cantidad y Total de Productos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        td {
+            background-color: #fff;
+            color: #333;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #f0f0f0;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+        }
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Calcular Cantidad y Total de Productos</h2>
+
+<textarea id="dataInput" placeholder="Pega los datos aquí..."></textarea>
+<button onclick="processData()">Calcular Totales</button>
+
+<table id="resultsTable">
+    <thead>
+        <tr>
+            <th>Posición</th>
+            <th>Producto</th>
+            <th>Cantidad Total</th>
+            <th>Total Precio</th>
+        </tr>
+    </thead>
+    <tbody id="resultsBody">
+        <!-- Los resultados aparecerán aquí -->
+    </tbody>
+    <tfoot>
+        <tr class="total-row">
+            <td colspan="2">Total General</td>
+            <td id="totalQuantity">0</td>
+            <td id="totalPrice">0.00</td>
+        </tr>
+    </tfoot>
+</table>
+
+<footer>
+    © 2024 Elian Mamani. Todos los derechos reservados. 
+    <a href="https://feriasoft.github.io/" target="_blank">Visita nuestra página web.</a>
+</footer>
+
+<script>
+    function processData() {
+        const input = document.getElementById('dataInput').value;
+        const lines = input.split('\n');
+        const totals = [];
+        let totalGeneralQuantity = 0;
+        let totalGeneralPrice = 0;
+
+        lines.forEach(line => {
+            const match = line.match(/Producto: (\w+), Precio: ([\d.]+), Cantidad: (\d+), Total: ([\d.]+)/);
+            if (match) {
+                const producto = match[1];
+                const precio = parseFloat(match[2]);
+                const cantidad = parseInt(match[3]);
+                const total = parseFloat(match[4]);
+
+                // Acumula la cantidad y el precio total por producto
+                const existingProduct = totals.find(p => p.producto === producto);
+                if (existingProduct) {
+                    existingProduct.cantidad += cantidad;
+                    existingProduct.precioTotal += total;
+                } else {
+                    totals.push({ producto, cantidad, precioTotal: total });
+                }
+
+                // Suma al total general
+                totalGeneralQuantity += cantidad;
+                totalGeneralPrice += total;
+            }
+        });
+
+        // Ordena los productos por precio total más alto
+        totals.sort((a, b) => b.precioTotal - a.precioTotal);
+
+        // Muestra los resultados en la tabla
+        const resultsBody = document.getElementById('resultsBody');
+        resultsBody.innerHTML = '';
+        totals.forEach((item, index) => {
+            const row = `<tr>
+                            <td>${index + 1}º</td>
+                            <td>${item.producto}</td>
+                            <td>${item.cantidad}</td>
+                            <td>${item.precioTotal.toFixed(2)}</td>
+                        </tr>`;
+            resultsBody.insertAdjacentHTML('beforeend', row);
+        });
+
+        // Muestra los totales generales
+        document.getElementById('totalQuantity').textContent = totalGeneralQuantity;
+        document.getElementById('totalPrice').textContent = totalGeneralPrice.toFixed(2);
     }
 </script>
 
 </body>
 </html>
+
 <p style="visibility: hidden;">Hola</p>
 <p style="visibility: hidden;">Hola</p>
 <p style="visibility: hidden;">Hola</p>
@@ -408,4 +578,42 @@
 <p style="visibility: hidden;">Hola</p>
 <p style="visibility: hidden;">Hola</p>
 <p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+<p style="visibility: hidden;">Hola</p>
+
 
