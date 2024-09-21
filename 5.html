@@ -47,7 +47,6 @@
             display: block;
         }
 
-        /* Ocultar elementos al imprimir */
         @media print {
             button, .dropdown {
                 display: none !important;
@@ -58,6 +57,9 @@
             #form-iframe, .iframe-container {
                 display: none !important;
             }
+            #printResults {
+                display: block !important;
+            }
         }
 
         #fechaHora {
@@ -67,7 +69,7 @@
         .iframe-container {
             margin-top: 20px;
             width: 100%;
-            height: 700px; /* Aumenta la altura del iframe */
+            height: 700px;
             border: 1px solid #ccc;
         }
 
@@ -75,6 +77,25 @@
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        .firmas {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .firma {
+            border-top: 1px solid black;
+            text-align: center;
+            width: 45%;
+        }
+
+        #printResults {
+            display: none;
+            margin-top: 20px;
+            border-top: 2px solid black;
+            padding-top: 10px;
         }
     </style>
 </head>
@@ -140,9 +161,49 @@
         <a href="#" onclick="showForm(5, 'https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 5</a>
     </div>
 </div>
+  
+
+<p style="visibility: hidden;">Hola</p>
 
 <div class="iframe-container" id="iframeContainer" style="display:none;">
     <iframe id="form-iframe" src=""></iframe>
+</div>
+
+<div class="firmas">
+    <div class="firma">
+        <p>Firma del Socio</p>
+    </div>
+    <div class="firma">
+        <p>Firma del Encargado</p>
+    </div>
+</div>
+
+<div id="printResults">
+    <div id="fechaHoraPrint" style="font-weight: bold;"></div>
+    <div id="numeroSocioPrint" style="font-weight: bold;"></div>
+    <h3>Resultados Finales</h3>
+    <table>
+        <tr>
+            <th>5</th>
+            <th>6</th>
+            <th>6x</th>
+            <th>7</th>
+            <th>8</th>
+            <th>J5</th>
+            <th>Jaulón</th>
+            <th>Total Cajas</th>
+        </tr>
+        <tr>
+            <td id="resultado5"></td>
+            <td id="resultado6"></td>
+            <td id="resultado6x"></td>
+            <td id="resultado7"></td>
+            <td id="resultado8"></td>
+            <td id="resultadoJ5"></td>
+            <td id="resultadoJaulon"></td>
+            <td id="resultadoTotalCajas"></td>
+        </tr>
+    </table>
 </div>
 
 <script>
@@ -166,6 +227,9 @@
         var totalIzquierda = izquierda5 + izquierda6 + izquierda6x + izquierda7 + izquierda8 + izquierdaJ5 + izquierdaJaulon;
         var totalDerecha = derecha5 + derecha6 + derecha6x + derecha7 + derecha8 + derechaJ5 + derechaJaulon;
 
+        document.getElementById('totalIzquierda').value = totalIzquierda;
+        document.getElementById('totalDerecha').value = totalDerecha;
+
         document.getElementById('total5').innerText = izquierda5 + derecha5;
         document.getElementById('total6').innerText = izquierda6 + derecha6;
         document.getElementById('total6x').innerText = izquierda6x + derecha6x;
@@ -173,9 +237,6 @@
         document.getElementById('total8').innerText = izquierda8 + derecha8;
         document.getElementById('totalJ5').innerText = izquierdaJ5 + derechaJ5;
         document.getElementById('totalJaulon').innerText = izquierdaJaulon + derechaJaulon;
-
-        document.getElementById('totalIzquierda').value = totalIzquierda;
-        document.getElementById('totalDerecha').value = totalDerecha;
         document.getElementById('totalCajas').innerText = totalIzquierda + totalDerecha;
     }
 
@@ -197,7 +258,7 @@
         var totalJaulon = document.getElementById('totalJaulon').innerText;
         var totalCajas = document.getElementById('totalCajas').innerText;
 
-        var resultados = `Resultados:\n5: ${total5}\n6: ${total6}\n6x: ${total6x}\n7: ${total7}\n8: ${total8}\nJ5: ${totalJ5}\nJaulón: ${totalJaulon}\nTotal Cajas: ${totalCajas}`;
+        var resultados = ` ${total5}, ${total6}, ${total6x}, ${total7}, ${total8}, ${totalJ5}, ${totalJaulon}, ${totalCajas}`;
 
         navigator.clipboard.writeText(resultados).then(() => {
             alert('Resultados copiados al portapapeles');
@@ -205,6 +266,22 @@
     }
 
     function imprimirRecibo() {
+        var fechaHora = document.getElementById('fechaHora').innerText;
+        var socioNumero = document.getElementById('socioNumero').innerText;
+
+        // Mostrar los resultados finales
+        document.getElementById('resultado5').innerText = document.getElementById('total5').innerText;
+        document.getElementById('resultado6').innerText = document.getElementById('total6').innerText;
+        document.getElementById('resultado6x').innerText = document.getElementById('total6x').innerText;
+        document.getElementById('resultado7').innerText = document.getElementById('total7').innerText;
+        document.getElementById('resultado8').innerText = document.getElementById('total8').innerText;
+        document.getElementById('resultadoJ5').innerText = document.getElementById('totalJ5').innerText;
+        document.getElementById('resultadoJaulon').innerText = document.getElementById('totalJaulon').innerText;
+        document.getElementById('resultadoTotalCajas').innerText = document.getElementById('totalCajas').innerText;
+
+        document.getElementById('fechaHoraPrint').innerText = `Fecha y Hora: ${fechaHora}`;
+        document.getElementById('numeroSocioPrint').innerText = `Número de Socio: ${socioNumero}`;
+
         window.print();
     }
 
