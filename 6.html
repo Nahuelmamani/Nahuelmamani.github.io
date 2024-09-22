@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <style>
+        /* Estilos del formulario */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 8px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .readonly {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 6px;
+            text-align: left;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 10px;
+        }
+
+        button {
+            margin-right: 10px;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .total-general-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .total-general-input {
+            width: 100px;
+            text-align: right;
+        }
+
+        @media print {
+            body {
+                font-size: 12px;
+            }
+
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-info"></div>
+
+    <form>
+        <div class="container">
+            <div class="form-group">
+                <label for="mesa">Mesa:</label>
+                <input type="number" id="mesa" name="mesa" oninput="actualizarTitulo()" placeholder="Número de mesa">
+            </div>
+            <div class="form-group">
+                <label for="fecha-hora">Fecha y Hora:</label>
+                <input type="text" id="fecha-hora" class="readonly" readonly>
+            </div>
+        </div>
+
+        <table id="productos">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">Cantidad</th>
+                    <th>Descripción</th>
+                    <th style="width: 10%;">Precio Unitario</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="number" name="cantidad[]" oninput="calcularTotal(this)" placeholder=""></td>
+                    <td><input type="text" name="descripcion[]" placeholder=""></td>
+                    <td><input type="number" name="precio-unitario[]" oninput="calcularTotal(this)" placeholder=""></td>
+                    <td><input type="text" name="total[]" class="readonly" readonly></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="buttons-container">
+            <button type="button" onclick="agregarFila()">Agregar Fila</button>
+            <button type="button" onclick="imprimir()">Imprimir</button>
+        </div>
+
+        <div class="total-general-container">
+            <label for="propina">Propina: $</label>
+            <input type="number" id="propina" name="propina" value="" oninput="actualizarTotalGeneral()" class="total-general-input">
+            
+            <label for="total-general">Total General: $</label>
+            <input type="text" id="total-general" class="readonly total-general-input" readonly>
+        </div>
+    </form>
+
+    <script>
+        // Función para obtener la fecha y hora actual
+        function obtenerFechaHoraActual() {
+            const ahora = new Date();
+            const fecha = ahora.toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+            const hora = ahora.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            return `${fecha}, ${hora}`;
+        }
+
+        // Función para actualizar la fecha y hora continuamente
+        function actualizarFechaHora() {
+            document.getElementById('fecha-hora').value = obtenerFechaHoraActual();
+            actualizarTitulo();
+        }
+
+        setInterval(actualizarFechaHora, 1000);  // Actualiza cada segundo
+
+        // Función para actualizar el título del recibo
+        function actualizarTitulo() {
+            const mesa = document.getElementById('mesa').value.trim();
+            const fechaHora = document.getElementById('fecha-hora').value;
+            const titulo = mesa ? `Recibo de Mesa ${mesa}, ${fechaHora}` : 'Formulario';
+            document.title = titulo;
+        }
+
+        // Función para calcular el total por fila
+        function calcularTotal(element) {
+            const fila = element.parentElement.parentElement;
+            const cantidad = parseFloat(fila.querySelector('input[name="cantidad[]"]').value) || 0;
+            const precioUnitario = parseFloat(fila.querySelector('input[name="precio-unitario[]"]').value) || 0;
+            const total = cantidad * precioUnitario;
+            fila.querySelector('input[name="total[]"]').value = total.toFixed(2);
+            actualizarTotalGeneral();
+        }
+
+        // Función para agregar una nueva fila
+        function agregarFila() {
+            const tabla = document.getElementById('productos').getElementsByTagName('tbody')[0];
+            const nuevaFila = tabla.insertRow();
+            nuevaFila.innerHTML = `
+                <td><input type="number" name="cantidad[]" oninput="calcularTotal(this)" placeholder=""></td>
+                <td><input type="text" name="descripcion[]" placeholder=""></td>
+                <td><input type="number" name="precio-unitario[]" oninput="calcularTotal(this)" placeholder=""></td>
+                <td><input type="text" name="total[]" class="readonly" readonly></td>
+            `;
+        }
+
+        // Función para actualizar el total general
+        function actualizarTotalGeneral() {
+            const totales = document.querySelectorAll('input[name="total[]"]');
+            let totalGeneral = 0;
+            totales.forEach(total => {
+                totalGeneral += parseFloat(total.value) || 0;
+            });
+
+            const propina = parseFloat(document.getElementById('propina').value) || 0;
+            totalGeneral += propina;
+
+            document.getElementById('total-general').value = totalGeneral.toFixed(2);
+        }
+
+        // Función para imprimir el recibo
+        function imprimir() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
