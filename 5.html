@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -98,6 +99,26 @@
             padding-top: 10px;
         }
     </style>
+<style>
+    @media print {
+        @page {
+            size: A5 landscape;
+            margin: 0; /* Eliminar márgenes */
+            @top {
+                content: none; /* Eliminar encabezado */
+            }
+            @bottom {
+                content: none; /* Eliminar pie de página */
+            }
+        }
+
+        body {
+            margin: 10mm; /* Margen interno para el contenido */
+        }
+    }
+</style>
+
+
 </head>
 <body>
 
@@ -161,7 +182,6 @@
         <a href="#" onclick="showForm(5, 'https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 5</a>
     </div>
 </div>
-  
 
 <p style="visibility: hidden;">Hola</p>
 
@@ -227,17 +247,36 @@
         var totalIzquierda = izquierda5 + izquierda6 + izquierda6x + izquierda7 + izquierda8 + izquierdaJ5 + izquierdaJaulon;
         var totalDerecha = derecha5 + derecha6 + derecha6x + derecha7 + derecha8 + derechaJ5 + derechaJaulon;
 
+        var total5 = izquierda5 + derecha5;
+        var total6 = izquierda6 + derecha6;
+        var total6x = izquierda6x + derecha6x;
+        var total7 = izquierda7 + derecha7;
+        var total8 = izquierda8 + derecha8;
+        var totalJ5 = izquierdaJ5 + derechaJ5;
+        var totalJaulon = izquierdaJaulon + derechaJaulon;
+        var totalCajas = total5 + total6 + total6x + total7 + total8 + totalJ5 + totalJaulon;
+
         document.getElementById('totalIzquierda').value = totalIzquierda;
         document.getElementById('totalDerecha').value = totalDerecha;
 
-        document.getElementById('total5').innerText = izquierda5 + derecha5;
-        document.getElementById('total6').innerText = izquierda6 + derecha6;
-        document.getElementById('total6x').innerText = izquierda6x + derecha6x;
-        document.getElementById('total7').innerText = izquierda7 + derecha7;
-        document.getElementById('total8').innerText = izquierda8 + derecha8;
-        document.getElementById('totalJ5').innerText = izquierdaJ5 + derechaJ5;
-        document.getElementById('totalJaulon').innerText = izquierdaJaulon + derechaJaulon;
-        document.getElementById('totalCajas').innerText = totalIzquierda + totalDerecha;
+        document.getElementById('total5').innerText = total5;
+        document.getElementById('total6').innerText = total6;
+        document.getElementById('total6x').innerText = total6x;
+        document.getElementById('total7').innerText = total7;
+        document.getElementById('total8').innerText = total8;
+        document.getElementById('totalJ5').innerText = totalJ5;
+        document.getElementById('totalJaulon').innerText = totalJaulon;
+        document.getElementById('totalCajas').innerText = totalCajas;
+
+        // Actualizar los valores en la tabla de impresión
+        document.getElementById('resultado5').innerText = total5;
+        document.getElementById('resultado6').innerText = total6;
+        document.getElementById('resultado6x').innerText = total6x;
+        document.getElementById('resultado7').innerText = total7;
+        document.getElementById('resultado8').innerText = total8;
+        document.getElementById('resultadoJ5').innerText = totalJ5;
+        document.getElementById('resultadoJaulon').innerText = totalJaulon;
+        document.getElementById('resultadoTotalCajas').innerText = totalCajas;
     }
 
     function reiniciarCampos() {
@@ -249,57 +288,53 @@
     }
 
     function copiarResultados() {
-        var total5 = document.getElementById('total5').innerText;
-        var total6 = document.getElementById('total6').innerText;
-        var total6x = document.getElementById('total6x').innerText;
-        var total7 = document.getElementById('total7').innerText;
-        var total8 = document.getElementById('total8').innerText;
-        var totalJ5 = document.getElementById('totalJ5').innerText;
-        var totalJaulon = document.getElementById('totalJaulon').innerText;
-        var totalCajas = document.getElementById('totalCajas').innerText;
+        var resultados = `${document.getElementById('total5').innerText},${document.getElementById('total6').innerText},${document.getElementById('total6x').innerText},${document.getElementById('total7').innerText},${document.getElementById('total8').innerText},${document.getElementById('totalJ5').innerText},${document.getElementById('totalJaulon').innerText},${document.getElementById('totalCajas').innerText}`;
 
-        var resultados = ` ${total5}, ${total6}, ${total6x}, ${total7}, ${total8}, ${totalJ5}, ${totalJaulon}, ${totalCajas}`;
-
-        navigator.clipboard.writeText(resultados).then(() => {
-            alert('Resultados copiados al portapapeles');
-        });
+        // Copiar los resultados al portapapeles
+        navigator.clipboard.writeText(resultados)
+            .then(() => {
+                alert('Resultados copiados al portapapeles');
+            })
+            .catch(err => {
+                console.error('Error al copiar los resultados: ', err);
+            });
     }
 
     function imprimirRecibo() {
-        var fechaHora = document.getElementById('fechaHora').innerText;
-        var socioNumero = document.getElementById('socioNumero').innerText;
-
-        // Mostrar los resultados finales
-        document.getElementById('resultado5').innerText = document.getElementById('total5').innerText;
-        document.getElementById('resultado6').innerText = document.getElementById('total6').innerText;
-        document.getElementById('resultado6x').innerText = document.getElementById('total6x').innerText;
-        document.getElementById('resultado7').innerText = document.getElementById('total7').innerText;
-        document.getElementById('resultado8').innerText = document.getElementById('total8').innerText;
-        document.getElementById('resultadoJ5').innerText = document.getElementById('totalJ5').innerText;
-        document.getElementById('resultadoJaulon').innerText = document.getElementById('totalJaulon').innerText;
-        document.getElementById('resultadoTotalCajas').innerText = document.getElementById('totalCajas').innerText;
-
-        document.getElementById('fechaHoraPrint').innerText = `Fecha y Hora: ${fechaHora}`;
-        document.getElementById('numeroSocioPrint').innerText = `Número de Socio: ${socioNumero}`;
-
+        copiarResultados();
+        document.getElementById('fechaHoraPrint').innerText = document.getElementById('fechaHora').innerText;
+        document.getElementById('numeroSocioPrint').innerText = document.getElementById('numeroSocio').innerText;
         window.print();
     }
 
-    function showForm(socioNumber, url) {
-        document.getElementById('socioNumero').innerText = socioNumber;
-        document.getElementById('iframeContainer').style.display = 'block'; // Mostrar el iframe
-        document.getElementById('form-iframe').src = url; // Cambiar la URL
-        document.getElementById('titulo').innerText = `Recibo - Número de Socio: ${socioNumber}`; // Cambiar el título
+    function showForm(socioNumero, url) {
+        document.getElementById('socioNumero').innerText = socioNumero;
+        document.getElementById('form-iframe').src = url;
+        document.getElementById('iframeContainer').style.display = 'block';
+        document.getElementById('titulo').innerText = "Recibo - Número de Socio: " + socioNumero;
     }
 
-    // Mostrar la fecha y hora actual
+    // Mostrar la fecha y hora actualizada cada segundo
     function mostrarFechaHora() {
         var ahora = new Date();
-        var opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
+        var opciones = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit', // Incluimos los segundos
+            hour12: false 
+        };
         var fechaHoraFormateada = ahora.toLocaleDateString('es-ES', opciones);
         document.getElementById('fechaHora').innerText = fechaHoraFormateada;
     }
 
+    // Actualizar la hora cada segundo
+    setInterval(mostrarFechaHora, 1000);
+
+    // Llamar a la función la primera vez para mostrarla de inmediato
     mostrarFechaHora();
 </script>
 
