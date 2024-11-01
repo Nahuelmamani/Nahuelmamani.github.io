@@ -210,7 +210,7 @@
 
         function actualizarTitulo() {
             const nombre = document.getElementById('nombre-cliente').value.trim();
-            document.title = nombre ? `Recibo de ${nombre}` : 'Recibo'; // Cambia el título según el nombre
+            document.title = nombre ? `${nombre}` : 'Recibo'; // Cambia el título según el nombre
         }
 
         function calcularTotal(element) {
