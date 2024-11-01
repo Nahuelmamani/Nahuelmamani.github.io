@@ -1,142 +1,246 @@
+<div class='post-title-container'>
+<a name='4193205266142938511'></a>
+<h3 class='post-title entry-title'>
+</h3>
+</div>
+<div class='post-body entry-content float-container' id='post-body-4193205266142938511'>
+<p></p><h1 style="text-align: left;">LUBRICENTRO LAVALLE<a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjX3Lt2KF6ypiswNY4xjoKgca5s1_CO19AbLo0pvDKcbdFeWq11OY2wJZxLk3lsD2-yXeGxpD7NxMPv8eIlFEWhC0SlEUYZTC4lbIce_T4o4X50B8ILqPK1Nb8y0koFVAyCV_ZYO_MkyYYCjCGCKddhrEt1pqKFr1OASVRrpzBVGV8J-4UgvT6jvN-NbqQ/s612/grillp.png" style="margin-left: 1em; margin-right: 1em; text-align: center;"></a><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjX3Lt2KF6ypiswNY4xjoKgca5s1_CO19AbLo0pvDKcbdFeWq11OY2wJZxLk3lsD2-yXeGxpD7NxMPv8eIlFEWhC0SlEUYZTC4lbIce_T4o4X50B8ILqPK1Nb8y0koFVAyCV_ZYO_MkyYYCjCGCKddhrEt1pqKFr1OASVRrpzBVGV8J-4UgvT6jvN-NbqQ/s612/grillp.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="363" data-original-width="612" height="73" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjX3Lt2KF6ypiswNY4xjoKgca5s1_CO19AbLo0pvDKcbdFeWq11OY2wJZxLk3lsD2-yXeGxpD7NxMPv8eIlFEWhC0SlEUYZTC4lbIce_T4o4X50B8ILqPK1Nb8y0koFVAyCV_ZYO_MkyYYCjCGCKddhrEt1pqKFr1OASVRrpzBVGV8J-4UgvT6jvN-NbqQ/w124-h73/grillp.png" width="124" /></a></h1><h2 style="text-align: left;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Presupuesto&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</h2><span><a name='more'></a></span><div><br /></div><p></p>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcular Cantidad y Total de Productos</title>
+    <title>Lubricentro Lavalle</title>
     <style>
+        /* Estilos del formulario */
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            font-size: 14px;
+            line-height: 1.6;
         }
-        textarea {
-            width: 100%;
-            height: 150px;
+
+        .container {
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 10px;
         }
-        button {
-            padding: 10px 15px;
-            margin: 10px 0;
-            cursor: pointer;
+
+        .form-group {
+            margin-bottom: 8px;
         }
+
+        label {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .readonly {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
         }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            padding: 6px;
             text-align: left;
         }
-        th {
-            background-color: #f4f4f4;
+
+        th:nth-child(1), td:nth-child(1) {
+            width: 30%; /* Ancho ajustado para la columna de Descripción */
         }
-        .total-row {
-            font-weight: bold;
-            background-color: #f0f0f0;
+
+        th:nth-child(2), td:nth-child(2) {
+            width: 15%; /* Ancho para la columna de Cantidad */
         }
-        footer {
-            margin-top: 20px;
-            text-align: center;
+
+        th:nth-child(3), td:nth-child(3) {
+            width: 18%; /* Ancho para la columna de Precio Unitario */
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 10px;
+        }
+
+        button {
+            margin-right: 10px;
+            padding: 6px 12px;
             font-size: 14px;
-            color: #555;
         }
-        footer a {
-            color: #007bff;
-            text-decoration: none;
+
+        .total-general-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
         }
-        footer a:hover {
-            text-decoration: underline;
+
+        .total-general-input {
+            width: 100px; /* Ancho ajustado para el Total General */
+            text-align: right;
+        }
+
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .client-info, .client-input {
+            width: 48%;
+        }
+
+        textarea {
+            height: 20px; /* Ajustar la altura inicial del área de texto */
+            resize: vertical; /* Permitir el cambio de tamaño solo verticalmente */
+        }
+
+        @media print {
+            body {
+                font-size: 12px;
+            }
+
+            button {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="header-info">
+        <!-- Datos predefinidos de Martin Eduardo Videla -->
+        <div class="client-info">
+            <h2><label>Nombre: Martin Eduardo Videla</label><br>
+            <label>CUIT: 20-37779580-7</label><br>
+            <label>Dirección: Ruta34-Lavalle</label><br>
+        </div>
 
-<h2>Calcular Cantidad y Total de Productos</h2>
+        <!-- Información de cliente ingresable (lado derecho) -->
+        <div class="client-input">
+            <div class="form-group">
+                <label for="nombre-cliente">Nombre:</label>
+                <input type="text" id="nombre-cliente" placeholder="Ingrese el nombre del cliente">
+            </div>
+            <div class="form-group">
+                <label for="cuit-cliente">CUIT:</label>
+                <input type="text" id="cuit-cliente" placeholder="Ingrese el CUIT">
+            </div>
+            <div class="form-group">
+                <label for="direccion-cliente">Dirección:</label>
+                <input type="text" id="direccion-cliente" placeholder="Ingrese la dirección">
+            </div>
+            <div class="form-group">
+                <label for="fecha-hora">Fecha y Hora:</label>
+                <input type="text" id="fecha-hora" class="readonly" readonly>
+            </div>
+        </div>
+    </div>
 
-<textarea id="dataInput" placeholder="Pega los datos aquí..."></textarea>
-<button onclick="processData()">Calcular Totales</button>
+    <form>
+        <table id="productos">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th style="width: 10%;">Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><textarea name="descripcion[]" placeholder=""></textarea></td>
+                    <td><input type="number" name="cantidad[]" oninput="calcularTotal(this)" placeholder=""></td>
+                    <td><input type="number" name="precio-unitario[]" oninput="calcularTotal(this)" placeholder=""></td>
+                    <td><input type="text" name="total[]" class="readonly" readonly></td>
+                </tr>
+            </tbody>
+        </table>
 
-<table id="resultsTable">
-    <thead>
-        <tr>
-            <th>Posición</th>
-            <th>Producto</th>
-            <th>Cantidad Total</th>
-            <th>Total Precio</th>
-        </tr>
-    </thead>
-    <tbody id="resultsBody">
-        <!-- Los resultados aparecerán aquí -->
-    </tbody>
-    <tfoot>
-        <tr class="total-row">
-            <td colspan="2">Total General</td>
-            <td id="totalQuantity">0</td>
-            <td id="totalPrice">0.00</td>
-        </tr>
-    </tfoot>
-</table>
+        <div class="buttons-container">
+            <button type="button" onclick="agregarFila()">Agregar Fila</button>
+            <button type="button" onclick="imprimir()">Imprimir</button>
+        </div>
 
-<footer>
-    © 2024 Elian Mamani. Todos los derechos reservados. 
-    <a href="https://feriasoft.github.io/" target="_blank">Visita nuestra página web.</a>
-</footer>
+        <div class="total-general-container">
+            <label for="total-general">Total General: $</label>
+            <input type="text" id="total-general" class="readonly total-general-input" readonly>
+        </div>
+    </form>
 
-<script>
-    function processData() {
-        const input = document.getElementById('dataInput').value;
-        const lines = input.split('\n');
-        const totals = [];
-        let totalGeneralQuantity = 0;
-        let totalGeneralPrice = 0;
+    <script>
+        function obtenerFechaHoraActual() {
+            const ahora = new Date();
+            const fecha = ahora.toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+            const hora = ahora.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            return `${fecha}, ${hora}`;
+        }
 
-        lines.forEach(line => {
-            const match = line.match(/Producto: (\w+), Precio: ([\d.]+), Cantidad: (\d+), Total: ([\d.]+)/);
-            if (match) {
-                const producto = match[1];
-                const precio = parseFloat(match[2]);
-                const cantidad = parseInt(match[3]);
-                const total = parseFloat(match[4]);
+        function actualizarFechaHora() {
+            document.getElementById('fecha-hora').value = obtenerFechaHoraActual();
+        }
 
-                // Acumula la cantidad y el precio total por producto
-                const existingProduct = totals.find(p => p.producto === producto);
-                if (existingProduct) {
-                    existingProduct.cantidad += cantidad;
-                    existingProduct.precioTotal += total;
-                } else {
-                    totals.push({ producto, cantidad, precioTotal: total });
-                }
+        setInterval(actualizarFechaHora, 1000);
 
-                // Suma al total general
-                totalGeneralQuantity += cantidad;
-                totalGeneralPrice += total;
-            }
-        });
+        function calcularTotal(element) {
+            const fila = element.parentElement.parentElement;
+            const cantidad = parseFloat(fila.querySelector('input[name="cantidad[]"]').value) || 0;
+            const precioUnitario = parseFloat(fila.querySelector('input[name="precio-unitario[]"]').value) || 0;
+            const total = cantidad * precioUnitario;
+            fila.querySelector('input[name="total[]"]').value = total.toFixed(2);
+            actualizarTotalGeneral();
+        }
 
-        // Ordena los productos por precio total más alto
-        totals.sort((a, b) => b.precioTotal - a.precioTotal);
+        function agregarFila() {
+            const tabla = document.getElementById('productos').getElementsByTagName('tbody')[0];
+            const nuevaFila = tabla.insertRow();
+            nuevaFila.innerHTML = `
+                <td><textarea name="descripcion[]" placeholder=""></textarea></td>
+                <td><input type="number" name="cantidad[]" oninput="calcularTotal(this)" placeholder=""></td>
+                <td><input type="number" name="precio-unitario[]" oninput="calcularTotal(this)" placeholder=""></td>
+                <td><input type="text" name="total[]" class="readonly" readonly></td>
+            `;
+        }
 
-        // Muestra los resultados en la tabla
-        const resultsBody = document.getElementById('resultsBody');
-        resultsBody.innerHTML = '';
-        totals.forEach((item, index) => {
-            const row = `<tr>
-                            <td>${index + 1}º</td>
-                            <td>${item.producto}</td>
-                            <td>${item.cantidad}</td>
-                            <td>${item.precioTotal.toFixed(2)}</td>
-                        </tr>`;
-            resultsBody.insertAdjacentHTML('beforeend', row);
-        });
+        function actualizarTotalGeneral() {
+            const totales = document.querySelectorAll('input[name="total[]"]');
+            let totalGeneral = 0;
+            totales.forEach(total => {
+                totalGeneral += parseFloat(total.value) || 0;
+            });
 
-        // Muestra los totales generales
-        document.getElementById('totalQuantity').textContent = totalGeneralQuantity;
-        document.getElementById('totalPrice').textContent = totalGeneralPrice.toFixed(2);
-    }
-</script>
+            document.getElementById('total-general').value = totalGeneral.toFixed(2);
+        }
 
+        function imprimir() {
+            window.print();
+        }
+    </script>
 </body>
 </html>
