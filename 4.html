@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lubricentro Lavalle</title>
+    <title>Lubricentro Lavalle</title> <!-- Cambiado el título inicial -->
     <style>
         /* Estilos del formulario */
         body {
@@ -137,15 +137,15 @@
         <div class="client-input">
             <div class="form-group">
                 <label for="nombre-cliente">Nombre:</label>
-                <input type="text" id="nombre-cliente" placeholder="Ingrese el nombre del cliente">
+                <input type="text" id="nombre-cliente" oninput="actualizarTitulo()" placeholder="">
             </div>
             <div class="form-group">
                 <label for="cuit-cliente">CUIT:</label>
-                <input type="text" id="cuit-cliente" placeholder="Ingrese el CUIT">
+                <input type="text" id="cuit-cliente" placeholder="">
             </div>
             <div class="form-group">
                 <label for="direccion-cliente">Dirección:</label>
-                <input type="text" id="direccion-cliente" placeholder="Ingrese la dirección">
+                <input type="text" id="direccion-cliente" placeholder="">
             </div>
             <div class="form-group">
                 <label for="fecha-hora">Fecha y Hora:</label>
@@ -207,6 +207,11 @@
         }
 
         setInterval(actualizarFechaHora, 1000);
+
+        function actualizarTitulo() {
+            const nombre = document.getElementById('nombre-cliente').value.trim();
+            document.title = nombre ? `Recibo de ${nombre}` : 'Recibo'; // Cambia el título según el nombre
+        }
 
         function calcularTotal(element) {
             const fila = element.parentElement.parentElement;
