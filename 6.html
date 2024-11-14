@@ -1,215 +1,352 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario</title>
+    <title id="titulo">Recibo - Número de Socio: 1</title>
     <style>
-        /* Estilos del formulario */
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 8px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 3px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 6px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-
-        .readonly {
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
         }
-
-        table, th, td {
-            border: 1px solid black;
-        }
-
         th, td {
-            padding: 6px;
+            border: 1px solid black;
+            padding: 8px;
             text-align: left;
         }
-
-        .buttons-container {
-            display: flex;
-            justify-content: flex-start;
-            margin-top: 10px;
+        input[type="number"] {
+            width: 60px;
         }
 
-        button {
-            margin-right: 10px;
-            padding: 6px 12px;
-            font-size: 14px;
+        .dropdown {
+            position: relative;
+            display: inline-block;
         }
 
-        .total-general-container {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
         }
 
-        .total-general-input {
-            width: 100px;
-            text-align: right;
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
         }
 
         @media print {
-            body {
-                font-size: 12px;
+            button, .dropdown {
+                display: none !important;
             }
+            tr:not(:first-child):not(:last-child) {
+                display: none !important;
+            }
+            #form-iframe, .iframe-container {
+                display: none !important;
+            }
+            #printResults {
+                display: block !important;
+            }
+        }
 
-            button {
-                display: none;
-            }
+        #fechaHora {
+            margin-bottom: 20px;
+        }
+
+        .iframe-container {
+            margin-top: 20px;
+            width: 100%;
+            height: 700px;
+            border: 1px solid #ccc;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .firmas {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .firma {
+            border-top: 1px solid black;
+            text-align: center;
+            width: 45%;
+        }
+
+        #printResults {
+            display: none;
+            margin-top: 20px;
+            border-top: 2px solid black;
+            padding-top: 10px;
         }
     </style>
+<style>
+    @media print {
+        @page {
+            size: A5 landscape;
+            margin: 0; /* Eliminar márgenes */
+            @top {
+                content: none; /* Eliminar encabezado */
+            }
+            @bottom {
+                content: none; /* Eliminar pie de página */
+            }
+        }
+
+        body {
+            margin: 10mm; /* Margen interno para el contenido */
+        }
+    }
+</style>
+
+
 </head>
 <body>
-    <div class="header-info"></div>
 
-    <form>
-        <div class="container">
-            <div class="form-group">
-                <label for="mesa">Mesa:</label>
-                <input type="number" id="mesa" name="mesa" oninput="actualizarTitulo()" placeholder="Número de mesa">
-            </div>
-            <div class="form-group">
-                <label for="fecha-hora">Fecha y Hora:</label>
-                <input type="text" id="fecha-hora" class="readonly" readonly>
-            </div>
-        </div>
+<div id="fechaHora"></div>
+<div id="numeroSocio" style="font-weight: bold;">Número de Socio: <span id="socioNumero">1</span></div>
 
-        <table id="productos">
-            <thead>
-                <tr>
-                    <th style="width: 10%;">Cantidad</th>
-                    <th>Descripción</th>
-                    <th style="width: 10%;">Precio Unitario</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><input type="number" name="cantidad[]" oninput="calcularTotal(this)" placeholder=""></td>
-                    <td><input type="text" name="descripcion[]" placeholder=""></td>
-                    <td><input type="number" name="precio-unitario[]" oninput="calcularTotal(this)" placeholder=""></td>
-                    <td><input type="text" name="total[]" class="readonly" readonly></td>
-                </tr>
-            </tbody>
-        </table>
+<table id="reciboTable">
+    <tr>
+        <th>5</th>
+        <th>6</th>
+        <th>6x</th>
+        <th>7</th>
+        <th>8</th>
+        <th>J5</th>
+        <th>Jaulón</th>
+        <th>Total cajas</th>
+    </tr>
+    <tr>
+        <td><input type="number" id="izquierda5" oninput="calcularSuma()"></td>
+        <td><input type="number" id="izquierda6" oninput="calcularSuma()"></td>
+        <td><input type="number" id="izquierda6x" oninput="calcularSuma()"></td>
+        <td><input type="number" id="izquierda7" oninput="calcularSuma()"></td>
+        <td><input type="number" id="izquierda8" oninput="calcularSuma()"></td>
+        <td><input type="number" id="izquierdaJ5" oninput="calcularSuma()"></td>
+        <td><input type="number" id="izquierdaJaulon" oninput="calcularSuma()"></td>
+        <td><input type="number" id="totalIzquierda" readonly></td>
+    </tr>
+    <tr>
+        <td><input type="number" id="derecha5" oninput="calcularSuma()"></td>
+        <td><input type="number" id="derecha6" oninput="calcularSuma()"></td>
+        <td><input type="number" id="derecha6x" oninput="calcularSuma()"></td>
+        <td><input type="number" id="derecha7" oninput="calcularSuma()"></td>
+        <td><input type="number" id="derecha8" oninput="calcularSuma()"></td>
+        <td><input type="number" id="derechaJ5" oninput="calcularSuma()"></td>
+        <td><input type="number" id="derechaJaulon" oninput="calcularSuma()"></td>
+        <td><input type="number" id="totalDerecha" readonly></td>
+    </tr>
+    <tr id="totalRow">
+        <td id="total5"></td>
+        <td id="total6"></td>
+        <td id="total6x"></td>
+        <td id="total7"></td>
+        <td id="total8"></td>
+        <td id="totalJ5"></td>
+        <td id="totalJaulon"></td>
+        <td id="totalCajas"></td>
+    </tr>
+</table>
 
-        <div class="buttons-container">
-            <button type="button" onclick="agregarFila()">Agregar Fila</button>
-            <button type="button" onclick="imprimir()">Descargar PDF</button>
-        </div>
+<button onclick="reiniciarCampos()">Reiniciar</button>
+<button onclick="copiarResultados()">Copiar Resultados</button>
+<button onclick="imprimirRecibo()">Imprimir</button>
 
-        <div class="total-general-container">
-            <label for="propina">Propina: $</label>
-            <input type="number" id="propina" name="propina" value="" oninput="actualizarTotalGeneral()" class="total-general-input">
-            
-            <label for="total-general">Total General: $</label>
-            <input type="text" id="total-general" class="readonly total-general-input" readonly>
-        </div>
-    </form>
+<div class="dropdown">
+    <button class="dropbtn">Seleccionar Número de Socio</button>
+    <div class="dropdown-content">
+        <a href="#" onclick="showForm(1, 'https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 1</a>
+        <a href="#" onclick="showForm(2, 'https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 2</a>
+        <a href="#" onclick="showForm(3, 'https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 3</a>
+        <a href="#" onclick="showForm(4, 'https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 4</a>
+        <a href="#" onclick="showForm(5, 'https://feria-soft.blogspot.com/2024/08/formulario.html')">Número de Socio: 5</a>
+    </div>
+</div>
 
-    <script>
-        // Función para obtener la fecha y hora actual
-        function obtenerFechaHoraActual() {
-            const ahora = new Date();
-            const fecha = ahora.toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
+<p style="visibility: hidden;">Hola</p>
+
+<div class="iframe-container" id="iframeContainer" style="display:none;">
+    <iframe id="form-iframe" src=""></iframe>
+</div>
+
+<div class="firmas">
+    <div class="firma">
+        <p>Firma del Socio</p>
+    </div>
+    <div class="firma">
+        <p>Firma del Encargado</p>
+    </div>
+</div>
+
+<div id="printResults">
+    <div id="fechaHoraPrint" style="font-weight: bold;"></div>
+    <div id="numeroSocioPrint" style="font-weight: bold;"></div>
+    
+    <table>
+        <tr>
+            <th>5</th>
+            <th>6</th>
+            <th>6x</th>
+            <th>7</th>
+            <th>8</th>
+            <th>J5</th>
+            <th>Jaulón</th>
+            <th>Total Cajas</th>
+        </tr>
+        <tr>
+            <td id="resultado5"></td>
+            <td id="resultado6"></td>
+            <td id="resultado6x"></td>
+            <td id="resultado7"></td>
+            <td id="resultado8"></td>
+            <td id="resultadoJ5"></td>
+            <td id="resultadoJaulon"></td>
+            <td id="resultadoTotalCajas"></td>
+        </tr>
+    </table>
+</div>
+  <p style="visibility: hidden;">jpp</p>
+  <div class="firmas">
+    <div class="firma">
+        <p>Firma del Socio</p>
+    </div>
+    <div class="firma">
+        <p>Firma del Encargado</p>
+    </div>
+</div>
+
+<script>
+    function calcularSuma() {
+        var izquierda5 = parseInt(document.getElementById('izquierda5').value || 0);
+        var izquierda6 = parseInt(document.getElementById('izquierda6').value || 0);
+        var izquierda6x = parseInt(document.getElementById('izquierda6x').value || 0);
+        var izquierda7 = parseInt(document.getElementById('izquierda7').value || 0);
+        var izquierda8 = parseInt(document.getElementById('izquierda8').value || 0);
+        var izquierdaJ5 = parseInt(document.getElementById('izquierdaJ5').value || 0);
+        var izquierdaJaulon = parseInt(document.getElementById('izquierdaJaulon').value || 0);
+
+        var derecha5 = parseInt(document.getElementById('derecha5').value || 0);
+        var derecha6 = parseInt(document.getElementById('derecha6').value || 0);
+        var derecha6x = parseInt(document.getElementById('derecha6x').value || 0);
+        var derecha7 = parseInt(document.getElementById('derecha7').value || 0);
+        var derecha8 = parseInt(document.getElementById('derecha8').value || 0);
+        var derechaJ5 = parseInt(document.getElementById('derechaJ5').value || 0);
+        var derechaJaulon = parseInt(document.getElementById('derechaJaulon').value || 0);
+
+        var totalIzquierda = izquierda5 + izquierda6 + izquierda6x + izquierda7 + izquierda8 + izquierdaJ5 + izquierdaJaulon;
+        var totalDerecha = derecha5 + derecha6 + derecha6x + derecha7 + derecha8 + derechaJ5 + derechaJaulon;
+
+        var total5 = izquierda5 + derecha5;
+        var total6 = izquierda6 + derecha6;
+        var total6x = izquierda6x + derecha6x;
+        var total7 = izquierda7 + derecha7;
+        var total8 = izquierda8 + derecha8;
+        var totalJ5 = izquierdaJ5 + derechaJ5;
+        var totalJaulon = izquierdaJaulon + derechaJaulon;
+        var totalCajas = total5 + total6 + total6x + total7 + total8 + totalJ5 + totalJaulon;
+
+        document.getElementById('totalIzquierda').value = totalIzquierda;
+        document.getElementById('totalDerecha').value = totalDerecha;
+
+        document.getElementById('total5').innerText = total5;
+        document.getElementById('total6').innerText = total6;
+        document.getElementById('total6x').innerText = total6x;
+        document.getElementById('total7').innerText = total7;
+        document.getElementById('total8').innerText = total8;
+        document.getElementById('totalJ5').innerText = totalJ5;
+        document.getElementById('totalJaulon').innerText = totalJaulon;
+        document.getElementById('totalCajas').innerText = totalCajas;
+
+        // Actualizar los valores en la tabla de impresión
+        document.getElementById('resultado5').innerText = total5;
+        document.getElementById('resultado6').innerText = total6;
+        document.getElementById('resultado6x').innerText = total6x;
+        document.getElementById('resultado7').innerText = total7;
+        document.getElementById('resultado8').innerText = total8;
+        document.getElementById('resultadoJ5').innerText = totalJ5;
+        document.getElementById('resultadoJaulon').innerText = totalJaulon;
+        document.getElementById('resultadoTotalCajas').innerText = totalCajas;
+    }
+
+    function reiniciarCampos() {
+        var inputs = document.querySelectorAll('input[type="number"]');
+        inputs.forEach(function(input) {
+            input.value = '';
+        });
+        calcularSuma();
+    }
+
+    function copiarResultados() {
+        var resultados = `${document.getElementById('total5').innerText},${document.getElementById('total6').innerText},${document.getElementById('total6x').innerText},${document.getElementById('total7').innerText},${document.getElementById('total8').innerText},${document.getElementById('totalJ5').innerText},${document.getElementById('totalJaulon').innerText},${document.getElementById('totalCajas').innerText}`;
+
+        // Copiar los resultados al portapapeles
+        navigator.clipboard.writeText(resultados)
+            .then(() => {
+                alert('Resultados copiados al portapapeles');
+            })
+            .catch(err => {
+                console.error('Error al copiar los resultados: ', err);
             });
-            const hora = ahora.toLocaleTimeString('es-ES', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            });
-            return `${fecha}, ${hora}`;
-        }
+    }
 
-        // Función para actualizar la fecha y hora continuamente
-        function actualizarFechaHora() {
-            document.getElementById('fecha-hora').value = obtenerFechaHoraActual();
-            actualizarTitulo();
-        }
+    function imprimirRecibo() {
+        copiarResultados();
+        document.getElementById('fechaHoraPrint').innerText = document.getElementById('fechaHora').innerText;
+        document.getElementById('numeroSocioPrint').innerText = document.getElementById('numeroSocio').innerText;
+        window.print();
+    }
 
-        setInterval(actualizarFechaHora, 1000);  // Actualiza cada segundo
+    function showForm(socioNumero, url) {
+        document.getElementById('socioNumero').innerText = socioNumero;
+        document.getElementById('form-iframe').src = url;
+        document.getElementById('iframeContainer').style.display = 'block';
+        document.getElementById('titulo').innerText = "Recibo - Número de Socio: " + socioNumero;
+    }
 
-        // Función para actualizar el título del recibo
-        function actualizarTitulo() {
-            const mesa = document.getElementById('mesa').value.trim();
-            const fechaHora = document.getElementById('fecha-hora').value;
-            const titulo = mesa ? `Recibo de Mesa ${mesa}, ${fechaHora}` : 'Formulario';
-            document.title = titulo;
-        }
+    // Mostrar la fecha y hora actualizada cada segundo
+    function mostrarFechaHora() {
+        var ahora = new Date();
+        var opciones = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit', // Incluimos los segundos
+            hour12: false 
+        };
+        var fechaHoraFormateada = ahora.toLocaleDateString('es-ES', opciones);
+        document.getElementById('fechaHora').innerText = fechaHoraFormateada;
+    }
 
-        // Función para calcular el total por fila
-        function calcularTotal(element) {
-            const fila = element.parentElement.parentElement;
-            const cantidad = parseFloat(fila.querySelector('input[name="cantidad[]"]').value) || 0;
-            const precioUnitario = parseFloat(fila.querySelector('input[name="precio-unitario[]"]').value) || 0;
-            const total = cantidad * precioUnitario;
-            fila.querySelector('input[name="total[]"]').value = total.toFixed(2);
-            actualizarTotalGeneral();
-        }
+    // Actualizar la hora cada segundo
+    setInterval(mostrarFechaHora, 1000);
 
-        // Función para agregar una nueva fila
-        function agregarFila() {
-            const tabla = document.getElementById('productos').getElementsByTagName('tbody')[0];
-            const nuevaFila = tabla.insertRow();
-            nuevaFila.innerHTML = `
-                <td><input type="number" name="cantidad[]" oninput="calcularTotal(this)" placeholder=""></td>
-                <td><input type="text" name="descripcion[]" placeholder=""></td>
-                <td><input type="number" name="precio-unitario[]" oninput="calcularTotal(this)" placeholder=""></td>
-                <td><input type="text" name="total[]" class="readonly" readonly></td>
-            `;
-        }
+    // Llamar a la función la primera vez para mostrarla de inmediato
+    mostrarFechaHora();
+</script>
 
-        // Función para actualizar el total general
-        function actualizarTotalGeneral() {
-            const totales = document.querySelectorAll('input[name="total[]"]');
-            let totalGeneral = 0;
-            totales.forEach(total => {
-                totalGeneral += parseFloat(total.value) || 0;
-            });
-
-            const propina = parseFloat(document.getElementById('propina').value) || 0;
-            totalGeneral += propina;
-
-            document.getElementById('total-general').value = totalGeneral.toFixed(2);
-        }
-
-        // Función para imprimir el recibo
-        function imprimir() {
-            window.print();
-        }
-    </script>
 </body>
 </html>
