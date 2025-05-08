@@ -3,140 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delicias Japonesas | Pedidos por WhatsApp</title>
+    <title>Delicias Japonesas - Cocina Auténtica</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Estilos base */
-        :root {
-            --color-primary: #E74C3C;
-            --color-secondary: #2C3E50;
-            --color-accent: #F39C12;
-            --color-light: #ECF0F1;
-            --color-dark: #1A1A1A;
-        }
-        
+        /* Estilos Base y Reset */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--color-light);
-            color: var(--color-dark);
+            background-color: #f9f9f9;
+            color: #333;
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
-        /* Header común */
-        header {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                        url('https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
-        }
-        
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .tagline {
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--color-primary);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
+        a {
             text-decoration: none;
+            color: inherit;
+        }
+        
+        /* Animaciones clave */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        /* Navegación */
+        nav {
+            background-color: #222;
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            padding: 0.5rem 5%;
+            background-color: rgba(0,0,0,0.9);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
             font-weight: bold;
             transition: all 0.3s ease;
         }
         
-        .btn:hover {
-            background-color: #C0392B;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .whatsapp-btn {
-            background-color: #25D366;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .whatsapp-btn:hover {
-            background-color: #128C7E;
-        }
-        
-        /* Navegación para computadora */
-        nav.desktop-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            background-color: var(--color-secondary);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .logo {
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        
         .logo span {
-            color: var(--color-primary);
+            color: #e74c3c;
         }
         
-        .desktop-nav-links {
+        .desktop-nav-links, .mobile-nav-links {
             display: flex;
             list-style: none;
         }
         
-        .desktop-nav-links li {
-            margin-left: 30px;
+        .desktop-nav-links li, .mobile-nav-links li {
+            margin-left: 2rem;
+            position: relative;
         }
         
-        .desktop-nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
+        .desktop-nav-links a, .mobile-nav-links a {
+            padding: 0.5rem 0;
             transition: color 0.3s ease;
         }
         
-        .desktop-nav-links a:hover {
-            color: var(--color-primary);
+        .desktop-nav-links a:hover, .mobile-nav-links a:hover {
+            color: #e74c3c;
         }
         
-        /* Navegación para móvil */
-        nav.mobile-nav {
-            display: none;
-            padding: 15px 5%;
-            background-color: var(--color-secondary);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            justify-content: space-between;
-            align-items: center;
+        .desktop-nav-links a::after, .mobile-nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #e74c3c;
+            transition: width 0.3s ease;
+        }
+        
+        .desktop-nav-links a:hover::after, .mobile-nav-links a:hover::after {
+            width: 100%;
         }
         
         .mobile-menu-toggle {
@@ -145,119 +129,150 @@
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
-        }
-        
-        .mobile-nav-links {
             display: none;
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 100%;
-            background-color: var(--color-secondary);
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 0;
-            z-index: 999;
         }
         
-        .mobile-nav-links.active {
-            display: flex;
-        }
-        
-        .mobile-nav-links li {
-            margin: 10px 0;
-            width: 100%;
-            text-align: center;
-        }
-        
-        .mobile-nav-links a {
+        /* Hero Section */
+        header {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
             color: white;
-            text-decoration: none;
-            padding: 10px 0;
-            display: block;
-            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 5%;
+            margin-top: 70px;
+            animation: fadeIn 1s ease-in;
         }
         
-        .mobile-nav-links a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        .hero-content {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out forwards 0.5s;
+            max-width: 800px;
         }
         
-        /* Sección de menú */
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards 1s;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards 1.5s;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            background-color: #c0392b;
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        /* Sección de Menú */
         .section {
-            padding: 60px 5%;
+            padding: 5rem 5%;
         }
         
         .section-title {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out forwards;
         }
         
         .section-title h2 {
-            font-size: 2rem;
-            color: var(--color-secondary);
-            margin-bottom: 10px;
-            position: relative;
-            display: inline-block;
+            font-size: 2.5rem;
+            color: #222;
+            margin-bottom: 0.5rem;
         }
         
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            width: 70px;
-            height: 3px;
-            background-color: var(--color-primary);
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
+        .section-title p {
+            color: #777;
+            font-size: 1.1rem;
         }
         
-        /* Filtro de categorías */
         .category-filter {
             display: flex;
             justify-content: center;
-            margin-bottom: 30px;
             flex-wrap: wrap;
-            gap: 10px;
+            margin-bottom: 2rem;
+            gap: 0.5rem;
         }
         
         .category-btn {
-            padding: 8px 20px;
-            background-color: white;
-            border: 1px solid var(--color-secondary);
+            padding: 0.5rem 1.5rem;
+            background-color: #f1f1f1;
+            border: none;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
         }
         
-        .category-btn:hover, .category-btn.active {
-            background-color: var(--color-secondary);
-            color: white;
+        .category-btn:hover {
+            background-color: #ddd;
         }
         
-        /* Productos - Diseño computadora */
+        .category-btn.active {
+            background-color: #e74c3c;
+            color: white;
+            transform: scale(1.05);
+        }
+        
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
         }
         
         .product-card {
             background-color: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease-out forwards;
+            animation-delay: calc(var(--order) * 0.1s);
         }
         
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
         
         .product-image {
-            height: 180px;
+            height: 200px;
             overflow: hidden;
+            position: relative;
         }
         
         .product-image img {
@@ -268,199 +283,221 @@
         }
         
         .product-card:hover .product-image img {
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
         
         .product-info {
-            padding: 20px;
+            padding: 1.5rem;
         }
         
         .product-title {
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-            color: var(--color-secondary);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #222;
         }
         
         .product-description {
             color: #666;
-            margin-bottom: 12px;
+            margin-bottom: 1rem;
             font-size: 0.9rem;
         }
         
         .product-price {
-            font-size: 1.1rem;
             font-weight: bold;
-            color: var(--color-primary);
-            margin-bottom: 15px;
+            color: #e74c3c;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
         }
         
         .order-btn {
-            width: 100%;
-            padding: 10px;
-            background-color: var(--color-secondary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-weight: 500;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            background-color: #25D366;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .order-btn i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
         }
         
         .order-btn:hover {
-            background-color: var(--color-primary);
+            background-color: #128C7E;
+            transform: translateY(-2px);
         }
         
-        .badge {
+        .order-btn:active {
+            transform: translateY(0);
+        }
+        
+        .order-btn::after {
+            content: '';
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--color-accent);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255,255,255,0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .order-btn:hover::after {
+            animation: ripple 1s ease-out;
         }
         
         /* Footer */
         footer {
-            background-color: var(--color-secondary);
+            background-color: #222;
             color: white;
-            padding: 40px 5%;
-            text-align: center;
+            padding: 3rem 5% 1rem;
         }
         
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
-            text-align: left;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
         
         .footer-column h3 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            width: 50%;
-            height: 2px;
-            background-color: var(--color-primary);
-            bottom: -5px;
-            left: 0;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #e74c3c;
         }
         
         .footer-column p {
-            margin: 10px 0;
-            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            color: #bbb;
         }
         
         .social-links {
             display: flex;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 1rem;
+            margin-top: 1rem;
         }
         
         .social-links a {
-            color: white;
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            transition: all 0.3s ease;
         }
         
         .social-links a:hover {
-            color: var(--color-primary);
+            background-color: #e74c3c;
+            transform: translateY(-3px);
         }
         
         .copyright {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 20px;
-            opacity: 0.7;
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #777;
+            font-size: 0.9rem;
         }
         
-        /* Estilos específicos para móvil */
+        /* WhatsApp flotante */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+            animation: none;
+        }
+        
+        /* Responsive */
         @media (max-width: 768px) {
-            /* Ocultar navegación desktop */
-            nav.desktop-nav {
+            .desktop-nav {
                 display: none;
             }
             
-            /* Mostrar navegación móvil */
-            nav.mobile-nav {
+            .mobile-nav {
                 display: flex;
             }
             
-            /* Ajustar header */
-            header {
-                padding: 80px 20px;
-                min-height: 50vh;
+            .mobile-menu-toggle {
+                display: block;
             }
             
-            h1 {
-                font-size: 2rem;
+            .mobile-nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: #222;
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+                z-index: 999;
+            }
+            
+            .mobile-nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .mobile-nav-links li {
+                margin: 0.5rem 0;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
             }
             
             .tagline {
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
             
-            /* Ajustar secciones */
-            .section {
-                padding: 40px 5%;
-            }
-            
-            .section-title h2 {
-                font-size: 1.6rem;
-            }
-            
-            /* Ajustar filtros */
-            .category-filter {
-                overflow-x: auto;
-                padding-bottom: 10px;
-                justify-content: flex-start;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .category-btn {
-                flex-shrink: 0;
-                font-size: 0.9rem;
-                padding: 8px 15px;
-            }
-            
-            /* Ajustar grid de productos */
-            .products-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            /* Ajustar footer */
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            
-            .footer-column h3::after {
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            
-            .social-links {
-                justify-content: center;
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 25px;
             }
         }
         
-        /* Estilos específicos para desktop */
         @media (min-width: 769px) {
-            /* Ocultar navegación móvil */
-            nav.mobile-nav {
+            .mobile-nav {
                 display: none;
             }
         }
@@ -473,6 +510,7 @@
         <ul class="desktop-nav-links">
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#menu">Menú</a></li>
+            <li><a href="#contacto">Contacto</a></li>
         </ul>
     </nav>
     
@@ -485,6 +523,7 @@
         <ul class="mobile-nav-links" id="mobileNavLinks">
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#menu">Menú</a></li>
+            <li><a href="#contacto">Contacto</a></li>
         </ul>
     </nav>
 
@@ -515,7 +554,7 @@
         
         <div class="products-grid" id="productsContainer">
             <!-- Producto 1 - Ramen -->
-            <div class="product-card" data-category="ramen">
+            <div class="product-card" data-category="ramen" style="--order: 1;">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1623341214825-9f4f963727da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Ramen Shoyu">
                 </div>
@@ -530,7 +569,7 @@
             </div>
             
             <!-- Producto 2 - Ramen -->
-            <div class="product-card" data-category="ramen">
+            <div class="product-card" data-category="ramen" style="--order: 2;">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1632818924360-68d4994cfdb2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Ramen Miso">
                 </div>
@@ -545,7 +584,7 @@
             </div>
             
             <!-- Producto 3 - Sushi -->
-            <div class="product-card" data-category="sushi">
+            <div class="product-card" data-category="sushi" style="--order: 3;">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Sushi Variado">
                 </div>
@@ -560,7 +599,7 @@
             </div>
             
             <!-- Producto 4 - Sushi -->
-            <div class="product-card" data-category="sushi">
+            <div class="product-card" data-category="sushi" style="--order: 4;">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1617196035154-1e7e6e28b0db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Roll California">
                 </div>
@@ -575,7 +614,7 @@
             </div>
             
             <!-- Producto 5 - Bebidas -->
-            <div class="product-card" data-category="bebidas">
+            <div class="product-card" data-category="bebidas" style="--order: 5;">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Té Verde Japonés">
                 </div>
@@ -590,7 +629,7 @@
             </div>
             
             <!-- Producto 6 - Bebidas -->
-            <div class="product-card" data-category="bebidas">
+            <div class="product-card" data-category="bebidas" style="--order: 6;">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Sake Premium">
                 </div>
@@ -605,7 +644,7 @@
             </div>
             
             <!-- Producto 7 - Postres -->
-            <div class="product-card" data-category="postres">
+            <div class="product-card" data-category="postres" style="--order: 7;">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1562440499-64c9a111f713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Mochi Variado">
                 </div>
@@ -620,7 +659,7 @@
             </div>
             
             <!-- Producto 8 - Postres -->
-            <div class="product-card" data-category="postres">
+            <div class="product-card" data-category="postres" style="--order: 8;">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1623341543536-2c70d0e6a4cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Dorayaki">
                 </div>
@@ -637,7 +676,7 @@
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer id="contacto">
         <div class="footer-content">
             <div class="footer-column">
                 <h3>Delicias Japonesas</h3>
@@ -669,49 +708,6 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <style>
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-        }
-        
-        @media (max-width: 768px) {
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 25px;
-            }
-        }
-        
-        @media (min-width: 769px) {
-            .whatsapp-float {
-                display: none;
-            }
-        }
-    </style>
-
     <!-- JavaScript -->
     <script>
         // WhatsApp number
@@ -723,9 +719,21 @@
         
         mobileMenuToggle.addEventListener('click', () => {
             mobileNavLinks.classList.toggle('active');
+            mobileMenuToggle.innerHTML = mobileNavLinks.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
         });
         
-        // Filtrar productos por categoría
+        // Efecto scroll en navegación
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+        
+        // Filtrar productos por categoría con animación
         const categoryBtns = document.querySelectorAll('.category-btn');
         const productCards = document.querySelectorAll('.product-card');
         
@@ -738,11 +746,21 @@
                 
                 const category = btn.getAttribute('data-category');
                 
+                // Animación de fade out
                 productCards.forEach(card => {
-                    if (category === 'all' || card.getAttribute('data-category') === category) {
-                        card.style.display = 'block';
+                    card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    if (category !== 'all' && card.getAttribute('data-category') !== category) {
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
                     } else {
-                        card.style.display = 'none';
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        }, 50);
                     }
                 });
             });
@@ -773,20 +791,40 @@
             window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
         });
         
-        // Detectar dispositivo para ajustes específicos
-        function detectDevice() {
-            if (window.innerWidth <= 768) {
-                // Es un dispositivo móvil
-                document.body.classList.add('mobile-device');
+        // Animación de carga para imágenes
+        document.querySelectorAll('.product-image img').forEach(img => {
+            if(img.complete) {
+                img.parentElement.classList.add('loaded');
             } else {
-                // Es una computadora
-                document.body.classList.remove('mobile-device');
+                img.addEventListener('load', function() {
+                    this.parentElement.classList.add('loaded');
+                });
             }
-        }
+        });
         
-        // Ejecutar al cargar y al cambiar el tamaño de la ventana
-        window.addEventListener('load', detectDevice);
-        window.addEventListener('resize', detectDevice);
+        // Scroll suave para enlaces
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Cerrar menú móvil si está abierto
+                    if(mobileNavLinks.classList.contains('active')) {
+                        mobileNavLinks.classList.remove('active');
+                        mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
