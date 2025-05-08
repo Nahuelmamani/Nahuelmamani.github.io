@@ -58,6 +58,18 @@
             }
         }
         
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            10%, 30%, 50%, 70%, 90% {
+                transform: translateX(-5px);
+            }
+            20%, 40%, 60%, 80% {
+                transform: translateX(5px);
+            }
+        }
+        
         /* Navegación */
         nav {
             background-color: #222;
@@ -89,8 +101,12 @@
             color: #e74c3c;
         }
         
-        .desktop-nav-links, .mobile-nav-links {
+        .desktop-nav-links {
             display: flex;
+            list-style: none;
+        }
+        
+        .mobile-nav-links {
             list-style: none;
         }
         
@@ -130,6 +146,7 @@
             font-size: 1.5rem;
             cursor: pointer;
             display: none;
+            z-index: 1001;
         }
         
         /* Hero Section */
@@ -262,6 +279,7 @@
             transform: translateY(20px);
             animation: fadeInUp 0.5s ease-out forwards;
             animation-delay: calc(var(--order) * 0.1s);
+            cursor: pointer;
         }
         
         .product-card:hover {
@@ -356,6 +374,168 @@
         
         .order-btn:hover::after {
             animation: ripple 1s ease-out;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(50px);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            z-index: 10;
+            background: rgba(255,255,255,0.8);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            transform: rotate(90deg);
+            color: #e74c3c;
+        }
+        
+        .modal-carousel {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+        }
+        
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-btn:hover {
+            background: rgba(0,0,0,0.8);
+        }
+        
+        .carousel-prev {
+            left: 15px;
+        }
+        
+        .carousel-next {
+            right: 15px;
+        }
+        
+        .modal-info {
+            padding: 2rem;
+        }
+        
+        .modal-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #222;
+        }
+        
+        .modal-info p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-order-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #25D366;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+        
+        .modal-order-btn:hover {
+            background-color: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
         /* Footer */
@@ -457,26 +637,47 @@
             
             .mobile-nav-links {
                 position: fixed;
-                top: 70px;
+                top: 0;
                 left: 0;
                 width: 100%;
-                background-color: #222;
+                height: 100vh;
+                background-color: rgba(0,0,0,0.9);
                 flex-direction: column;
                 align-items: center;
-                padding: 1rem 0;
-                transform: translateY(-100%);
+                justify-content: center;
+                transform: translateX(-100%);
                 opacity: 0;
-                transition: all 0.3s ease;
-                z-index: 999;
+                transition: all 0.5s ease;
+                z-index: 1000;
             }
             
             .mobile-nav-links.active {
-                transform: translateY(0);
+                transform: translateX(0);
                 opacity: 1;
             }
             
             .mobile-nav-links li {
-                margin: 0.5rem 0;
+                margin: 1.5rem 0;
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            
+            .mobile-nav-links.active li {
+                opacity: 1;
+                transform: translateX(0);
+                transition: all 0.5s ease;
+            }
+            
+            .mobile-nav-links.active li:nth-child(1) {
+                transition-delay: 0.2s;
+            }
+            
+            .mobile-nav-links.active li:nth-child(2) {
+                transition-delay: 0.3s;
+            }
+            
+            .mobile-nav-links.active li:nth-child(3) {
+                transition-delay: 0.4s;
             }
             
             .hero-content h1 {
@@ -485,6 +686,14 @@
             
             .tagline {
                 font-size: 1.2rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+            
+            .modal-carousel {
+                height: 250px;
             }
             
             .whatsapp-float {
@@ -518,7 +727,7 @@
     <nav class="mobile-nav">
         <a href="#" class="logo">Delicias<span>Japonesas</span></a>
         <button class="mobile-menu-toggle" id="mobileMenuToggle">
-            <i class="fas fa-bars"></i>
+            <i class="fas fa-bars" id="menuIcon"></i>
         </button>
         <ul class="mobile-nav-links" id="mobileNavLinks">
             <li><a href="#inicio">Inicio</a></li>
@@ -554,7 +763,7 @@
         
         <div class="products-grid" id="productsContainer">
             <!-- Producto 1 - Ramen -->
-            <div class="product-card" data-category="ramen" style="--order: 1;">
+            <div class="product-card" data-category="ramen" style="--order: 1;" data-id="1">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1623341214825-9f4f963727da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Ramen Shoyu">
                 </div>
@@ -569,7 +778,7 @@
             </div>
             
             <!-- Producto 2 - Ramen -->
-            <div class="product-card" data-category="ramen" style="--order: 2;">
+            <div class="product-card" data-category="ramen" style="--order: 2;" data-id="2">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1632818924360-68d4994cfdb2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Ramen Miso">
                 </div>
@@ -584,7 +793,7 @@
             </div>
             
             <!-- Producto 3 - Sushi -->
-            <div class="product-card" data-category="sushi" style="--order: 3;">
+            <div class="product-card" data-category="sushi" style="--order: 3;" data-id="3">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Sushi Variado">
                 </div>
@@ -599,7 +808,7 @@
             </div>
             
             <!-- Producto 4 - Sushi -->
-            <div class="product-card" data-category="sushi" style="--order: 4;">
+            <div class="product-card" data-category="sushi" style="--order: 4;" data-id="4">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1617196035154-1e7e6e28b0db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Roll California">
                 </div>
@@ -614,7 +823,7 @@
             </div>
             
             <!-- Producto 5 - Bebidas -->
-            <div class="product-card" data-category="bebidas" style="--order: 5;">
+            <div class="product-card" data-category="bebidas" style="--order: 5;" data-id="5">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Té Verde Japonés">
                 </div>
@@ -629,7 +838,7 @@
             </div>
             
             <!-- Producto 6 - Bebidas -->
-            <div class="product-card" data-category="bebidas" style="--order: 6;">
+            <div class="product-card" data-category="bebidas" style="--order: 6;" data-id="6">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Sake Premium">
                 </div>
@@ -644,7 +853,7 @@
             </div>
             
             <!-- Producto 7 - Postres -->
-            <div class="product-card" data-category="postres" style="--order: 7;">
+            <div class="product-card" data-category="postres" style="--order: 7;" data-id="7">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1562440499-64c9a111f713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Mochi Variado">
                 </div>
@@ -659,7 +868,7 @@
             </div>
             
             <!-- Producto 8 - Postres -->
-            <div class="product-card" data-category="postres" style="--order: 8;">
+            <div class="product-card" data-category="postres" style="--order: 8;" data-id="8">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1623341543536-2c70d0e6a4cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Dorayaki">
                 </div>
@@ -708,19 +917,147 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <!-- Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <div class="modal-carousel">
+                <div class="carousel-slides" id="carouselSlides">
+                    <!-- Las imágenes se insertarán dinámicamente -->
+                </div>
+                <button class="carousel-btn carousel-prev" id="carouselPrev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn carousel-next" id="carouselNext"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="modal-info">
+                <h3 id="modalTitle">Producto</h3>
+                <p id="modalDescription">Descripción del producto</p>
+                <p class="modal-price" id="modalPrice">$0.00</p>
+                <button class="modal-order-btn" id="modalOrderBtn">
+                    <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script>
+        // Datos de productos con múltiples imágenes
+        const productsData = {
+            1: {
+                name: "Ramen Shoyu",
+                description: "Caldo de pollo con salsa de soja, fideos al dente, huevo marinado y cebollín.",
+                price: "12.99",
+                images: [
+                    "https://images.unsplash.com/photo-1623341214825-9f4f963727da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                ]
+            },
+            2: {
+                name: "Ramen Miso",
+                description: "Caldo rico en umami con pasta de miso, cerdo chashu y algas nori.",
+                price: "14.99",
+                images: [
+                    "https://images.unsplash.com/photo-1632818924360-68d4994cfdb2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                ]
+            },
+            3: {
+                name: "Sushi Variado",
+                description: "12 piezas de sushi variado con salsa de soja, wasabi y jengibre.",
+                price: "18.99",
+                images: [
+                    "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1617194698375-6339e566f71a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1611143669185-af224c5e3252?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                ]
+            },
+            4: {
+                name: "Roll California",
+                description: "8 piezas de roll california con cangrejo, pepino y aguacate.",
+                price: "15.99",
+                images: [
+                    "https://images.unsplash.com/photo-1617196035154-1e7e6e28b0db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1583623025817-180190d0fc1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1611143669185-af224c5e3252?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                ]
+            },
+            5: {
+                name: "Té Verde Japonés",
+                description: "Té verde matcha tradicional servido caliente o frío.",
+                price: "4.99",
+                images: [
+                    "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1534430480872-3498386e7856?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1559177697-9bca890acc0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                ]
+            },
+            6: {
+                name: "Sake Premium",
+                description: "Botella de 300ml de sake premium Junmai Daiginjo.",
+                price: "22.99",
+                images: [
+                    "https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1608270586752-83dfb295f759?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1608270586646-0057eec6d6b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                ]
+            },
+            7: {
+                name: "Mochi Variado",
+                description: "6 piezas de mochi en sabores variados.",
+                price: "9.99",
+                images: [
+                    "https://images.unsplash.com/photo-1562440499-64c9a111f713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1580013759032-c96505e24c1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1580013759032-c96505e24c1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                ]
+            },
+            8: {
+                name: "Dorayaki",
+                description: "Postre tradicional japonés de panqueques con pasta de judías.",
+                price: "7.99",
+                images: [
+                    "https://images.unsplash.com/photo-1623341543536-2c70d0e6a4cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1599481238640-4c1288750d7a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1580013759032-c96505e24c1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                ]
+            }
+        };
+
         // WhatsApp number
         const whatsappNumber = "2612316632";
         
         // Menú móvil
         const mobileMenuToggle = document.getElementById('mobileMenuToggle');
         const mobileNavLinks = document.getElementById('mobileNavLinks');
+        const menuIcon = document.getElementById('menuIcon');
         
         mobileMenuToggle.addEventListener('click', () => {
             mobileNavLinks.classList.toggle('active');
-            mobileMenuToggle.innerHTML = mobileNavLinks.classList.contains('active') ? 
-                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            
+            if (mobileNavLinks.classList.contains('active')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+                
+                // Animación de los items del menú
+                const menuItems = document.querySelectorAll('.mobile-nav-links li');
+                menuItems.forEach((item, index) => {
+                    item.style.animation = `fadeInUp 0.5s ease-out forwards ${index * 0.1 + 0.2}s`;
+                });
+            } else {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+        
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNavLinks.classList.remove('active');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            });
         });
         
         // Efecto scroll en navegación
@@ -770,7 +1107,8 @@
         const orderButtons = document.querySelectorAll('.order-btn');
         
         orderButtons.forEach(button => {
-            button.addEventListener('click', () => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const productName = button.getAttribute('data-name');
                 const productPrice = button.getAttribute('data-price');
                 
@@ -820,11 +1158,103 @@
                     // Cerrar menú móvil si está abierto
                     if(mobileNavLinks.classList.contains('active')) {
                         mobileNavLinks.classList.remove('active');
-                        mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                        menuIcon.classList.remove('fa-times');
+                        menuIcon.classList.add('fa-bars');
                     }
                 }
             });
         });
+        
+        // Modal y Carousel
+        const modal = document.getElementById('productModal');
+        const closeModal = document.getElementById('closeModal');
+        const carouselSlides = document.getElementById('carouselSlides');
+        const carouselPrev = document.getElementById('carouselPrev');
+        const carouselNext = document.getElementById('carouselNext');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalOrderBtn = document.getElementById('modalOrderBtn');
+        
+        let currentSlide = 0;
+        let currentProductId = null;
+        
+        // Abrir modal al hacer clic en un producto
+        productCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const productId = this.getAttribute('data-id');
+                currentProductId = productId;
+                const product = productsData[productId];
+                
+                // Llenar el modal con los datos del producto
+                modalTitle.textContent = product.name;
+                modalDescription.textContent = product.description;
+                modalPrice.textContent = `$${product.price}`;
+                
+                // Configurar el carousel
+                carouselSlides.innerHTML = '';
+                product.images.forEach((image, index) => {
+                    const slide = document.createElement('div');
+                    slide.className = 'carousel-slide';
+                    slide.innerHTML = `<img src="${image}" alt="${product.name}">`;
+                    carouselSlides.appendChild(slide);
+                });
+                
+                // Resetear el carousel
+                currentSlide = 0;
+                updateCarousel();
+                
+                // Mostrar el modal
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Cerrar modal
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Cerrar modal al hacer clic fuera del contenido
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Navegación del carousel
+        carouselPrev.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + productsData[currentProductId].images.length) % productsData[currentProductId].images.length;
+            updateCarousel();
+        });
+        
+        carouselNext.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % productsData[currentProductId].images.length;
+            updateCarousel();
+        });
+        
+        function updateCarousel() {
+            const slideWidth = 100;
+            carouselSlides.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+        }
+        
+        // Botón de pedido en el modal
+        modalOrderBtn.addEventListener('click', () => {
+            const product = productsData[currentProductId];
+            const message = `¡Hola! Quiero pedir: ${product.name} - $${product.price}\n\nMi nombre: \nDirección de entrega: \nTeléfono de contacto: `;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+        });
+        
+        // Efecto shake en el botón de WhatsApp flotante cada 10 segundos
+        setInterval(() => {
+            whatsappFloat.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                whatsappFloat.style.animation = 'float 3s ease-in-out infinite';
+            }, 500);
+        }, 10000);
     </script>
 </body>
 </html>
