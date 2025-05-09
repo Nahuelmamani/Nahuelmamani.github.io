@@ -32,7 +32,7 @@
         
         /* Header */
         .app-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: #1d3557 ;
             color: white;
             padding: 15px 20px;
             position: sticky;
@@ -45,6 +45,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+        
+        /* Menú Hamburguesa para móviles */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
         }
         
         .logo {
@@ -60,6 +71,23 @@
         .logo h1 {
             font-size: 22px;
             font-weight: 700;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--accent);
         }
         
         .cart-icon {
@@ -476,6 +504,74 @@
             display: block;
         }
         
+        /* Sección de Pagos */
+        .payment-section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .payment-method {
+            margin-bottom: 25px;
+        }
+        
+        .payment-method h3 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .payment-method h3 i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .payment-info {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .payment-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .payment-value {
+            font-size: 16px;
+            color: var(--text);
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background-color: #e05555;
+        }
+        
+        .copy-btn.copied {
+            background-color: var(--secondary);
+        }
+        
         /* Footer Mejorado */
         footer {
             background-color: var(--dark);
@@ -578,6 +674,34 @@
             .product-modal-image {
                 height: 200px;
             }
+            
+            /* Menú Hamburguesa */
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 68px;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                gap: 15px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                transform: translateY(-150%);
+                z-index: 998;
+            }
+            
+            .nav-menu.active {
+                transform: translateY(0);
+            }
+            
+            .nav-menu a {
+                padding: 10px 0;
+            }
         }
         
         @media (max-width: 480px) {
@@ -592,6 +716,17 @@
             .sticky-nav {
                 top: 60px;
             }
+            
+            .payment-info {
+                padding: 15px 10px;
+            }
+            
+            .copy-btn {
+                position: static;
+                display: block;
+                margin-top: 10px;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -599,10 +734,22 @@
     <!-- Header con nombre del negocio y carrito -->
     <header class="app-header">
         <div class="header-content">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
             <div class="logo">
                 <i class="fas fa-bowl-food"></i>
                 <h1>Ramen House</h1>
             </div>
+            
+            <nav class="nav-menu" id="navMenu">
+                <a href="#inicio">Inicio</a>
+                <a href="#menu">Menú</a>
+                <a href="#pagos">Formas de Pago</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+            
             <div class="cart-icon" id="cartIcon">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="cartCount">0</span>
@@ -632,7 +779,7 @@
     </div>
     
     <!-- Contenido principal -->
-    <div class="container">
+    <div class="container" id="menu">
         <h2 class="section-title">
             <i class="fas fa-fire"></i> Los más populares
         </h2>
@@ -804,6 +951,40 @@
         </div>
     </div>
     
+    <!-- Sección de Pagos -->
+    <div class="payment-section" id="pagos">
+        <h2 class="section-title">
+            <i class="fas fa-credit-card"></i> Formas de Pago
+        </h2>
+        
+        <div class="payment-method">
+            <h3><i class="fas fa-money-bill-wave"></i> Transferencia Bancaria</h3>
+            
+            <div class="payment-info">
+                <div class="payment-label">Alias:</div>
+                <div class="payment-value" id="aliasValue">feria100</div>
+                <button class="copy-btn" onclick="copyToClipboard('aliasValue', this)">Copiar</button>
+            </div>
+            
+            <div class="payment-info">
+                <div class="payment-label">CBU:</div>
+                <div class="payment-value" id="cbuValue">0000003100039338529619</div>
+                <button class="copy-btn" onclick="copyToClipboard('cbuValue', this)">Copiar</button>
+            </div>
+        </div>
+        
+        <div class="payment-method">
+            <h3><i class="fab fa-cc-mercadopago"></i> Mercado Pago</h3>
+            <p>Escaneá el código QR con la app de Mercado Pago</p>
+            <!-- Aquí puedes agregar una imagen del QR -->
+        </div>
+        
+        <div class="payment-method">
+            <h3><i class="fas fa-money-bill-alt"></i> Efectivo</h3>
+            <p>Pago en efectivo al recibir tu pedido</p>
+        </div>
+    </div>
+    
     <!-- Modal del Carrito -->
     <div class="overlay" id="overlay"></div>
     <div class="cart-modal" id="cartModal">
@@ -844,7 +1025,7 @@
     </div>
     
     <!-- Footer Mejorado -->
-    <footer>
+    <footer id="contacto">
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Horario</h3>
@@ -904,6 +1085,8 @@
         const productModalDescription = document.getElementById('productModalDescription');
         const modalAddToCart = document.getElementById('modalAddToCart');
         const modalWhatsApp = document.getElementById('modalWhatsApp');
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
         
         // Datos de los productos (simulando una base de datos)
         const productsData = {
@@ -965,6 +1148,39 @@
             }
         };
 
+        // Función para copiar al portapapeles
+        function copyToClipboard(elementId, button) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = 'Copiado!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = 'Copiar';
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar: ', err);
+                // Fallback para navegadores que no soportan clipboard API
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                button.textContent = 'Copiado!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = 'Copiar';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
         // Función para abrir el carrito
         function openCart() {
             cartModal.classList.add('active');
@@ -1010,19 +1226,42 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Event listeners para los modales
-        cartIcon.addEventListener('click', openCart);
-        closeCart.addEventListener('click', closeCartModal);
+        // Menú hamburguesa para móviles
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Cerrar menú al hacer clic en un enlace (solo móviles)
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navMenu.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        // Cerrar menú al hacer clic en el overlay
         overlay.addEventListener('click', function() {
             closeCartModal();
             closeProductModalFunc();
+            navMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
         });
+
+        // Event listeners para los modales
+        cartIcon.addEventListener('click', openCart);
+        closeCart.addEventListener('click', closeCartModal);
         closeProductModal.addEventListener('click', closeProductModalFunc);
 
         // Event listeners para abrir modal de producto al hacer clic en la imagen o nombre
         document.querySelectorAll('.product-image-container, .product-name').forEach(element => {
             element.addEventListener('click', function() {
-                const productId = this.closest('.product-card').querySelector('.btn-cart').getAttribute('data-id');
+                const productCard = this.closest('.product-card');
+                const productId = productCard.querySelector('.btn-cart').getAttribute('data-id');
                 openProductModal(productId);
             });
         });
