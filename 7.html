@@ -3,381 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delicias Japonesas - Cocina Auténtica</title>
+    <title>Ramen House - Delicias Japonesas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Estilos Base y Reset */
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #292F36;
+            --light: #F7FFF7;
+            --accent: #FFE66D;
+            --text: #333333;
+            --gray: #E0E0E0;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
         
         body {
-            background-color: #f9f9f9;
-            color: #333;
-            line-height: 1.6;
-            overflow-x: hidden;
+            background-color: var(--light);
+            color: var(--text);
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        /* Animaciones clave */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(20, 20);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-        
-        @keyframes shake {
-            0%, 100% {
-                transform: translateX(0);
-            }
-            10%, 30%, 50%, 70%, 90% {
-                transform: translateX(-5px);
-            }
-            20%, 40%, 60%, 80% {
-                transform: translateX(5px);
-            }
-        }
-        
-        /* Navegación */
-        nav {
-            background-color: #222;
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 1rem 5%;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        nav.scrolled {
-            padding: 0.5rem 5%;
-            background-color: rgba(0,0,0,0.9);
         }
         
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .logo span {
-            color: #e74c3c;
-        }
-        
-        .desktop-nav-links {
             display: flex;
-            list-style: none;
+            align-items: center;
         }
         
-        .mobile-nav-links {
-            list-style: none;
+        .logo i {
+            font-size: 28px;
+            margin-right: 10px;
         }
         
-        .desktop-nav-links li, .mobile-nav-links li {
-            margin-left: 2rem;
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .cart-icon {
             position: relative;
-        }
-        
-        .desktop-nav-links a, .mobile-nav-links a {
-            padding: 0.5rem 0;
-            transition: color 0.3s ease;
-        }
-        
-        .desktop-nav-links a:hover, .mobile-nav-links a:hover {
-            color: #e74c3c;
-        }
-        
-        .desktop-nav-links a::after, .mobile-nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: #e74c3c;
-            transition: width 0.3s ease;
-        }
-        
-        .desktop-nav-links a:hover::after, .mobile-nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        .mobile-menu-toggle {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
+            font-size: 24px;
             cursor: pointer;
-            display: none;
-            z-index: 1001;
         }
         
-        /* Hero Section */
-        header {
-            height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
-            color: white;
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: var(--dark);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 0 5%;
-            margin-top: 70px;
-            animation: fadeIn 1s ease-in;
-        }
-        
-        .hero-content {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s ease-out forwards 0.5s;
-            max-width: 800px;
-        }
-        
-        .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-        }
-        
-        .tagline {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out forwards 1s;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: #e74c3c;
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
+            font-size: 12px;
             font-weight: bold;
-            margin-top: 1rem;
-            transition: all 0.3s ease;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out forwards 1.5s;
-            position: relative;
-            overflow: hidden;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
-        .btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            background-color: #c0392b;
+        /* Sticky Navigation */
+        .sticky-nav {
+            position: sticky;
+            top: 68px; /* Altura del header */
+            z-index: 999;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .btn:active {
-            transform: translateY(1px);
+        /* Search Bar */
+        .search-container {
+            padding: 15px;
+            background-color: white;
+            border-bottom: 1px solid var(--gray);
         }
         
-        /* Sección de Menú */
-        .section {
-            padding: 5rem 5%;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s ease-out forwards;
-        }
-        
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: #222;
-            margin-bottom: 0.5rem;
-        }
-        
-        .section-title p {
-            color: #777;
-            font-size: 1.1rem;
-        }
-        
-        .category-filter {
+        .search-bar {
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-            gap: 0.5rem;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 30px;
+            padding: 10px 15px;
+        }
+        
+        .search-bar i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 8px;
+            outline: none;
+            font-size: 16px;
+        }
+        
+        /* Categories */
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px;
+            gap: 10px;
+            background-color: white;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .categories::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
         }
         
         .category-btn {
-            padding: 0.5rem 1.5rem;
-            background-color: #f1f1f1;
+            background-color: var(--gray);
             border: none;
-            border-radius: 50px;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 600;
+            white-space: nowrap;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .category-btn:hover {
-            background-color: #ddd;
+            transition: all 0.3s;
         }
         
         .category-btn.active {
-            background-color: #e74c3c;
+            background-color: var(--primary);
             color: white;
-            transform: scale(1.05);
+        }
+        
+        /* Products */
+        .container {
+            padding: 15px;
+        }
+        
+        .section-title {
+            margin: 20px 0 15px;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            color: var(--primary);
         }
         
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
         }
         
         .product-card {
             background-color: white;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.5s ease-out forwards;
-            animation-delay: calc(var(--order) * 0.1s);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
         
         .product-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .product-image-container {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
         }
         
         .product-image {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.5s;
         }
         
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent);
+            color: var(--dark);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
         }
         
         .product-info {
-            padding: 1.5rem;
+            padding: 15px;
         }
         
-        .product-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: #222;
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: var(--dark);
         }
         
         .product-description {
             color: #666;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-        
-        .product-price {
-            font-weight: bold;
-            color: #e74c3c;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .order-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #25D366;
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 50px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            position: relative;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
         }
         
-        .order-btn i {
-            margin-right: 0.5rem;
-            font-size: 1.2rem;
+        .product-price {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
         }
         
-        .order-btn:hover {
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .btn {
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .btn-cart {
+            background-color: var(--dark);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-cart:hover {
+            background-color: var(--primary);
+        }
+        
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            width: 45px;
+        }
+        
+        .btn-whatsapp:hover {
             background-color: #128C7E;
-            transform: translateY(-2px);
         }
-        
-        .order-btn:active {
-            transform: translateY(0);
+
+        /* Modal del Carrito */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
         }
-        
-        .order-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255,255,255,0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
+
+        .cart-modal.active {
+            display: block;
         }
-        
-        .order-btn:hover::after {
-            animation: ripple 1s ease-out;
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray);
         }
-        
-        /* Modal */
-        .modal {
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .cart-total {
+            font-weight: bold;
+            font-size: 18px;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .checkout-btn:hover {
+            background-color: #e05555;
+        }
+
+        /* Modal de Producto */
+        .product-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -385,876 +388,797 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.8);
-            z-index: 2000;
+            z-index: 1001;
             overflow-y: auto;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            padding: 20px;
         }
-        
-        .modal.active {
+
+        .product-modal.active {
             display: flex;
             justify-content: center;
             align-items: center;
-            opacity: 1;
         }
-        
-        .modal-content {
+
+        .product-modal-content {
             background-color: white;
-            border-radius: 10px;
-            width: 90%;
+            border-radius: 15px;
             max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            transform: translateY(50px);
-            transition: transform 0.3s ease;
+            width: 90%;
+            overflow: hidden;
             position: relative;
         }
-        
-        .modal.active .modal-content {
-            transform: translateY(0);
-        }
-        
-        .close-modal {
+
+        .close-product-modal {
             position: absolute;
             top: 15px;
             right: 15px;
-            font-size: 1.5rem;
-            color: #333;
+            background: none;
+            border: none;
+            font-size: 24px;
             cursor: pointer;
-            z-index: 10;
-            background: rgba(255,255,255,0.8);
+            z-index: 1;
+            color: white;
+            background-color: rgba(0,0,0,0.5);
             width: 40px;
             height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
         }
-        
-        .close-modal:hover {
-            transform: rotate(90deg);
-            color: #e74c3c;
-        }
-        
-        .modal-carousel {
-            position: relative;
+
+        .product-modal-image {
             width: 100%;
             height: 300px;
-            overflow: hidden;
-        }
-        
-        .carousel-slides {
-            display: flex;
-            transition: transform 0.5s ease;
-            height: 100%;
-        }
-        
-        .carousel-slide {
-            min-width: 100%;
-            height: 100%;
-        }
-        
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
             object-fit: cover;
         }
-        
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10;
+
+        .product-modal-info {
+            padding: 20px;
+        }
+
+        .product-modal-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .product-modal-price {
+            font-size: 22px;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .product-modal-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .product-modal-actions {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
+            gap: 10px;
         }
-        
-        .carousel-btn:hover {
-            background: rgba(0,0,0,0.8);
-        }
-        
-        .carousel-prev {
-            left: 15px;
-        }
-        
-        .carousel-next {
-            right: 15px;
-        }
-        
-        .modal-info {
-            padding: 2rem;
-        }
-        
-        .modal-info h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #222;
-        }
-        
-        .modal-info p {
-            color: #666;
-            margin-bottom: 1.5rem;
-        }
-        
-        .modal-price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #e74c3c;
-            margin-bottom: 1.5rem;
-        }
-        
-        .modal-order-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #25D366;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            font-size: 1.1rem;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
         }
         
-        .modal-order-btn:hover {
-            background-color: #128C7E;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        /* Footer */
+        /* Footer Mejorado */
         footer {
-            background-color: #222;
+            background-color: var(--dark);
             color: white;
-            padding: 3rem 5% 1rem;
+            padding: 40px 20px;
+            margin-top: 30px;
         }
         
         .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-column h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #e74c3c;
-        }
-        
-        .footer-column p {
-            margin-bottom: 0.5rem;
-            color: #bbb;
-        }
-        
-        .social-links {
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto;
         }
         
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: #333;
-            border-radius: 50%;
-            transition: all 0.3s ease;
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
         }
         
-        .social-links a:hover {
-            background-color: #e74c3c;
-            transform: translateY(-3px);
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
         }
         
-        .copyright {
-            text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid #444;
-            color: #777;
-            font-size: 0.9rem;
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
         }
         
-        /* WhatsApp flotante */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .footer-section p, .footer-section a {
+            color: #ddd;
+            margin-bottom: 10px;
+            display: block;
             text-decoration: none;
-            transition: all 0.3s;
-            animation: float 3s ease-in-out infinite;
+            transition: color 0.3s;
         }
         
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-            animation: none;
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+        
+        .contact-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 20px;
         }
         
         /* Responsive */
         @media (max-width: 768px) {
-            .desktop-nav {
-                display: none;
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .mobile-nav {
-                display: flex;
+            .logo h1 {
+                font-size: 18px;
+            }
+
+            .cart-modal {
+                width: 85%;
             }
             
-            .mobile-menu-toggle {
-                display: block;
-            }
-            
-            .mobile-nav-links {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background-color: rgba(0,0,0,0.9);
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                transform: translateX(-100%);
-                opacity: 0;
-                transition: all 0.5s ease;
-                z-index: 1000;
-            }
-            
-            .mobile-nav-links.active {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            
-            .mobile-nav-links li {
-                margin: 1.5rem 0;
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            
-            .mobile-nav-links.active li {
-                opacity: 1;
-                transform: translateX(0);
-                transition: all 0.5s ease;
-            }
-            
-            .mobile-nav-links.active li:nth-child(1) {
-                transition-delay: 0.2s;
-            }
-            
-            .mobile-nav-links.active li:nth-child(2) {
-                transition-delay: 0.3s;
-            }
-            
-            .mobile-nav-links.active li:nth-child(3) {
-                transition-delay: 0.4s;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            
-            .tagline {
-                font-size: 1.2rem;
-            }
-            
-            .modal-content {
-                width: 95%;
-            }
-            
-            .modal-carousel {
-                height: 250px;
-            }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 25px;
+            .product-modal-image {
+                height: 200px;
             }
         }
         
-        @media (min-width: 769px) {
-            .mobile-nav {
-                display: none;
+        @media (max-width: 480px) {
+            .product-image-container {
+                height: 150px;
+            }
+            
+            .product-description {
+                font-size: 13px;
+            }
+            
+            .sticky-nav {
+                top: 60px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navegación para desktop -->
-    <nav class="desktop-nav">
-        <a href="#" class="logo">Delicias<span>Japonesas</span></a>
-        <ul class="desktop-nav-links">
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#menu">Menú</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-    </nav>
-    
-    <!-- Navegación para móvil -->
-    <nav class="mobile-nav">
-        <a href="#" class="logo">Delicias<span>Japonesas</span></a>
-        <button class="mobile-menu-toggle" id="mobileMenuToggle">
-            <i class="fas fa-bars" id="menuIcon"></i>
-        </button>
-        <ul class="mobile-nav-links" id="mobileNavLinks">
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#menu">Menú</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-    </nav>
-
-    <!-- Encabezado hero -->
-    <header id="inicio">
-        <div class="hero-content">
-            <h1>Delicias Japonesas</h1>
-            <p class="tagline">Sabores auténticos de Japón en cada bocado</p>
-            <a href="#menu" class="btn">Ver Menú</a>
+    <!-- Header con nombre del negocio y carrito -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-bowl-food"></i>
+                <h1>Ramen House</h1>
+            </div>
+            <div class="cart-icon" id="cartIcon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
         </div>
     </header>
-
-    <!-- Sección de Menú -->
-    <section id="menu" class="section">
-        <div class="section-title">
-            <h2>Nuestro Menú</h2>
-            <p>Selección premium de sabores auténticos</p>
+    
+    <!-- Navegación sticky -->
+    <div class="sticky-nav">
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar ramen, bebidas..." id="searchInput">
+            </div>
         </div>
         
-        <!-- Filtro de categorías -->
-        <div class="category-filter" id="categoryFilter">
+        <!-- Categorías del menú -->
+        <div class="categories">
             <button class="category-btn active" data-category="all">Todo</button>
             <button class="category-btn" data-category="ramen">Ramen</button>
-            <button class="category-btn" data-category="sushi">Sushi</button>
             <button class="category-btn" data-category="bebidas">Bebidas</button>
+            <button class="category-btn" data-category="entradas">Entradas</button>
             <button class="category-btn" data-category="postres">Postres</button>
+            <button class="category-btn" data-category="especiales">Especiales</button>
         </div>
+    </div>
+    
+    <!-- Contenido principal -->
+    <div class="container">
+        <h2 class="section-title">
+            <i class="fas fa-fire"></i> Los más populares
+        </h2>
         
         <div class="products-grid" id="productsContainer">
-            <!-- Producto 1 - Ramen -->
-            <div class="product-card" data-category="ramen" style="--order: 1;" data-id="1">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1623341214825-9f4f963727da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Ramen Shoyu">
+            <!-- Producto 1 -->
+            <div class="product-card" data-category="ramen">
+                <div class="product-image-container" data-id="1">
+                    <img src="https://images.unsplash.com/photo-1623341214825-9f4f963727da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Ramen Shoyu" class="product-image">
+                    <span class="product-badge">Popular</span>
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Ramen Shoyu</h3>
-                    <p class="product-description">Caldo de pollo con salsa de soja, fideos al dente, huevo marinado y cebollín.</p>
-                    <p class="product-price">$12.99</p>
-                    <button class="order-btn" data-id="1" data-name="Ramen Shoyu" data-price="12.99">
-                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
-                    </button>
+                    <h3 class="product-name">Ramen Shoyu</h3>
+                    <p class="product-description">Delicioso ramen con caldo de soja, fideos artesanales, cerdo chashu, huevo marinado y vegetales frescos.</p>
+                    <p class="product-price">$1,450</p>
+                    <div class="product-actions">
+                        <button class="btn btn-cart" data-id="1" data-name="Ramen Shoyu" data-price="1450">
+                            <i class="fas fa-plus"></i> Añadir
+                        </button>
+                        <button class="btn btn-whatsapp" onclick="orderViaWhatsApp('Ramen Shoyu')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <!-- Producto 2 - Ramen -->
-            <div class="product-card" data-category="ramen" style="--order: 2;" data-id="2">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1632818924360-68d4994cfdb2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Ramen Miso">
+            <!-- Producto 2 -->
+            <div class="product-card" data-category="ramen">
+                <div class="product-image-container" data-id="2">
+                    <img src="https://images.unsplash.com/photo-1632818924360-68d4994cfdb2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Ramen Miso" class="product-image">
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Ramen Miso</h3>
-                    <p class="product-description">Caldo rico en umami con pasta de miso, cerdo chashu y algas nori.</p>
-                    <p class="product-price">$14.99</p>
-                    <button class="order-btn" data-id="2" data-name="Ramen Miso" data-price="14.99">
-                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
-                    </button>
+                    <h3 class="product-name">Ramen Miso</h3>
+                    <p class="product-description">Caldo rico en miso con fideos al dente, maíz dulce, bambú, cebollín y carne de cerdo tierna.</p>
+                    <p class="product-price">$1,550</p>
+                    <div class="product-actions">
+                        <button class="btn btn-cart" data-id="2" data-name="Ramen Miso" data-price="1550">
+                            <i class="fas fa-plus"></i> Añadir
+                        </button>
+                        <button class="btn btn-whatsapp" onclick="orderViaWhatsApp('Ramen Miso')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <!-- Producto 3 - Sushi -->
-            <div class="product-card" data-category="sushi" style="--order: 3;" data-id="3">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Sushi Variado">
+            <!-- Producto 3 -->
+            <div class="product-card" data-category="bebidas">
+                <div class="product-image-container" data-id="3">
+                    <img src="https://images.unsplash.com/photo-1617093727343-374698b1b188?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Té Verde Matcha" class="product-image">
+                    <span class="product-badge">Nuevo</span>
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Sushi Variado</h3>
-                    <p class="product-description">12 piezas de sushi variado con salsa de soja, wasabi y jengibre.</p>
-                    <p class="product-price">$18.99</p>
-                    <button class="order-btn" data-id="3" data-name="Sushi Variado" data-price="18.99">
-                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
-                    </button>
+                    <h3 class="product-name">Té Verde Matcha</h3>
+                    <p class="product-description">Auténtico té matcha japonés preparado tradicionalmente. Antioxidante y lleno de energía.</p>
+                    <p class="product-price">$650</p>
+                    <div class="product-actions">
+                        <button class="btn btn-cart" data-id="3" data-name="Té Verde Matcha" data-price="650">
+                            <i class="fas fa-plus"></i> Añadir
+                        </button>
+                        <button class="btn btn-whatsapp" onclick="orderViaWhatsApp('Té Verde Matcha')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <!-- Producto 4 - Sushi -->
-            <div class="product-card" data-category="sushi" style="--order: 4;" data-id="4">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1617196035154-1e7e6e28b0db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Roll California">
+            <!-- Producto 4 -->
+            <div class="product-card" data-category="entradas">
+                <div class="product-image-container" data-id="4">
+                    <img src="https://images.unsplash.com/photo-1559847844-5315695dadae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Gyoza" class="product-image">
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Roll California</h3>
-                    <p class="product-description">8 piezas de roll california con cangrejo, pepino y aguacate.</p>
-                    <p class="product-price">$15.99</p>
-                    <button class="order-btn" data-id="4" data-name="Roll California" data-price="15.99">
-                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
-                    </button>
+                    <h3 class="product-name">Gyoza (6 unidades)</h3>
+                    <p class="product-description">Empanadillas japonesas rellenas de cerdo y vegetales, servidas con salsa especial.</p>
+                    <p class="product-price">$890</p>
+                    <div class="product-actions">
+                        <button class="btn btn-cart" data-id="4" data-name="Gyoza (6 unidades)" data-price="890">
+                            <i class="fas fa-plus"></i> Añadir
+                        </button>
+                        <button class="btn btn-whatsapp" onclick="orderViaWhatsApp('Gyoza (6 unidades)')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <!-- Producto 5 - Bebidas -->
-            <div class="product-card" data-category="bebidas" style="--order: 5;" data-id="5">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Té Verde Japonés">
+            <!-- Producto 5 -->
+            <div class="product-card" data-category="ramen">
+                <div class="product-image-container" data-id="5">
+                    <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Ramen Vegetariano" class="product-image">
+                    <span class="product-badge">Vegano</span>
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Té Verde Japonés</h3>
-                    <p class="product-description">Té verde matcha tradicional servido caliente o frío.</p>
-                    <p class="product-price">$4.99</p>
-                    <button class="order-btn" data-id="5" data-name="Té Verde Japonés" data-price="4.99">
-                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
-                    </button>
+                    <h3 class="product-name">Ramen Vegetariano</h3>
+                    <p class="product-description">Versión vegetariana con caldo de hongos shiitake, tofu, espinacas y vegetales de temporada.</p>
+                    <p class="product-price">$1,350</p>
+                    <div class="product-actions">
+                        <button class="btn btn-cart" data-id="5" data-name="Ramen Vegetariano" data-price="1350">
+                            <i class="fas fa-plus"></i> Añadir
+                        </button>
+                        <button class="btn btn-whatsapp" onclick="orderViaWhatsApp('Ramen Vegetariano')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <!-- Producto 6 - Bebidas -->
-            <div class="product-card" data-category="bebidas" style="--order: 6;" data-id="6">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Sake Premium">
+            <!-- Producto 6 -->
+            <div class="product-card" data-category="bebidas">
+                <div class="product-image-container" data-id="6">
+                    <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Sake" class="product-image">
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Sake Premium</h3>
-                    <p class="product-description">Botella de 300ml de sake premium Junmai Daiginjo.</p>
-                    <p class="product-price">$22.99</p>
-                    <button class="order-btn" data-id="6" data-name="Sake Premium" data-price="22.99">
-                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
-                    </button>
+                    <h3 class="product-name">Sake Premium</h3>
+                    <p class="product-description">Sake japonés de alta calidad, perfecto para acompañar tus platillos. Copa de 180ml.</p>
+                    <p class="product-price">$1,200</p>
+                    <div class="product-actions">
+                        <button class="btn btn-cart" data-id="6" data-name="Sake Premium" data-price="1200">
+                            <i class="fas fa-plus"></i> Añadir
+                        </button>
+                        <button class="btn btn-whatsapp" onclick="orderViaWhatsApp('Sake Premium')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <!-- Producto 7 - Postres -->
-            <div class="product-card" data-category="postres" style="--order: 7;" data-id="7">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1562440499-64c9a111f713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Mochi Variado">
+            <!-- Producto 7 -->
+            <div class="product-card" data-category="bebidas">
+                <div class="product-image-container" data-id="7">
+                    <img src="https://images.unsplash.com/photo-1534353473418-4cfa6c56fd0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Cerveza Sapporo" class="product-image">
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Mochi Variado</h3>
-                    <p class="product-description">6 piezas de mochi en sabores variados.</p>
-                    <p class="product-price">$9.99</p>
-                    <button class="order-btn" data-id="7" data-name="Mochi Variado" data-price="9.99">
-                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
-                    </button>
+                    <h3 class="product-name">Cerveza Sapporo</h3>
+                    <p class="product-description">Auténtica cerveza japonesa, ligera y refrescante. Botella de 330ml.</p>
+                    <p class="product-price">$850</p>
+                    <div class="product-actions">
+                        <button class="btn btn-cart" data-id="7" data-name="Cerveza Sapporo" data-price="850">
+                            <i class="fas fa-plus"></i> Añadir
+                        </button>
+                        <button class="btn btn-whatsapp" onclick="orderViaWhatsApp('Cerveza Sapporo')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <!-- Producto 8 - Postres -->
-            <div class="product-card" data-category="postres" style="--order: 8;" data-id="8">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1623341543536-2c70d0e6a4cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Dorayaki">
+            <!-- Producto 8 -->
+            <div class="product-card" data-category="bebidas">
+                <div class="product-image-container" data-id="8">
+                    <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Ramune" class="product-image">
+                    <span class="product-badge">Popular</span>
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">Dorayaki</h3>
-                    <p class="product-description">Postre tradicional japonés de panqueques con pasta de judías.</p>
-                    <p class="product-price">$7.99</p>
-                    <button class="order-btn" data-id="8" data-name="Dorayaki" data-price="7.99">
-                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
-                    </button>
+                    <h3 class="product-name">Ramune</h3>
+                    <p class="product-description">Refresco japonés tradicional con sabor a limón. Botella de vidrio con cierre especial.</p>
+                    <p class="product-price">$750</p>
+                    <div class="product-actions">
+                        <button class="btn btn-cart" data-id="8" data-name="Ramune" data-price="750">
+                            <i class="fas fa-plus"></i> Añadir
+                        </button>
+                        <button class="btn btn-whatsapp" onclick="orderViaWhatsApp('Ramune')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contacto">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Delicias Japonesas</h3>
-                <p>Auténtica cocina japonesa preparada con ingredientes frescos y técnicas tradicionales.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                </div>
-            </div>
-            <div class="footer-column">
-                <h3>Horario</h3>
-                <p>Lun-Vie: 11am - 10pm</p>
-                <p>Sab-Dom: 12pm - 11pm</p>
-            </div>
-            <div class="footer-column">
-                <h3>Pedidos</h3>
-                <p><i class="fab fa-whatsapp"></i> +261 231 6632</p>
-                <p>Envíos a domicilio disponibles</p>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2023 Delicias Japonesas. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-
-    <!-- WhatsApp flotante solo en móvil -->
-    <a href="https://wa.me/2612316632" class="whatsapp-float" id="whatsappFloat">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <!-- Modal -->
-    <div class="modal" id="productModal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeModal">&times;</span>
-            <div class="modal-carousel">
-                <div class="carousel-slides" id="carouselSlides">
-                    <!-- Las imágenes se insertarán dinámicamente -->
-                </div>
-                <button class="carousel-btn carousel-prev" id="carouselPrev"><i class="fas fa-chevron-left"></i></button>
-                <button class="carousel-btn carousel-next" id="carouselNext"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="modal-info">
-                <h3 id="modalTitle">Producto</h3>
-                <p id="modalDescription">Descripción del producto</p>
-                <p class="modal-price" id="modalPrice">$0.00</p>
-                <button class="modal-order-btn" id="modalOrderBtn">
-                    <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
-                </button>
             </div>
         </div>
     </div>
+    
+    <!-- Modal del Carrito -->
+    <div class="overlay" id="overlay"></div>
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h2>Tu Pedido</h2>
+            <button class="close-cart" id="closeCart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Los items del carrito se añadirán aquí dinámicamente -->
+        </div>
+        <div class="cart-total">
+            Total: $<span id="cartTotal">0</span>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">
+            <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+        </button>
+    </div>
+    
+    <!-- Modal de Producto -->
+    <div class="product-modal" id="productModal">
+        <div class="product-modal-content">
+            <button class="close-product-modal" id="closeProductModal">&times;</button>
+            <img src="" alt="" class="product-modal-image" id="productModalImage">
+            <div class="product-modal-info">
+                <h2 class="product-modal-name" id="productModalName"></h2>
+                <p class="product-modal-price" id="productModalPrice"></p>
+                <p class="product-modal-description" id="productModalDescription"></p>
+                <div class="product-modal-actions">
+                    <button class="btn btn-cart" id="modalAddToCart">
+                        <i class="fas fa-plus"></i> Añadir al carrito
+                    </button>
+                    <button class="btn btn-whatsapp" id="modalWhatsApp">
+                        <i class="fab fa-whatsapp"></i> Pedir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer Mejorado -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Horario</h3>
+                <p>Lunes a Viernes: 11:00 - 23:00</p>
+                <p>Sábado y Domingo: 12:00 - 00:00</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <div class="contact-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Calle Falsa 123, Mendoza</p>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-phone"></i>
+                    <p>+54 261 123 4567</p>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-envelope"></i>
+                    <p>info@ramenhouse.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Síguenos</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2023 Ramen House - Delicias Japonesas. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
-    <!-- JavaScript -->
     <script>
-        // Datos de productos con múltiples imágenes
+        // Variables globales
+        let cart = [];
+        const cartModal = document.getElementById('cartModal');
+        const overlay = document.getElementById('overlay');
+        const cartIcon = document.getElementById('cartIcon');
+        const closeCart = document.getElementById('closeCart');
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartTotalElement = document.getElementById('cartTotal');
+        const cartCountElement = document.getElementById('cartCount');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const products = document.querySelectorAll('.product-card');
+        const searchInput = document.getElementById('searchInput');
+        const productModal = document.getElementById('productModal');
+        const closeProductModal = document.getElementById('closeProductModal');
+        const productModalImage = document.getElementById('productModalImage');
+        const productModalName = document.getElementById('productModalName');
+        const productModalPrice = document.getElementById('productModalPrice');
+        const productModalDescription = document.getElementById('productModalDescription');
+        const modalAddToCart = document.getElementById('modalAddToCart');
+        const modalWhatsApp = document.getElementById('modalWhatsApp');
+        
+        // Datos de los productos (simulando una base de datos)
         const productsData = {
-            1: {
-                name: "Ramen Shoyu",
-                description: "Caldo de pollo con salsa de soja, fideos al dente, huevo marinado y cebollín.",
-                price: "12.99",
-                images: [
-                    "https://images.unsplash.com/photo-1623341214825-9f4f963727da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
-                ]
+            '1': {
+                name: 'Ramen Shoyu',
+                description: 'Delicioso ramen con caldo de soja, fideos artesanales, cerdo chashu, huevo marinado y vegetales frescos.',
+                price: 1450,
+                image: 'https://images.unsplash.com/photo-1623341214825-9f4f963727da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                category: 'ramen'
             },
-            2: {
-                name: "Ramen Miso",
-                description: "Caldo rico en umami con pasta de miso, cerdo chashu y algas nori.",
-                price: "14.99",
-                images: [
-                    "https://images.unsplash.com/photo-1632818924360-68d4994cfdb2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
-                ]
+            '2': {
+                name: 'Ramen Miso',
+                description: 'Caldo rico en miso con fideos al dente, maíz dulce, bambú, cebollín y carne de cerdo tierna.',
+                price: 1550,
+                image: 'https://images.unsplash.com/photo-1632818924360-68d4994cfdb2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                category: 'ramen'
             },
-            3: {
-                name: "Sushi Variado",
-                description: "12 piezas de sushi variado con salsa de soja, wasabi y jengibre.",
-                price: "18.99",
-                images: [
-                    "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1617194698375-6339e566f71a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1611143669185-af224c5e3252?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
-                ]
+            '3': {
+                name: 'Té Verde Matcha',
+                description: 'Auténtico té matcha japonés preparado tradicionalmente. Antioxidante y lleno de energía.',
+                price: 650,
+                image: 'https://images.unsplash.com/photo-1617093727343-374698b1b188?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                category: 'bebidas'
             },
-            4: {
-                name: "Roll California",
-                description: "8 piezas de roll california con cangrejo, pepino y aguacate.",
-                price: "15.99",
-                images: [
-                    "https://images.unsplash.com/photo-1617196035154-1e7e6e28b0db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1583623025817-180190d0fc1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1611143669185-af224c5e3252?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
-                ]
+            '4': {
+                name: 'Gyoza (6 unidades)',
+                description: 'Empanadillas japonesas rellenas de cerdo y vegetales, servidas con salsa especial.',
+                price: 890,
+                image: 'https://images.unsplash.com/photo-1559847844-5315695dadae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                category: 'entradas'
             },
-            5: {
-                name: "Té Verde Japonés",
-                description: "Té verde matcha tradicional servido caliente o frío.",
-                price: "4.99",
-                images: [
-                    "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1534430480872-3498386e7856?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1559177697-9bca890acc0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
-                ]
+            '5': {
+                name: 'Ramen Vegetariano',
+                description: 'Versión vegetariana con caldo de hongos shiitake, tofu, espinacas y vegetales de temporada.',
+                price: 1350,
+                image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                category: 'ramen'
             },
-            6: {
-                name: "Sake Premium",
-                description: "Botella de 300ml de sake premium Junmai Daiginjo.",
-                price: "22.99",
-                images: [
-                    "https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1608270586752-83dfb295f759?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1608270586646-0057eec6d6b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
-                ]
+            '6': {
+                name: 'Sake Premium',
+                description: 'Sake japonés de alta calidad, perfecto para acompañar tus platillos. Copa de 180ml.',
+                price: 1200,
+                image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                category: 'bebidas'
             },
-            7: {
-                name: "Mochi Variado",
-                description: "6 piezas de mochi en sabores variados.",
-                price: "9.99",
-                images: [
-                    "https://images.unsplash.com/photo-1562440499-64c9a111f713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1580013759032-c96505e24c1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1580013759032-c96505e24c1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
-                ]
+            '7': {
+                name: 'Cerveza Sapporo',
+                description: 'Auténtica cerveza japonesa, ligera y refrescante. Botella de 330ml.',
+                price: 850,
+                image: 'https://images.unsplash.com/photo-1534353473418-4cfa6c56fd0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                category: 'bebidas'
             },
-            8: {
-                name: "Dorayaki",
-                description: "Postre tradicional japonés de panqueques con pasta de judías.",
-                price: "7.99",
-                images: [
-                    "https://images.unsplash.com/photo-1623341543536-2c70d0e6a4cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1599481238640-4c1288750d7a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1580013759032-c96505e24c1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
-                ]
+            '8': {
+                name: 'Ramune',
+                description: 'Refresco japonés tradicional con sabor a limón. Botella de vidrio con cierre especial.',
+                price: 750,
+                image: 'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                category: 'bebidas'
             }
         };
 
-        // WhatsApp number
-        const whatsappNumber = "2612316632";
-        
-        // Menú móvil
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const mobileNavLinks = document.getElementById('mobileNavLinks');
-        const menuIcon = document.getElementById('menuIcon');
-        
-        mobileMenuToggle.addEventListener('click', () => {
-            mobileNavLinks.classList.toggle('active');
+        // Función para abrir el carrito
+        function openCart() {
+            cartModal.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Función para cerrar el carrito
+        function closeCartModal() {
+            cartModal.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Función para abrir el modal de producto
+        function openProductModal(productId) {
+            const product = productsData[productId];
             
-            if (mobileNavLinks.classList.contains('active')) {
-                menuIcon.classList.remove('fa-bars');
-                menuIcon.classList.add('fa-times');
-                
-                // Animación de los items del menú
-                const menuItems = document.querySelectorAll('.mobile-nav-links li');
-                menuItems.forEach((item, index) => {
-                    item.style.animation = `fadeInUp 0.5s ease-out forwards ${index * 0.1 + 0.2}s`;
-                });
-            } else {
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
-            }
+            productModalImage.src = product.image;
+            productModalImage.alt = product.name;
+            productModalName.textContent = product.name;
+            productModalPrice.textContent = `$${product.price.toLocaleString()}`;
+            productModalDescription.textContent = product.description;
+            
+            // Configurar botones del modal
+            modalAddToCart.setAttribute('data-id', productId);
+            modalAddToCart.setAttribute('data-name', product.name);
+            modalAddToCart.setAttribute('data-price', product.price);
+            
+            modalWhatsApp.onclick = function() {
+                orderViaWhatsApp(product.name);
+            };
+            
+            productModal.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Función para cerrar el modal de producto
+        function closeProductModalFunc() {
+            productModal.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Event listeners para los modales
+        cartIcon.addEventListener('click', openCart);
+        closeCart.addEventListener('click', closeCartModal);
+        overlay.addEventListener('click', function() {
+            closeCartModal();
+            closeProductModalFunc();
         });
-        
-        // Cerrar menú al hacer clic en un enlace
-        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNavLinks.classList.remove('active');
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
+        closeProductModal.addEventListener('click', closeProductModalFunc);
+
+        // Event listeners para abrir modal de producto al hacer clic en la imagen o nombre
+        document.querySelectorAll('.product-image-container, .product-name').forEach(element => {
+            element.addEventListener('click', function() {
+                const productId = this.closest('.product-card').querySelector('.btn-cart').getAttribute('data-id');
+                openProductModal(productId);
             });
         });
-        
-        // Efecto scroll en navegación
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
+
+        // Función para añadir productos al carrito
+        function addToCart(id, name, price) {
+            // Verificar si el producto ya está en el carrito
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
             } else {
-                nav.classList.remove('scrolled');
+                cart.push({
+                    id,
+                    name,
+                    price,
+                    quantity: 1
+                });
             }
+            
+            updateCart();
+        }
+
+        // Event listeners para los botones de añadir al carrito
+        document.querySelectorAll('.btn-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const name = this.getAttribute('data-name');
+                const price = parseInt(this.getAttribute('data-price'));
+                
+                addToCart(id, name, price);
+            });
         });
-        
-        // Filtrar productos por categoría con animación
-        const categoryBtns = document.querySelectorAll('.category-btn');
-        const productCards = document.querySelectorAll('.product-card');
-        
-        categoryBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remover clase active de todos los botones
-                categoryBtns.forEach(btn => btn.classList.remove('active'));
+
+        // Event listener para el botón de añadir en el modal
+        modalAddToCart.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            const price = parseInt(this.getAttribute('data-price'));
+            
+            addToCart(id, name, price);
+            closeProductModalFunc();
+            openCart();
+        });
+
+        // Función para actualizar el carrito
+        function updateCart() {
+            // Actualizar contador del carrito
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCountElement.textContent = totalItems;
+            
+            // Actualizar items del carrito
+            cartItemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Tu carrito está vacío</p>';
+                cartTotalElement.textContent = '0';
+                return;
+            }
+            
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name} × ${item.quantity}</div>
+                        <div class="cart-item-price">$${itemTotal.toLocaleString()}</div>
+                    </div>
+                    <button class="remove-item" data-id="${item.id}">&times;</button>
+                `;
+                
+                cartItemsContainer.appendChild(itemElement);
+            });
+            
+            // Actualizar total
+            cartTotalElement.textContent = total.toLocaleString();
+            
+            // Añadir event listeners a los botones de eliminar
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    removeFromCart(id);
+                });
+            });
+        }
+
+        // Función para eliminar items del carrito
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCart();
+        }
+
+        // Función para realizar el pedido por WhatsApp
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            let message = '¡Hola! Quiero hacer un pedido:%0A%0A';
+            
+            cart.forEach(item => {
+                message += `- ${item.name} × ${item.quantity}%0A`;
+            });
+            
+            message += `%0ATotal: $${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toLocaleString()}`;
+            
+            window.open(`https://wa.me/5492612316632?text=${message}`, '_blank');
+        }
+
+        // Función para pedir un solo producto por WhatsApp
+        function orderViaWhatsApp(productName) {
+            const message = `¡Hola! Quiero hacer un pedido de ${productName}`;
+            window.open(`https://wa.me/5492612316632?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Filtrado por categorías
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Quitar clase active a todos los botones
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
                 // Añadir clase active al botón clickeado
-                btn.classList.add('active');
+                this.classList.add('active');
                 
-                const category = btn.getAttribute('data-category');
+                const category = this.getAttribute('data-category');
                 
-                // Animación de fade out
-                productCards.forEach(card => {
-                    card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                    if (category !== 'all' && card.getAttribute('data-category') !== category) {
-                        card.style.opacity = '0';
-                        card.style.transform = 'scale(0.8)';
-                        setTimeout(() => {
-                            card.style.display = 'none';
-                        }, 300);
+                products.forEach(product => {
+                    if (category === 'all' || product.getAttribute('data-category') === category) {
+                        product.style.display = 'block';
                     } else {
-                        card.style.display = 'block';
-                        setTimeout(() => {
-                            card.style.opacity = '1';
-                            card.style.transform = 'scale(1)';
-                        }, 50);
+                        product.style.display = 'none';
                     }
                 });
             });
         });
-        
-        // Configurar botones de WhatsApp
-        const orderButtons = document.querySelectorAll('.order-btn');
-        
-        orderButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const productName = button.getAttribute('data-name');
-                const productPrice = button.getAttribute('data-price');
+
+        // Búsqueda de productos
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            products.forEach(product => {
+                const name = product.querySelector('.product-name').textContent.toLowerCase();
+                const description = product.querySelector('.product-description').textContent.toLowerCase();
                 
-                const message = `¡Hola! Quiero pedir: ${productName} - $${productPrice}\n\nMi nombre: \nDirección de entrega: \nTeléfono de contacto: `;
-                const encodedMessage = encodeURIComponent(message);
-                
-                window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
-            });
-        });
-        
-        // Botón flotante de WhatsApp
-        const whatsappFloat = document.getElementById('whatsappFloat');
-        
-        whatsappFloat.addEventListener('click', (e) => {
-            e.preventDefault();
-            const message = `¡Hola! Quiero hacer un pedido:\n\nMi nombre: \nDirección de entrega: \nTeléfono de contacto: `;
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
-        });
-        
-        // Animación de carga para imágenes
-        document.querySelectorAll('.product-image img').forEach(img => {
-            if(img.complete) {
-                img.parentElement.classList.add('loaded');
-            } else {
-                img.addEventListener('load', function() {
-                    this.parentElement.classList.add('loaded');
-                });
-            }
-        });
-        
-        // Scroll suave para enlaces
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 70,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Cerrar menú móvil si está abierto
-                    if(mobileNavLinks.classList.contains('active')) {
-                        mobileNavLinks.classList.remove('active');
-                        menuIcon.classList.remove('fa-times');
-                        menuIcon.classList.add('fa-bars');
-                    }
+                if (name.includes(searchTerm) || description.includes(searchTerm)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
                 }
             });
         });
-        
-        // Modal y Carousel
-        const modal = document.getElementById('productModal');
-        const closeModal = document.getElementById('closeModal');
-        const carouselSlides = document.getElementById('carouselSlides');
-        const carouselPrev = document.getElementById('carouselPrev');
-        const carouselNext = document.getElementById('carouselNext');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalDescription = document.getElementById('modalDescription');
-        const modalPrice = document.getElementById('modalPrice');
-        const modalOrderBtn = document.getElementById('modalOrderBtn');
-        
-        let currentSlide = 0;
-        let currentProductId = null;
-        
-        // Abrir modal al hacer clic en un producto
-        productCards.forEach(card => {
-            card.addEventListener('click', function() {
-                const productId = this.getAttribute('data-id');
-                currentProductId = productId;
-                const product = productsData[productId];
-                
-                // Llenar el modal con los datos del producto
-                modalTitle.textContent = product.name;
-                modalDescription.textContent = product.description;
-                modalPrice.textContent = `$${product.price}`;
-                
-                // Configurar el carousel
-                carouselSlides.innerHTML = '';
-                product.images.forEach((image, index) => {
-                    const slide = document.createElement('div');
-                    slide.className = 'carousel-slide';
-                    slide.innerHTML = `<img src="${image}" alt="${product.name}">`;
-                    carouselSlides.appendChild(slide);
-                });
-                
-                // Resetear el carousel
-                currentSlide = 0;
-                updateCarousel();
-                
-                // Mostrar el modal
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-        });
-        
-        // Cerrar modal
-        closeModal.addEventListener('click', () => {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-        
-        // Cerrar modal al hacer clic fuera del contenido
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
-        
-        // Navegación del carousel
-        carouselPrev.addEventListener('click', () => {
-            currentSlide = (currentSlide - 1 + productsData[currentProductId].images.length) % productsData[currentProductId].images.length;
-            updateCarousel();
-        });
-        
-        carouselNext.addEventListener('click', () => {
-            currentSlide = (currentSlide + 1) % productsData[currentProductId].images.length;
-            updateCarousel();
-        });
-        
-        function updateCarousel() {
-            const slideWidth = 100;
-            carouselSlides.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
-        }
-        
-        // Botón de pedido en el modal
-        modalOrderBtn.addEventListener('click', () => {
-            const product = productsData[currentProductId];
-            const message = `¡Hola! Quiero pedir: ${product.name} - $${product.price}\n\nMi nombre: \nDirección de entrega: \nTeléfono de contacto: `;
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
-        });
-        
-        // Efecto shake en el botón de WhatsApp flotante cada 10 segundos
-        setInterval(() => {
-            whatsappFloat.style.animation = 'shake 0.5s ease-in-out';
-            setTimeout(() => {
-                whatsappFloat.style.animation = 'float 3s ease-in-out infinite';
-            }, 500);
-        }, 10000);
+
+        // Inicializar el carrito
+        updateCart();
     </script>
 </body>
 </html>
