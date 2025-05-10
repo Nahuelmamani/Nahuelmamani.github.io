@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -729,6 +730,83 @@
                 width: 100%;
             }
         }
+      /* [Estilos anteriores se mantienen igual] */
+        
+        /* Nuevos estilos para animación y carrito */
+        .fly-to-cart {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            z-index: 9999;
+            animation: flyToCart 0.8s cubic-bezier(0.42, 0, 0.58, 1);
+            pointer-events: none;
+        }
+        
+        @keyframes flyToCart {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(var(--endX), var(--endY)) scale(0.1);
+                opacity: 0;
+            }
+        }
+        
+        /* Estilo mejorado para items del carrito */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray);
+            gap: 15px;
+        }
+        
+        .cart-item-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .cart-item-info {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-btn {
+            background-color: var(--gray);
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -1422,6 +1500,141 @@
 
         // Inicializar el carrito
         updateCart();
+    </script>
+    <script>
+        // [Variables y funciones anteriores se mantienen]
+        
+        // Función para crear efecto de vuelo al carrito
+        function createFlyEffect(imageSrc, startX, startY, endX, endY) {
+            const flyItem = document.createElement('div');
+            flyItem.className = 'fly-to-cart';
+            flyItem.style.backgroundImage = `url(${imageSrc})`;
+            flyItem.style.left = `${startX}px`;
+            flyItem.style.top = `${startY}px`;
+            flyItem.style.setProperty('--endX', `${endX - startX}px`);
+            flyItem.style.setProperty('--endY', `${endY - startY}px`);
+            
+            document.body.appendChild(flyItem);
+            
+            setTimeout(() => {
+                flyItem.remove();
+            }, 800);
+        }
+        
+        // Función para actualizar el carrito (modificada)
+        function updateCart() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCountElement.textContent = totalItems;
+            
+            cartItemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Tu carrito está vacío</p>';
+                cartTotalElement.textContent = '0';
+                return;
+            }
+            
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <img src="${productsData[item.id].image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">$${item.price.toLocaleString()} c/u</div>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn decrease" data-id="${item.id}">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="quantity-btn increase" data-id="${item.id}">+</button>
+                    </div>
+                    <button class="remove-item" data-id="${item.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                
+                cartItemsContainer.appendChild(itemElement);
+            });
+            
+            // Añadir event listeners a los nuevos botones
+            document.querySelectorAll('.decrease').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const item = cart.find(i => i.id === id);
+                    if (item.quantity > 1) {
+                        item.quantity--;
+                    } else {
+                        cart = cart.filter(i => i.id !== id);
+                    }
+                    updateCart();
+                });
+            });
+            
+            document.querySelectorAll('.increase').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const item = cart.find(i => i.id === id);
+                    item.quantity++;
+                    updateCart();
+                });
+            });
+            
+            document.querySelectorAll('.remove-item').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    removeFromCart(id);
+                });
+            });
+            
+            cartTotalElement.textContent = total.toLocaleString();
+        }
+        
+        // Función modificada para añadir al carrito con efecto
+        function addToCart(id, name, price, event) {
+            // Crear efecto de vuelo
+            const buttonRect = event.target.getBoundingClientRect();
+            const cartRect = cartIcon.getBoundingClientRect();
+            
+            const startX = buttonRect.left + buttonRect.width/2;
+            const startY = buttonRect.top + buttonRect.height/2;
+            const endX = cartRect.left + cartRect.width/2;
+            const endY = cartRect.top + cartRect.height/2;
+            
+            createFlyEffect(productsData[id].image, startX, startY, endX, endY);
+            
+            // Añadir al carrito
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id,
+                    name,
+                    price,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+        }
+        
+        // Modificar event listeners para pasar el evento
+        document.querySelectorAll('.btn-cart').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const id = this.getAttribute('data-id');
+                const name = this.getAttribute('data-name');
+                const price = parseInt(this.getAttribute('data-price'));
+                addToCart(id, name, price, e);
+            });
+        });
+        
+        // [Resto del código JavaScript se mantiene igual]
     </script>
 </body>
 </html>
