@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lacofrut - Excelencia en Melón y Uva de Mesa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>:root {
+  --primary-color: #388e3c;
+  --primary-dark: #2e7d32;
+  --secondary-color: #f8f9fa;
+  --accent-color: #ffa000;
+  --accent-dark: #ff8f00;
+  --text-color: #333;
+  --white: #ffffff;
+  --gray-light: #e9ecef;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  max-width: 100%; /* Nueva regla para prevenir overflow */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+html, body {
+  width: 100%;
+  overflow-x: hidden; /* Previene scroll horizontal */
+}
+
+/* Menú móvil */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--primary-dark);
+  font-size: 1.8rem;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: var(--white);
+  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+  z-index: 1000;
+  transition: right 0.3s ease;
+  padding-top: 80px;
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  padding: 1rem;
+}
+
+.mobile-menu ul li {
+  margin-bottom: 1.5rem;
+}
+
+.mobile-menu ul li a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  display: block;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.mobile-menu ul li a:hover {
+  color: var(--primary-color);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+header {
+  background-color: var(--white);
+  padding: 1.2rem 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+header.scrolled {
+  padding: 0.8rem 0;
+  background-color: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(5px);
+}
+
+.container {
+  width: 100%; /* Cambiado de 90% a 100% */
+  padding: 0 15px; /* Añadido padding */
+  margin: 0 auto;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.logo-text {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  letter-spacing: -0.5px;
+}
+
+.logo-text span {
+  color: var(--accent-color);
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  margin-left: 2.2rem;
+  position: relative;
+}
+
+nav ul li a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+  font-size: 1.05rem;
+}
+
+nav ul li a:hover {
+  color: var(--primary-color);
+}
+
+nav ul li a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: var(--accent-color);
+  bottom: -5px;
+  left: 0;
+  transition: width 0.3s;
+}
+
+nav ul li a:hover:after {
+  width: 100%;
+}
+
+.hero {
+  background: linear-gradient(135deg, rgba(56, 142, 60, 0.9) 0%, rgba(46, 125, 50, 0.95) 100%), 
+              url('https://images.unsplash.com/photo-1564845304441-8f5a1ab944e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  color: var(--white);
+  margin-top: 0;
+  padding-top: 80px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.hero-content {
+  max-width: 600px;
+  width: 100%;
+}
+
+.hero-content h1 {
+  font-size: 3.2rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accent-color);
+  color: var(--white);
+  padding: 0.9rem 2.2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 160, 0, 0.3);
+}
+
+.btn:hover {
+  background-color: var(--accent-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 160, 0, 0.4);
+}
+
+.btn i {
+  margin-left: 8px;
+  font-size: 0.9rem;
+}
+
+section {
+  padding: 6rem 0;
+  width: 100%;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+  width: 100%;
+  padding: 0 15px;
+}
+
+.section-title h2 {
+  font-size: 2.5rem;
+  color: var(--primary-dark);
+  font-weight: 700;
+  display: inline-block;
+}
+
+.section-title h2:after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 4px;
+  background: var(--accent-color);
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+  font-size: 1.1rem;
+  color: #555;
+  padding: 0 15px;
+}
+
+.about {
+  background-color: var(--secondary-color);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.about:before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(56, 142, 60, 0.05);
+  border-radius: 50%;
+  top: -150px;
+  right: -150px;
+}
+
+.about:after {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 160, 0, 0.05);
+  border-radius: 50%;
+  bottom: -100px;
+  left: -100px;
+}
+
+.about-content {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 0 15px;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.about-text h3 {
+  font-size: 1.8rem;
+  color: var(--primary-dark);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.about-text p {
+  margin-bottom: 1.2rem;
+  color: #555;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.stat-item {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-number {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.about-image {
+  flex: 1;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 5s ease;
+}
+
+.about-image:hover img {
+  transform: scale(1.05);
+}
+
+.products {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.products:before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: rgba(56, 142, 60, 0.03);
+  border-radius: 50%;
+  top: 50px;
+  left: -200px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  padding: 0 15px;
+}
+
+.product-card {
+  background-color: var(--white);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  transition: all 0.4s ease;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.product-image {
+  height: 280px;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.1);
+}
+
+.product-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: var(--accent-color);
+  color: white;
+  padding: 0.3rem 1rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.product-info {
+  padding: 2rem;
+}
+
+.product-info h3 {
+  margin-bottom: 0.8rem;
+  color: var(--primary-dark);
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.product-info p {
+  color: #666;
+  margin-bottom: 1.2rem;
+}
+
+.product-varieties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.variety-tag {
+  background-color: var(--gray-light);
+  color: #555;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.benefits {
+  background-color: var(--secondary-color);
+  position: relative;
+  width: 100%;
+}
+
+.benefits:after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 160, 0, 0.03);
+  border-radius: 50%;
+  bottom: -150px;
+  right: -150px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 0 15px;
+}
+
+.benefit-card {
+  background-color: var(--white);
+  padding: 2.5rem 2rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.02);
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.benefit-icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, rgba(56, 142, 60, 0.1) 0%, rgba(56, 142, 60, 0.2) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 1.8rem;
+  color: var(--primary-color);
+}
+
+.benefit-card h3 {
+  margin-bottom: 1rem;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.benefit-card p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.contact {
+  position: relative;
+  padding-bottom: 0;
+  width: 100%;
+}
+
+.contact-info-container {
+  background-color: var(--primary-color);
+  padding: 4rem 0;
+  color: white;
+  width: 100%;
+}
+
+.contact-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+  padding: 0 15px;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+
+.contact-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.contact-text h3 {
+  margin-bottom: 0.3rem;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.contact-text p, .contact-text a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.contact-text a:hover {
+  color: var(--white);
+}
+
+footer {
+  background: var(--primary-dark);
+  color: var(--white);
+  padding: 2rem 0;
+  text-align: center;
+  width: 100%;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+
+.social-icon:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-3px);
+}
+
+.footer-bottom {
+  margin-top: 1.5rem;
+}
+
+.footer-bottom p {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+/* Media Queries para móvil */
+@media (max-width: 1200px) {
+  .hero-content h1 {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .about-content {
+    flex-direction: column;
+  }
+  
+  .about-image {
+    order: -1;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .section-title h2 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    display: none;
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  header {
+    padding: 1rem 0;
+  }
+  
+  .hero {
+    text-align: center;
+    padding-top: 100px;
+    min-height: 600px;
+    background-attachment: scroll;
+  }
+  
+  .hero-content {
+    margin: 0 auto;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+  
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+  
+  .section-title h2 {
+    font-size: 2rem;
+  }
+  
+  .about-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-container {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Correcciones específicas para el espacio blanco */
+  .container {
+    width: 100% !important;
+    padding: 0 15px;
+  }
+  
+  section, .hero {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .product-grid, .benefits-grid {
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .section-title h2 {
+    font-size: 1.8rem;
+  }
+  
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .mobile-menu {
+    width: 250px;
+  }
+  
+  /* Asegurar que todo el contenido esté dentro del viewport */
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  * {
+    max-width: 100%;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.delay-2 {
+  animation-delay: 0.4s;
+}
+
+.delay-3 {
+  animation-delay: 0.6s;
+}
+  </style>
+</head>
+<body>
+    <!-- Menú móvil -->
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#productos">Productos</a></li>
+            <li><a href="#beneficios">Beneficios</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </div>
+
+    <header id="header">
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-img">LF</div>
+                <div class="logo-text">Laco<span>frut</span></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#beneficios">Beneficios</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <h1>Frescura y calidad en cada cosecha</h1>
+                <p>En Lacofrut cultivamos melones y uvas de mesa con pasión y dedicación, ofreciendo productos que destacan por su sabor, textura y calidad superior.</p>
+                <a href="#contacto" class="btn">Contactar ahora <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="nosotros">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Nuestra Cooperativa</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text fade-in delay-1">
+                    <h3>Más de 25 años cultivando excelencia</h3>
+                    <p>Fundada en 1998, Lacofrut reúne a los mejores productores de melón y uva de mesa de la región, combinando tradición agrícola con técnicas innovadoras para ofrecer productos excepcionales.</p>
+                    <p>Nuestro modelo cooperativo garantiza un comercio justo para nuestros agricultores y la máxima calidad para nuestros clientes, manteniendo un compromiso inquebrantable con la sostenibilidad ambiental.</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">20+</div>
+                            <div class="stat-label">Productores asociados</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">25+</div>
+                            <div class="stat-label">Años de experiencia</div>
+                        </div>
+                       
+                </div>
+                <div class="about-image fade-in delay-2">
+                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Agricultores de la cooperativa Lacofrut">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products" id="productos">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Nuestros Productos</h2>
+            </div>
+            <p class="section-subtitle fade-in delay-1">Descubre nuestra selección premium de melones y uvas, cultivados con los más altos estándares de calidad</p>
+            
+            <div class="product-grid">
+                <div class="product-card fade-in delay-1">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1571575173700-afb9492e6a50?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Melón premium">
+                        <div class="product-badge">Premium</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Melón Selecto</h3>
+                        <p>Nuestros melones destacan por su dulzor equilibrado, aroma intenso y textura perfectamente jugosa. Cosechados en su punto óptimo de maduración.</p>
+                        
+                        <div class="product-varieties">
+                            <span class="variety-tag">Honeydew</span>
+                            <span class="variety-tag">Sundew</span>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card fade-in delay-2">
+                    <div class="product-image">
+                        <img src="https://aminochem.com/wp-content/uploads/2022/05/Aminochem-cultivos-uvademesa-herouva.webp" alt="Uva de mesa">
+                        <div class="product-badge">Premium</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Uva Fina</h3>
+                        <p>Racimos seleccionados manualmente, con granos firmes, crujientes y de tamaño uniforme. Dulzor natural y excelente conservación.</p>
+                        
+                        <div class="product-varieties">
+                            <span class="variety-tag">Red Globe</span>
+                            <span class="variety-tag">Thompson</span>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+       
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits" id="beneficios">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>¿Por qué Elegirnos?</h2>
+            </div>
+            <p class="section-subtitle fade-in delay-1">En Lacofrut nos comprometemos con la excelencia en cada aspecto de nuestro trabajo</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in delay-1">
+                    <div class="benefit-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Agricultura Responsable</h3>
+                    <p>Implementamos prácticas sostenibles que protegen el medio ambiente y garantizan la calidad de nuestros productos a largo plazo.</p>
+                </div>
+                
+                <div class="benefit-card fade-in delay-2">
+                    <div class="benefit-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Calidad Certificada</h3>
+                    <p>Todos nuestros procesos cumplen con los más estrictos estándares internacionales de calidad e inocuidad alimentaria.</p>
+                </div>
+                
+                <div class="benefit-card fade-in delay-1">
+                    <div class="benefit-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Comercio Justo</h3>
+                    <p>Garantizamos precios equitativos para nuestros productores y relaciones comerciales transparentes con nuestros clientes.</p>
+                </div>
+                
+                <div class="benefit-card fade-in delay-2">
+                    <div class="benefit-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Logística Eficiente</h3>
+                    <p>Cadena de frío garantizada y distribución oportuna para que nuestros productos lleguen en perfecto estado.</p>
+                </div>
+                
+                <div class="benefit-card fade-in delay-3">
+                    <div class="benefit-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3>Innovación Constante</h3>
+                    <p>Invertimos en investigación y desarrollo para mejorar continuamente nuestras variedades y técnicas de cultivo.</p>
+                </div>
+                
+                <div class="benefit-card fade-in delay-3">
+                    <div class="benefit-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Apoyo Comunitario</h3>
+                    <p>Reinvertimos en nuestras comunidades a través de programas educativos y de desarrollo para las familias de nuestros productores.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-info-container" id="contacto">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2 style="color: white;">Contáctanos</h2>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info fade-in delay-1">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Ubicación</h3>
+                            <p>Av. Agricultura 1234, Valle Fértil, Región Agrícola</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Teléfono</h3>
+                            <a href="tel:+56912345678">+56 9 1234 5678</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Email</h3>
+                            <a href="mailto:contacto@lacofrut.com">contacto@lacofrut.com</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Horario</h3>
+                            <p>Lunes a Viernes: 8:00 - 18:00 hrs<br>Sábado: 9:00 - 14:00 hrs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-social">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+                
+                <div class="footer-bottom">
+                    
+                    <p>© 2025 Cooperativa Lacofrut. Todos los derechos reservados.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem;">Diseñado y desarrollado por <a href="https://feriasoft.github.io/" style="color: var(--accent-color); text-decoration: none;">Feriasoft</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menú móvil
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('overlay');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
+            
+            // Cambiar ícono
+            const icon = this.querySelector('i');
+            if (mobileMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        overlay.addEventListener('click', function() {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+            mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+        });
+        
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+            });
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Animation on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(element => {
+            element.style.opacity = 0;
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
