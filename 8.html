@@ -3,291 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seleccione una Opción - Materia Prima o Recetas</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Opciones</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-        
-        .container {
-            max-width: 1200px;
-            width: 100%;
+            font-family: Arial, sans-serif;
             text-align: center;
-        }
-        
-        header {
-            margin-bottom: 40px;
-            padding: 20px;
+            margin: 50px;
+            background-color: #f0f0f0;
         }
         
         h1 {
-            font-size: 2.8rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            color: #333;
+            margin-bottom: 40px;
         }
         
-        .subtitle {
-            font-size: 1.2rem;
-            color: #7f8c8d;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .options-container {
+        .opciones {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             gap: 30px;
-            margin-top: 20px;
+            flex-wrap: wrap;
         }
         
-        .option-card {
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            width: 100%;
-            max-width: 500px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .option-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-        
-        .card-header {
-            padding: 25px 20px;
+        .boton {
+            display: block;
+            width: 200px;
+            padding: 20px;
+            background-color: #4CAF50;
             color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .materia-prima .card-header {
-            background: linear-gradient(to right, #3498db, #2ecc71);
-        }
-        
-        .recetas .card-header {
-            background: linear-gradient(to right, #e74c3c, #e67e22);
-        }
-        
-        .card-icon {
-            font-size: 2.5rem;
-            margin-right: 15px;
-        }
-        
-        .card-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-        
-        .card-body {
-            padding: 30px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .card-description {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 25px;
-            line-height: 1.7;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: #2c3e50;
-            color: white;
-            padding: 14px 28px;
-            border-radius: 50px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            margin-top: auto;
-            width: fit-content;
-            align-self: center;
-        }
-        
-        .materia-prima .btn {
-            background-color: #3498db;
-        }
-        
-        .recetas .btn {
-            background-color: #e74c3c;
-        }
-        
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .btn i {
-            margin-left: 8px;
-        }
-        
-        .instructions {
-            margin-top: 40px;
-            font-style: italic;
-            color: #7f8c8d;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
-        }
-        
-        .url-info {
-            margin-top: 30px;
-            font-size: 0.9rem;
-            color: #95a5a6;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.5);
             border-radius: 8px;
-            text-align: left;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
         
-        .url-info h3 {
-            text-align: center;
-            margin-bottom: 10px;
-            color: #2c3e50;
+        .boton:hover {
+            background-color: #45a049;
         }
         
-        @media (max-width: 768px) {
-            .options-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .option-card {
-                max-width: 100%;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
+        .materia {
+            background-color: #2196F3;
         }
         
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .card-title {
-                font-size: 1.5rem;
-            }
-            
-            .card-icon {
-                font-size: 2rem;
-            }
+        .materia:hover {
+            background-color: #0b7dda;
+        }
+        
+        .recetas {
+            background-color: #ff9800;
+        }
+        
+        .recetas:hover {
+            background-color: #e68a00;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Seleccione una Opción</h1>
-            <p class="subtitle">Haga clic en una de las tarjetas a continuación para acceder a la sección de Materia Prima o Recetas</p>
-        </header>
+    <h1>Seleccione una opción</h1>
+    
+    <div class="opciones">
+        <a href="https://feria-soft.blogspot.com/2026/01/prima.html" target="_blank" class="boton materia">
+            Materia Prima
+        </a>
         
-        <div class="options-container">
-            <a href="https://feria-soft.blogspot.com/2026/01/prima.html" target="_blank" class="option-card materia-prima">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-boxes"></i>
-                    </div>
-                    <h2 class="card-title">Materia Prima</h2>
-                </div>
-                <div class="card-body">
-                    <p class="card-description">
-                        Acceda a información detallada sobre materias primas disponibles, características, proveedores y disponibilidad. Encuentre todo lo necesario para su producción o elaboración.
-                    </p>
-                    <div class="btn">Acceder a Materia Prima <i class="fas fa-arrow-right"></i></div>
-                </div>
-            </a>
-            
-            <a href="https://feria-soft.blogspot.com/2026/01/recetas.html" target="_blank" class="option-card recetas">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <h2 class="card-title">Recetas</h2>
-                </div>
-                <div class="card-body">
-                    <p class="card-description">
-                        Explore nuestra colección de recetas, instrucciones paso a paso, ingredientes necesarios y técnicas de preparación. Perfecto para chefs, cocineros y entusiastas de la gastronomía.
-                    </p>
-                    <div class="btn">Acceder a Recetas <i class="fas fa-arrow-right"></i></div>
-                </div>
-            </a>
-        </div>
-        
-        <div class="instructions">
-            <p>Simplemente haga clic en cualquiera de las tarjetas anteriores para ser redirigido automáticamente a la página correspondiente. Las páginas se abrirán en una nueva pestaña del navegador.</p>
-        </div>
-        
-        <div class="url-info">
-            <h3>URLs de Destino</h3>
-            <p><strong>Materia Prima:</strong> https://feria-soft.blogspot.com/2026/01/prima.html</p>
-            <p><strong>Recetas:</strong> https://feria-soft.blogspot.com/2026/01/recetas.html</p>
-        </div>
+        <a href="https://feria-soft.blogspot.com/2026/01/recetas.html" target="_blank" class="boton recetas">
+            Recetas
+        </a>
     </div>
-
-    <script>
-        // Añadir confirmación antes de redirigir (opcional)
-        document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('.option-card');
-            
-            links.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // Opcional: Podríamos añadir un mensaje de confirmación
-                    // const confirmRedirect = confirm(`¿Está seguro que desea ir a ${this.querySelector('.card-title').textContent}?`);
-                    // if (!confirmRedirect) {
-                    //     e.preventDefault();
-                    // }
-                    
-                    // Añadir efecto visual de clic
-                    this.style.transform = 'scale(0.98)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 150);
-                });
-            });
-            
-            // Mensaje en consola
-            console.log("Página de redirección cargada correctamente.");
-            console.log("Opciones disponibles: Materia Prima y Recetas");
-        });
-    </script>
 </body>
 </html>
