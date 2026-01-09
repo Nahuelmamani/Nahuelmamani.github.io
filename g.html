@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Restringido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            width: 350px;
+            text-align: center;
+        }
+        
+        h2 {
+            color: #333;
+            margin-bottom: 25px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0;
+        }
+        
+        .toggle-password:hover {
+            color: #333;
+        }
+        
+        button.login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        
+        button.login-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .error-message {
+            color: #f44336;
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .success-message {
+            color: #4CAF50;
+            margin-top: 15px;
+            font-size: 16px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Acceso Restringido</h2>
+        
+        <div class="input-group">
+            <label for="username">Usuario:</label>
+            <input type="text" id="username" placeholder="Ingrese su usuario">
+        </div>
+        
+        <div class="input-group">
+            <label for="password">Contraseña:</label>
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Ingrese su contraseña">
+                <button type="button" class="toggle-password" id="toggle-password">
+                    Mostrar
+                </button>
+            </div>
+        </div>
+        
+        <button class="login-btn" id="login-btn">Iniciar Sesión</button>
+        
+        <div class="error-message" id="error-msg">
+            Credenciales incorrectas. Por favor, intente nuevamente.
+        </div>
+        
+        <div class="success-message" id="success-msg">
+            ¡Acceso concedido! Redirigiendo...
+        </div>
+    </div>
+
+    <script>
+        // Elementos del DOM
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('toggle-password');
+        const loginBtn = document.getElementById('login-btn');
+        const errorMsg = document.getElementById('error-msg');
+        const successMsg = document.getElementById('success-msg');
+        
+        // Función para mostrar/ocultar contraseña
+        togglePasswordBtn.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordBtn.textContent = 'Ocultar';
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordBtn.textContent = 'Mostrar';
+            }
+        });
+        
+        // Función para validar credenciales
+        loginBtn.addEventListener('click', function() {
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+            
+            // Ocultar mensajes anteriores
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+            
+            // Validar credenciales
+            if (username === 'Delrosario' && password === '2026') {
+                // Credenciales correctas
+                successMsg.style.display = 'block';
+                
+                // Redirigir después de 1 segundo
+                setTimeout(function() {
+                    window.location.href = 'https://nahuelmamani.github.io/8.html';
+                }, 1000);
+            } else {
+                // Credenciales incorrectas
+                errorMsg.style.display = 'block';
+                
+                // Limpiar el campo de contraseña
+                passwordInput.value = '';
+                
+                // Asegurar que la contraseña esté oculta
+                passwordInput.type = 'password';
+                togglePasswordBtn.textContent = 'Mostrar';
+            }
+        });
+        
+        // Permitir iniciar sesión presionando Enter
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                loginBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
