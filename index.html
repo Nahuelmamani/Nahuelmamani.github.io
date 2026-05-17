@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Lavalle App | Generador QR + Logo a PDF</title>
+    <title>Lavalle App | QR + Logo a PDF | </title>
     <!-- Librerías -->
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -26,7 +26,7 @@
         }
 
         .card {
-            max-width: 600px;
+            max-width: 720px;
             width: 100%;
             background: white;
             border-radius: 48px;
@@ -35,24 +35,12 @@
             transition: all 0.2s;
         }
 
-        .badge {
-            display: inline-block;
-            background: #0a2b33;
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 60px;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
-        }
-
         h2 {
             font-size: 1.9rem;
             font-weight: 700;
             color: #0a2b33;
             line-height: 1.2;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
         }
 
         .field {
@@ -82,6 +70,43 @@
             outline: none;
             border-color: #2c9baf;
             box-shadow: 0 0 0 3px rgba(44, 155, 175, 0.2);
+        }
+
+        /* Color personalizado */
+        .color-row {
+            margin-bottom: 22px;
+        }
+        .color-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8fafd;
+            padding: 10px 18px;
+            border-radius: 60px;
+            border: 1px solid #e2edf2;
+            flex-wrap: wrap;
+        }
+        .color-label {
+            font-weight: 600;
+            color: #1a4a5f;
+            font-size: 0.9rem;
+        }
+        #customColorPicker {
+            width: 60px;
+            height: 50px;
+            border: 2px solid #dce5ec;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            padding: 4px;
+        }
+        .color-value {
+            font-family: monospace;
+            background: white;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #1f6e8a;
         }
 
         .logo-zone {
@@ -145,7 +170,7 @@
         .qr-preview {
             background: #ffffff;
             border-radius: 40px;
-            padding: 24px;
+            padding: 30px 20px;
             margin: 8px 0 20px;
             box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.2);
             display: flex;
@@ -166,14 +191,14 @@
             position: relative;
         }
 
-        /* QR MÁS GRANDE: 340px de ancho para visualización y captura */
+        /* QR GRANDE: 420px visual */
         #qrImg {
             display: block;
-            width: 340px;
-            height: 340px;
+            width: 420px;
+            height: 420px;
             border-radius: 28px;
             background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
         }
 
         .logo-overlay-center {
@@ -182,7 +207,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 22%;
-            max-width: 80px;
+            max-width: 95px;
             background: white;
             border-radius: 50%;
             display: flex;
@@ -262,24 +287,27 @@
             letter-spacing: 0.3px;
         }
 
-        @media (max-width: 550px) {
+        @media (max-width: 620px) {
             .card {
                 padding: 22px 18px 30px;
             }
+            #qrImg {
+                width: 320px;
+                height: 320px;
+            }
+            .logo-overlay-center {
+                width: 24%;
+                max-width: 75px;
+            }
+        }
+
+        @media (max-width: 480px) {
             #qrImg {
                 width: 280px;
                 height: 280px;
             }
             .logo-overlay-center {
-                width: 24%;
-                max-width: 68px;
-            }
-        }
-
-        @media (max-width: 420px) {
-            #qrImg {
-                width: 250px;
-                height: 250px;
+                max-width: 65px;
             }
         }
     </style>
@@ -287,16 +315,25 @@
 <body>
 
 <div class="card">
-    <div class="badge">✦ LAVALLE APP · QR PARA NEGOCIOS</div>
     <h2>Lavalle <span style="color:#2c9baf;">App</span></h2>
     
     <div class="field">
-        <label>🌐 Enlace o texto</label>
-        <input type="text" id="businessLink" placeholder="https://tunegocio.com, WhatsApp, menú digital..." value="https://lavalleapp.com/negocios">
+        <label>🌐 Enlace o texto para tu negocio</label>
+        <input type="text" id="businessLink" placeholder="https://tunegocio.com, WhatsApp, Instagram..." value="https://lavalleapp.com.ar/">
+    </div>
+
+    <!-- Solo selector de color personalizado (sin badge ni menú de diseños) -->
+    <div class="color-row">
+        <div class="color-picker-wrapper">
+            <span class="color-label">🎨 Color personalizado del QR</span>
+            <input type="color" id="customColorPicker" value="#000000">
+            <span id="colorHexDisplay" class="color-value">#000000</span>
+        </div>
+        <div style="font-size: 0.7rem; color: #6f8f9c; margin-top: 6px; margin-left: 12px;">Elige cualquier color para tu código QR</div>
     </div>
 
     <div class="logo-zone" id="logoZone">
-        <button class="btn-logo" id="selectLogoBtn">➕ Subir logo</button>
+        <button class="btn-logo" id="selectLogoBtn">➕ Subir logo para centro</button>
         <div id="logoMiniContainer" style="display: none;" class="logo-preview-mini">
             <img id="miniLogoImg" class="mini-logo" alt="logo preview">
             <button id="removeLogoBtn" class="clear-logo" title="Quitar logo">✖</button>
@@ -304,7 +341,6 @@
         <input type="file" id="logoUpload" accept="image/png, image/jpeg, image/webp" style="display: none;">
     </div>
 
-    <!-- Botón con el texto solicitado: "generar qr para tu negocio" -->
     <button id="generateQRBtn" class="btn-generate">✨ generar qr para tu negocio</button>
 
     <div class="qr-preview">
@@ -326,7 +362,7 @@
 
 <script>
     (function() {
-        // Elementos del DOM
+        // Elementos DOM
         const linkInput = document.getElementById('businessLink');
         const generateBtn = document.getElementById('generateQRBtn');
         const qrImgElement = document.getElementById('qrImg');
@@ -339,15 +375,27 @@
         const removeLogoBtn = document.getElementById('removeLogoBtn');
         const downloadPDFBtn = document.getElementById('downloadPDFBtn');
         const qrExportArea = document.getElementById('qrExportArea');
+        const customColorPicker = document.getElementById('customColorPicker');
+        const colorHexDisplay = document.getElementById('colorHexDisplay');
 
         // Estados
         let currentQRDataURL = null;
         let currentLogoDataURL = null;
         let logoActive = false;
+        let currentColorHex = "#000000";
 
-        // Función para generar QR con TAMAÑO GRANDE (540px internos para máxima definición y visual grande)
-        // Además el tamaño del QR en pantalla es 340px, pero el origen es 540px para calidad extrema.
-        function generateHighResQR(text, size = 540) {
+        // Actualizar display del color
+        customColorPicker.addEventListener('input', (e) => {
+            currentColorHex = e.target.value;
+            colorHexDisplay.textContent = currentColorHex;
+            // Si hay un link válido, regenerar automáticamente con nuevo color
+            if (linkInput.value.trim() !== "") {
+                updateFullQR();
+            }
+        });
+
+        // Generar QR con tamaño GRANDÍSIMO (600px internos para máxima calidad, visual 420px)
+        function generateStyledQR(text, size = 600, foregroundColor) {
             return new Promise((resolve, reject) => {
                 if (!text || text.trim() === "") {
                     reject(new Error("Ingresa un enlace válido"));
@@ -363,7 +411,7 @@
                         text: text,
                         width: size,
                         height: size,
-                        colorDark: "#000000",
+                        colorDark: foregroundColor,
                         colorLight: "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
                     });
@@ -378,11 +426,11 @@
                             if (imgTag && imgTag.src) {
                                 resolve({ dataURL: imgTag.src, canvasElement: null });
                             } else {
-                                reject(new Error("Error al generar QR de alta definición"));
+                                reject(new Error("Error al generar QR con color personalizado"));
                                 document.body.removeChild(tempDiv);
                             }
                         }
-                    }, 80);
+                    }, 100);
                 } catch (err) {
                     document.body.removeChild(tempDiv);
                     reject(err);
@@ -390,7 +438,7 @@
             });
         }
 
-        // Actualizar QR en pantalla (usamos tamaño visual grande 340px, pero la fuente es 540px)
+        // Actualizar QR en pantalla (visual 420px, fuente 600px)
         async function updateFullQR() {
             const linkValue = linkInput.value.trim();
             if (!linkValue) {
@@ -398,7 +446,9 @@
                 return false;
             }
             try {
-                const qrResult = await generateHighResQR(linkValue, 540);
+                const activeColor = customColorPicker.value;
+                currentColorHex = activeColor;
+                const qrResult = await generateStyledQR(linkValue, 600, currentColorHex);
                 currentQRDataURL = qrResult.dataURL;
                 qrImgElement.src = currentQRDataURL;
                 
@@ -415,6 +465,7 @@
             }
         }
 
+        // Manejo de logo
         function handleLogoImage(file) {
             if (!file) return;
             if (!file.type.startsWith('image/')) {
@@ -451,18 +502,17 @@
             }
         }
 
-        // Captura con calidad extrema, ahora con QR más grande (340px visibles pero la captura escala aún mejor)
+        // Captura con calidad EXTREMA para PDF
         async function captureUltraHDCanvas() {
             if (!currentQRDataURL) {
                 throw new Error("Generá el QR primero");
             }
-            await new Promise(r => setTimeout(r, 50));
+            await new Promise(r => setTimeout(r, 60));
             const container = qrExportArea;
             if (!container) throw new Error("Área QR no encontrada");
             
-            // Escala alta para capturar el QR grande con nitidez profesional
             const canvas = await html2canvas(container, {
-                scale: 5.2,                // Calidad sobresaliente
+                scale: 5.5,                
                 backgroundColor: '#ffffff',
                 logging: false,
                 useCORS: false,
@@ -482,7 +532,7 @@
                 return false;
             }
             try {
-                downloadPDFBtn.innerText = "⏳ Generando PDF de alta definición...";
+                downloadPDFBtn.innerText = "⏳ Generando PDF profesional...";
                 downloadPDFBtn.disabled = true;
                 
                 const ultraCanvas = await captureUltraHDCanvas();
@@ -499,32 +549,30 @@
                 const pageWidth = pdf.internal.pageSize.getWidth();   // ~210mm
                 const pageHeight = pdf.internal.pageSize.getHeight();  // ~297mm
                 
-                // Tamaño del QR en el PDF: más grande para negocios (112mm de ancho, bien destacado)
-                const targetWidthMM = 112;
+                // QR más grande en el PDF: 130mm de ancho (protagonista)
+                const targetWidthMM = 130;
                 const aspectRatio = ultraCanvas.height / ultraCanvas.width;
                 const targetHeightMM = targetWidthMM * aspectRatio;
                 
                 const xPos = (pageWidth - targetWidthMM) / 2;
-                let yPos = (pageHeight - targetHeightMM) / 3.2;
-                if (yPos < 28) yPos = 30;
+                let yPos = (pageHeight - targetHeightMM) / 3.5;
+                if (yPos < 28) yPos = 28;
                 
                 pdf.addImage(imgDataURL, 'PNG', xPos, yPos, targetWidthMM, targetHeightMM, undefined, 'NONE');
                 
                 const linkText = linkInput.value.trim();
                 if (linkText) {
-                    pdf.setFontSize(12);
+                    pdf.setFontSize(11);
                     pdf.setFont('helvetica', 'bold');
                     pdf.setTextColor(20, 60, 75);
-                    pdf.text(linkText, pageWidth / 2, yPos + targetHeightMM + 12, { align: 'center' });
+                    pdf.text(linkText, pageWidth / 2, yPos + targetHeightMM + 10, { align: 'center' });
                 }
                 
-                // Marca Lavalle App
                 pdf.setFontSize(9);
                 pdf.setFont('helvetica', 'normal');
                 pdf.setTextColor(90, 115, 130);
                 pdf.text("Lavalle App · Código QR profesional", pageWidth / 2, pageHeight - 22, { align: 'center' });
                 
-                // Copyright solicitado
                 pdf.setFontSize(7.5);
                 pdf.setTextColor(130, 150, 168);
                 pdf.text("© 2026 Nahuel Mamani. Todos los derechos reservados.", pageWidth / 2, pageHeight - 12, { align: 'center' });
@@ -543,7 +591,7 @@
             }
         }
 
-        // Eventos
+        // Event listeners
         selectLogoBtn.addEventListener('click', () => logoUpload.click());
         logoUpload.addEventListener('change', (e) => {
             if (e.target.files && e.target.files[0]) handleLogoImage(e.target.files[0]);
@@ -559,11 +607,14 @@
             await generatePremiumPDF();
         });
         
-        // Inicializar con QR de ejemplo grande
+        // Inicializar QR con la URL de ejemplo y color negro #000000
         window.addEventListener('load', async () => {
-            linkInput.value = "https://lavalleapp.com/negocios";
+            linkInput.value = "https://lavalleapp.com.ar/";
+            customColorPicker.value = "#000000";
+            colorHexDisplay.textContent = "#000000";
+            currentColorHex = "#000000";
             await updateFullQR();
-        }); 
+        });
     })();
 </script>
 </body>
