@@ -1,5 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Lavalle App | QR + Logo a PDF Ultra Alta Calidad</title>
+    <!-- Librerías -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #eef2f5;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            max-width: 540px;
+            width: 100%;
+            background: white;
+            border-radius: 48px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 28px 24px 36px;
+            transition: all 0.2s;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #0a2b33;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 60px;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #0a2b33;
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
+
+        .subt {
+            color: #5f7f8c;
+            font-size: 0.85rem;
+            margin-bottom: 28px;
+            border-left: 3px solid #2c9baf;
+            padding-left: 12px;
+        }
+
+        .field {
+            margin-bottom: 22px;
+        }
+
+        .field label {
+            font-weight: 600;
+            color: #1a4a5f;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border: 1.5px solid #dce5ec;
+            border-radius: 40px;
+            background: white;
+            font-family: monospace;
+            transition: 0.2s;
+        }
+
+        .field input:focus {
+            outline: none;
+            border-color: #2c9baf;
+            box-shadow: 0 0 0 3px rgba(44, 155, 175, 0.2);
+        }
+
+        .logo-zone {
+            background: #f8fafd;
+            border-radius: 60px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+            border: 1px solid #e2edf2;
+        }
+
+        .btn-logo {
+            background: white;
+            border: 1px solid #cbdbe0;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #1f6e8a;
+            cursor: pointer;
+            transition: 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-logo:active {
+            background: #eef3fc;
+            transform: scale(0.97);
+        }
+
+        .logo-preview-mini {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mini-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: white;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .clear-logo {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: #9aaeb9;
+            padding: 5px;
+        }
+
+        .qr-preview {
+            background: #ffffff;
+            border-radius: 40px;
+            padding: 20px;
+            margin: 8px 0 20px;
+            box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .qr-frame {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            border-radius: 32px;
+        }
+
+        .qr-core {
+            position: relative;
+        }
+
+        #qrImg {
+            display: block;
+            width: 280px;
+            height: 280px;
+            border-radius: 28px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .logo-overlay-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 22%;
+            max-width: 72px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            border: 3px solid white;
+        }
+
+        .logo-overlay-center img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .btn-generate {
+            background: #0a2b33;
+            width: 100%;
+            border: none;
+            padding: 16px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.15s;
+        }
+
+        .btn-generate:active {
+            background: #144f5e;
+            transform: scale(0.97);
+        }
+
+        .btn-pdf-only {
+            background: #1f6e8c;
+            width: 100%;
+            border: none;
+            padding: 16px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.15s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            margin-top: 6px;
+        }
+
+        .btn-pdf-only:active {
+            background: #0e576f;
+            transform: scale(0.97);
+        }
+
+        hr {
+            margin: 20px 0 14px;
+            border: none;
+            height: 1px;
+            background: #e2edf2;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #88a3b2;
+            margin-top: 20px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 22px 18px 30px;
+            }
+            #qrImg {
+                width: 240px;
+                height: 240px;
+            }
+            .logo-overlay-center {
+                width: 24%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="badge">✦ CALIDAD PROFESIONAL · PDF ALTA DEFINICIÓN</div>
+    <h2>Lavalle <span style="color:#2c9baf;">App</span></h2>
+    <div class="subt">QR con tu logo · Exportación en ultra alta calidad para negocios</div>
+
+    <div class="field">
+        <label>🌐 Enlace o texto</label>
+        <input type="text" id="businessLink" placeholder="https://tunegocio.com, WhatsApp, menú digital..." value="https://lavalleapp.com/negocios">
+    </div>
+
+    <div class="logo-zone" id="logoZone">
+        <button class="btn-logo" id="selectLogoBtn">➕ Subir logo (Alta resolución)</button>
+        <div id="logoMiniContainer" style="display: none;" class="logo-preview-mini">
+            <img id="miniLogoImg" class="mini-logo" alt="logo preview">
+            <button id="removeLogoBtn" class="clear-logo" title="Quitar logo">✖</button>
+        </div>
+        <input type="file" id="logoUpload" accept="image/png, image/jpeg, image/webp" style="display: none;">
+    </div>
+
+    <button id="generateQRBtn" class="btn-generate">⚡ Generar QR profesional</button>
+
+    <div class="qr-preview">
+        <div id="qrExportArea" class="qr-frame">
+            <div class="qr-core" id="qrCoreWrap">
+                <img id="qrImg" src="" alt="QR code">
+                <div id="logoOverlay" class="logo-overlay-center" style="display: none;">
+                    <img id="overlayLogo" alt="logo marca">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="downloadPDFBtn" class="btn-pdf-only">📄 Descargar PDF (Máxima Calidad)</button>
+
+    <hr>
+    <div class="footer-copyright">© 2026 Nahuel Mamani. Todos los derechos reservados.</div>
+</div>
+
 <script>
-<!--
-document.write(unescape("%0A%0A%3C%21DOCTYPE%20html%3E%0A%3Chtml%20lang%3D%22es%22%3E%0A%3Chead%3E%0A%20%20%20%20%3Cmeta%20charset%3D%22UTF-8%22%3E%0A%20%20%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1.0%22%3E%0A%20%20%20%20%3Ctitle%3ESubir%20y%20Mostrar%20Im%E1genes%3C/title%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20%20%20body%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-family%3A%20Arial%2C%20sans-serif%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.image-preview%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-top%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20img%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20max-width%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20height%3A%20auto%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%201px%20solid%20%23ddd%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding%3A%205px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20footer%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-top%3A%2040px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2014px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23555%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20footer%20a%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23007BFF%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-decoration%3A%20none%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20footer%20a%3Ahover%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-decoration%3A%20underline%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%3C/style%3E%0A%3C/head%3E%0A%3Cbody%3E%0A%20%20%20%20%3Ch1%3ESubir%20y%20Mostrar%20Im%E1genes%3C/h1%3E%0A%20%20%20%20%3Cform%20id%3D%22uploadForm%22%3E%0A%20%20%20%20%20%20%20%20%3Cinput%20type%3D%22file%22%20id%3D%22imageInput%22%20accept%3D%22image/*%22%3E%0A%20%20%20%20%3C/form%3E%0A%20%20%20%20%3Cdiv%20class%3D%22image-preview%22%20id%3D%22imagePreview%22%3E%0A%20%20%20%20%20%20%20%20%3C%21--%20La%20imagen%20cargada%20se%20mostrar%E1%20aqu%ED%20--%3E%0A%20%20%20%20%3C/div%3E%0A%0A%20%20%20%20%3Cfooter%3E%0A%20%20%20%20%20%20%20%20%A9%202024%20Elian%20Mamani.%20Todos%20los%20derechos%20reservados.%20%0A%20%20%20%20%20%20%20%20%3Ca%20href%3D%22https%3A//feriasoft.github.io/%22%20target%3D%22_blank%22%3EVisita%20nuestra%20p%E1gina%20web%3C/a%3E%0A%20%20%20%20%3C/footer%3E%0A%0A%20%20%20%20%3Cscript%3E%0A%20%20%20%20%20%20%20%20document.getElementById%28%27imageInput%27%29.addEventListener%28%27change%27%2C%20function%28%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20const%20input%20%3D%20document.getElementById%28%27imageInput%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20const%20preview%20%3D%20document.getElementById%28%27imagePreview%27%29%3B%0A%0A%20%20%20%20%20%20%20%20%20%20%20%20//%20Limpiar%20cualquier%20imagen%20previa%0A%20%20%20%20%20%20%20%20%20%20%20%20preview.innerHTML%20%3D%20%27%27%3B%0A%0A%20%20%20%20%20%20%20%20%20%20%20%20if%20%28input.files%20%26%26%20input.files%5B0%5D%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20file%20%3D%20input.files%5B0%5D%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20reader%20%3D%20new%20FileReader%28%29%3B%0A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20reader.onload%20%3D%20function%28e%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20const%20img%20%3D%20document.createElement%28%27img%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20img.src%20%3D%20e.target.result%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20preview.appendChild%28img%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%3B%0A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20reader.readAsDataURL%28file%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%7D%29%3B%0A%20%20%20%20%3C/script%3E%0A%3C/body%3E%0A%3C/html%3E%0A"));
-//-->
+    (function() {
+        // Elementos del DOM
+        const linkInput = document.getElementById('businessLink');
+        const generateBtn = document.getElementById('generateQRBtn');
+        const qrImgElement = document.getElementById('qrImg');
+        const logoOverlayDiv = document.getElementById('logoOverlay');
+        const overlayLogoImg = document.getElementById('overlayLogo');
+        const selectLogoBtn = document.getElementById('selectLogoBtn');
+        const logoUpload = document.getElementById('logoUpload');
+        const logoMiniContainer = document.getElementById('logoMiniContainer');
+        const miniLogoImg = document.getElementById('miniLogoImg');
+        const removeLogoBtn = document.getElementById('removeLogoBtn');
+        const downloadPDFBtn = document.getElementById('downloadPDFBtn');
+        const qrExportArea = document.getElementById('qrExportArea');
+
+        // Estados internos
+        let currentQRDataURL = null;
+        let currentLogoDataURL = null;
+        let logoActive = false;
+        let qrCanvasCache = null;          // caché del canvas del QR puro para máxima calidad (opcional)
+
+        // Función mejorada para generar QR con tamaño más grande para mayor resolución interna
+        // Usamos tamaño 480px internamente para ganar definición y luego mostramos en 280px pero el canvas final captura alta calidad
+        function generateHighResQR(text, size = 480) {
+            return new Promise((resolve, reject) => {
+                if (!text || text.trim() === "") {
+                    reject(new Error("Ingresa un enlace válido"));
+                    return;
+                }
+                const tempDiv = document.createElement('div');
+                tempDiv.style.position = 'absolute';
+                tempDiv.style.top = '-9999px';
+                tempDiv.style.left = '-9999px';
+                document.body.appendChild(tempDiv);
+                try {
+                    const qr = new QRCode(tempDiv, {
+                        text: text,
+                        width: size,
+                        height: size,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H   // Nivel H esencial para logos
+                    });
+                    setTimeout(() => {
+                        const canvas = tempDiv.querySelector('canvas');
+                        if (canvas) {
+                            const data = canvas.toDataURL('image/png');
+                            document.body.removeChild(tempDiv);
+                            resolve({ dataURL: data, canvasElement: canvas });
+                        } else {
+                            const imgTag = tempDiv.querySelector('img');
+                            if (imgTag && imgTag.src) {
+                                resolve({ dataURL: imgTag.src, canvasElement: null });
+                            } else {
+                                reject(new Error("Error al crear QR de alta calidad"));
+                                document.body.removeChild(tempDiv);
+                            }
+                        }
+                    }, 80);
+                } catch (err) {
+                    document.body.removeChild(tempDiv);
+                    reject(err);
+                }
+            });
+        }
+
+        // Actualizar vista con QR (usamos tamaño de visualización 280px pero la fuente es 480px para preservar calidad)
+        async function updateFullQR() {
+            const linkValue = linkInput.value.trim();
+            if (!linkValue) {
+                alert("🔔 Ingresa el enlace de tu negocio o red social");
+                return false;
+            }
+            try {
+                // Generar QR en alta resolución interna (480px)
+                const qrResult = await generateHighResQR(linkValue, 480);
+                currentQRDataURL = qrResult.dataURL;
+                // Asignamos al elemento <img> para vista previa (se redimensiona con CSS, pero mantiene alta densidad)
+                qrImgElement.src = currentQRDataURL;
+                
+                // Aplicar logo si existe
+                if (logoActive && currentLogoDataURL) {
+                    overlayLogoImg.src = currentLogoDataURL;
+                    logoOverlayDiv.style.display = 'flex';
+                } else {
+                    logoOverlayDiv.style.display = 'none';
+                }
+                return true;
+            } catch (error) {
+                alert("Error generando QR: " + error.message);
+                return false;
+            }
+        }
+
+        // Manejo de selección de logo (se mantiene la imagen original sin comprimir)
+        function handleLogoImage(file) {
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                alert("Solo imágenes PNG o JPG para tu logo corporativo");
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imgData = e.target.result;
+                currentLogoDataURL = imgData;
+                logoActive = true;
+                miniLogoImg.src = imgData;
+                logoMiniContainer.style.display = 'flex';
+                if (currentQRDataURL) {
+                    overlayLogoImg.src = imgData;
+                    logoOverlayDiv.style.display = 'flex';
+                } else {
+                    overlayLogoImg.src = imgData;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetLogo() {
+            logoActive = false;
+            currentLogoDataURL = null;
+            logoMiniContainer.style.display = 'none';
+            miniLogoImg.src = '';
+            logoOverlayDiv.style.display = 'none';
+            overlayLogoImg.src = '';
+            logoUpload.value = '';
+            if (currentQRDataURL) {
+                logoOverlayDiv.style.display = 'none';
+            }
+        }
+
+        // Captura con calidad extrema usando html2canvas con escala muy alta y opciones para máxima nitidez
+        async function captureUltraHDCanvas() {
+            if (!currentQRDataURL) {
+                throw new Error("Primero genera el QR con el botón correspondiente");
+            }
+            // Aseguramos que el contenedor esté completamente renderizado
+            await new Promise(r => setTimeout(r, 50));
+            const container = qrExportArea;
+            if (!container) throw new Error("No se encuentra el área del QR");
+            
+            // Forzamos estilos de renderizado para evitar submuestreo
+            // Usamos html2canvas con escala muy alta (5.5) y calidad de imagen mejorada
+            const canvas = await html2canvas(container, {
+                scale: 5.8,                // Ultra alta resolución para PDF nítido
+                backgroundColor: '#ffffff',
+                logging: false,
+                useCORS: false,
+                allowTaint: false,
+                imageTimeout: 0,
+                onclone: (clonedDoc, element) => {
+                    // Asegurar que en el clon los estilos mantengan bordes redondeados y sin deformaciones
+                    const clonedContainer = clonedDoc.getElementById('qrExportArea');
+                    if (clonedContainer) {
+                        clonedContainer.style.transform = 'none';
+                    }
+                }
+            });
+            return canvas;
+        }
+
+        // Función para generar PDF con calidad insuperable: usando el canvas ultra HD y dimensiones vectoriales ajustadas
+        async function generatePremiumPDF() {
+            if (!currentQRDataURL) {
+                alert("⚡ Primero genera el QR con tu enlace y logo (opcional)");
+                return false;
+            }
+            try {
+                downloadPDFBtn.innerText = "⏳ Generando PDF en alta calidad...";
+                downloadPDFBtn.disabled = true;
+                
+                const ultraCanvas = await captureUltraHDCanvas();
+                // Convertir a dataURL con máxima calidad PNG (sin pérdida)
+                const imgDataURL = ultraCanvas.toDataURL('image/png');
+                
+                const { jsPDF } = window.jspdf;
+                // Usamos formato A4 pero mejoramos la representación para máxima nitidez
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4',
+                    compress: false      // Sin compresión para preservar calidad
+                });
+                
+                const pageWidth = pdf.internal.pageSize.getWidth();    // ~210mm
+                const pageHeight = pdf.internal.pageSize.getHeight();   // ~297mm
+                
+                // Calculamos dimensiones para que el QR ocupe un espacio destacado ~95mm de ancho (tamaño generoso)
+                const targetWidthMM = 100;   // 100mm de ancho = QR + logo grande y legible
+                const aspectRatio = ultraCanvas.height / ultraCanvas.width;
+                const targetHeightMM = targetWidthMM * aspectRatio;
+                
+                const xPos = (pageWidth - targetWidthMM) / 2;
+                let yPos = (pageHeight - targetHeightMM) / 3;  // posición más arriba para dar espacio al texto
+                if (yPos < 28) yPos = 32;
+                
+                // Añadir imagen con la mejor interpolación posible (usando 'NONE' para no suavizar bordes)
+                pdf.addImage(imgDataURL, 'PNG', xPos, yPos, targetWidthMM, targetHeightMM, undefined, 'NONE');
+                
+                // Texto del enlace con tipografía profesional
+                const linkText = linkInput.value.trim();
+                if (linkText) {
+                    pdf.setFontSize(12);
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.setTextColor(20, 60, 75);
+                    pdf.text(linkText, pageWidth / 2, yPos + targetHeightMM + 12, { align: 'center' });
+                }
+                
+                // Línea de marca Lavalle App
+                pdf.setFontSize(9);
+                pdf.setFont('helvetica', 'normal');
+                pdf.setTextColor(90, 115, 130);
+                pdf.text("Lavalle App · Código QR profesional", pageWidth / 2, pageHeight - 22, { align: 'center' });
+                
+                // Copyright solicitado
+                pdf.setFontSize(7.5);
+                pdf.setTextColor(130, 150, 168);
+                pdf.text("© 2026 Nahuel Mamani. Todos los derechos reservados.", pageWidth / 2, pageHeight - 12, { align: 'center' });
+                
+                // Guardamos con nombre representativo
+                pdf.save(`QR_LavalleApp_${Date.now()}.pdf`);
+                
+                downloadPDFBtn.innerText = "📄 Descargar PDF (Máxima Calidad)";
+                downloadPDFBtn.disabled = false;
+                return true;
+            } catch (error) {
+                console.error(error);
+                downloadPDFBtn.innerText = "📄 Descargar PDF (Máxima Calidad)";
+                downloadPDFBtn.disabled = false;
+                alert("Error generando PDF de alta calidad: " + error.message);
+                return false;
+            }
+        }
+
+        // Event Listeners
+        selectLogoBtn.addEventListener('click', () => logoUpload.click());
+        logoUpload.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) handleLogoImage(e.target.files[0]);
+        });
+        removeLogoBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            resetLogo();
+        });
+        generateBtn.addEventListener('click', async () => {
+            await updateFullQR();
+        });
+        downloadPDFBtn.addEventListener('click', async () => {
+            await generatePremiumPDF();
+        });
+        
+        // Carga inicial: generar QR de ejemplo con alta calidad
+        window.addEventListener('load', async () => {
+            // Valor por defecto atractivo para negocio
+            linkInput.value = "https://lavalleapp.com/demo-negocios";
+            await updateFullQR();
+        });
+        
+        // Bonus: Si se cambia el logo mientras existe QR, actualizar overlay sin regenerar QR entero
+        // Ya handleLogoImage y resetLogo manejan la visualización.
+        // Adicional, para garantizar que el tamaño del QR interno sea siempre de alta resolución, usamos generateHighResQR.
+    })();
 </script>
+</body>
+</html>
