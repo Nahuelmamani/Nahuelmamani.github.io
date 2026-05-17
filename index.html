@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Lavalle App | QR + Logo a PDF | </title>
+    <title>Lavalle App | QR Profesional + Marco |</title>
     <!-- Librerías -->
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -26,7 +26,7 @@
         }
 
         .card {
-            max-width: 720px;
+            max-width: 760px;
             width: 100%;
             background: white;
             border-radius: 48px;
@@ -44,7 +44,7 @@
         }
 
         .field {
-            margin-bottom: 22px;
+            margin-bottom: 20px;
         }
 
         .field label {
@@ -57,13 +57,13 @@
 
         .field input {
             width: 100%;
-            padding: 15px 20px;
+            padding: 14px 18px;
             font-size: 1rem;
             border: 1.5px solid #dce5ec;
             border-radius: 40px;
             background: white;
-            font-family: monospace;
             transition: 0.2s;
+            font-family: monospace;
         }
 
         .field input:focus {
@@ -72,16 +72,24 @@
             box-shadow: 0 0 0 3px rgba(44, 155, 175, 0.2);
         }
 
-        /* Color personalizado */
-        .color-row {
-            margin-bottom: 22px;
+        .row-2cols {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
+        .row-2cols .field {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        /* Color personalizado */
         .color-picker-wrapper {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             background: #f8fafd;
-            padding: 10px 18px;
+            padding: 8px 16px;
             border-radius: 60px;
             border: 1px solid #e2edf2;
             flex-wrap: wrap;
@@ -92,21 +100,44 @@
             font-size: 0.9rem;
         }
         #customColorPicker {
-            width: 60px;
-            height: 50px;
+            width: 55px;
+            height: 45px;
             border: 2px solid #dce5ec;
             border-radius: 20px;
             cursor: pointer;
-            background: white;
-            padding: 4px;
         }
         .color-value {
             font-family: monospace;
             background: white;
-            padding: 6px 12px;
+            padding: 5px 12px;
             border-radius: 40px;
-            font-size: 0.85rem;
-            color: #1f6e8a;
+            font-size: 0.8rem;
+        }
+
+        /* Control tamaño logo */
+        .slider-control {
+            background: #f8fafd;
+            padding: 12px 16px;
+            border-radius: 60px;
+            border: 1px solid #e2edf2;
+        }
+        .slider-control label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        input[type="range"] {
+            flex: 1;
+            min-width: 150px;
+            height: 5px;
+            border-radius: 10px;
+            background: #dce5ec;
+        }
+        .logo-size-value {
+            font-weight: bold;
+            color: #1f6e8c;
+            min-width: 45px;
         }
 
         .logo-zone {
@@ -118,7 +149,7 @@
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             border: 1px solid #e2edf2;
         }
 
@@ -132,32 +163,22 @@
             color: #1f6e8a;
             cursor: pointer;
             transition: 0.1s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
         }
-
-        .btn-logo:active {
-            background: #eef3fc;
-            transform: scale(0.97);
-        }
+        .btn-logo:active { transform: scale(0.97); background: #eef3fc; }
 
         .logo-preview-mini {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
         .mini-logo {
             width: 44px;
             height: 44px;
             border-radius: 50%;
             object-fit: cover;
-            background: white;
             border: 2px solid white;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
         .clear-logo {
             background: none;
             border: none;
@@ -167,56 +188,79 @@
             padding: 5px;
         }
 
+        /* Marco decorativo */
+        .frame-style-selector {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .frame-option {
+            background: #f0f4f8;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: 0.1s;
+            border: 1px solid transparent;
+        }
+        .frame-option.active {
+            background: #1f6e8c;
+            color: white;
+            border-color: #1f6e8c;
+        }
+        .frame-option:active { transform: scale(0.96); }
+
+        /* Contenedor QR con marco dinámico */
         .qr-preview {
             background: #ffffff;
             border-radius: 40px;
-            padding: 30px 20px;
-            margin: 8px 0 20px;
+            padding: 24px;
+            margin: 15px 0 20px;
             box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
-        .qr-frame {
-            position: relative;
+        .qr-frame-border {
             display: inline-flex;
             justify-content: center;
             align-items: center;
             background: white;
-            border-radius: 32px;
+            transition: all 0.2s;
         }
+        /* Diferentes estilos de marco */
+        .frame-none { border: none; padding: 0; border-radius: 32px; }
+        .frame-simple { border: 4px solid #0a2b33; border-radius: 32px; padding: 12px; background: white; }
+        .frame-shadow { box-shadow: 0 12px 28px rgba(0,0,0,0.2); border-radius: 32px; padding: 10px; background: white; }
+        .frame-double { border: 3px solid #2c9baf; outline: 3px solid #ffd966; border-radius: 36px; padding: 12px; background: white; }
+        .frame-elegant { border-radius: 60px; background: linear-gradient(135deg, #f5f7fa, #fff); padding: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
         .qr-core {
             position: relative;
+            display: inline-block;
         }
-
-        /* QR GRANDE: 420px visual */
         #qrImg {
             display: block;
             width: 420px;
             height: 420px;
             border-radius: 28px;
             background: white;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
         }
-
         .logo-overlay-center {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 22%;
-            max-width: 95px;
             background: white;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             border: 3px solid white;
+            transition: width 0.1s ease;
         }
-
         .logo-overlay-center img {
             width: 100%;
             height: auto;
@@ -224,119 +268,89 @@
             display: block;
         }
 
+        .btn-generate, .btn-pdf-only {
+            width: 100%;
+            border: none;
+            padding: 16px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.15s;
+        }
         .btn-generate {
             background: #0a2b33;
-            width: 100%;
-            border: none;
-            padding: 16px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1.05rem;
             color: white;
-            cursor: pointer;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: 0.15s;
+            margin-bottom: 18px;
         }
-
-        .btn-generate:active {
-            background: #144f5e;
-            transform: scale(0.97);
-        }
-
         .btn-pdf-only {
             background: #1f6e8c;
-            width: 100%;
-            border: none;
-            padding: 16px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1.05rem;
             color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: 0.15s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            margin-top: 6px;
+            margin-top: 8px;
         }
+        .btn-generate:active, .btn-pdf-only:active { transform: scale(0.97); }
 
-        .btn-pdf-only:active {
-            background: #0e576f;
-            transform: scale(0.97);
-        }
-
-        hr {
-            margin: 20px 0 14px;
-            border: none;
-            height: 1px;
-            background: #e2edf2;
-        }
-
-        .footer-copyright {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #88a3b2;
-            margin-top: 20px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
+        hr { margin: 20px 0 14px; border: none; height: 1px; background: #e2edf2; }
+        .footer-copyright { text-align: center; font-size: 0.7rem; color: #88a3b2; margin-top: 20px; }
 
         @media (max-width: 620px) {
-            .card {
-                padding: 22px 18px 30px;
-            }
-            #qrImg {
-                width: 320px;
-                height: 320px;
-            }
-            .logo-overlay-center {
-                width: 24%;
-                max-width: 75px;
-            }
+            .card { padding: 20px 16px 28px; }
+            #qrImg { width: 300px; height: 300px; }
+            .row-2cols { flex-direction: column; gap: 12px; }
         }
-
         @media (max-width: 480px) {
-            #qrImg {
-                width: 280px;
-                height: 280px;
-            }
-            .logo-overlay-center {
-                max-width: 65px;
-            }
+            #qrImg { width: 260px; height: 260px; }
         }
     </style>
 </head>
 <body>
-
 <div class="card">
     <h2>Lavalle <span style="color:#2c9baf;">App</span></h2>
-    
+
     <div class="field">
         <label>🌐 Enlace o texto para tu negocio</label>
         <input type="text" id="businessLink" placeholder="https://tunegocio.com, WhatsApp, Instagram..." value="https://lavalleapp.com.ar/">
     </div>
 
-    <!-- Solo selector de color personalizado (sin badge ni menú de diseños) -->
-    <div class="color-row">
-        <div class="color-picker-wrapper">
-            <span class="color-label">🎨 Color personalizado del QR</span>
-            <input type="color" id="customColorPicker" value="#000000">
-            <span id="colorHexDisplay" class="color-value">#000000</span>
+    <div class="row-2cols">
+        <div class="field">
+            <label>🎨 Color QR</label>
+            <div class="color-picker-wrapper">
+                <input type="color" id="customColorPicker" value="#000000">
+                <span id="colorHexDisplay" class="color-value">#000000</span>
+            </div>
         </div>
-        <div style="font-size: 0.7rem; color: #6f8f9c; margin-top: 6px; margin-left: 12px;">Elige cualquier color para tu código QR</div>
+        <!-- Control tamaño logo -->
+        <div class="field">
+            <label>🔘 Tamaño del logo central</label>
+            <div class="slider-control">
+                <label>
+                    <span>Pequeño</span>
+                    <input type="range" id="logoSizeSlider" min="14" max="32" step="1" value="22">
+                    <span>Grande</span>
+                    <span id="logoSizePercent" class="logo-size-value">22%</span>
+                </label>
+            </div>
+        </div>
     </div>
 
-    <div class="logo-zone" id="logoZone">
+    <!-- Marco decorativo -->
+    <div class="field">
+        <label>🖼️ Marco decorativo</label>
+        <div class="frame-style-selector">
+            <div class="frame-option active" data-frame="none">Sin marco</div>
+            <div class="frame-option" data-frame="simple">Marco sólido</div>
+            <div class="frame-option" data-frame="shadow">Sombra elegante</div>
+            <div class="frame-option" data-frame="double">Doble borde</div>
+            <div class="frame-option" data-frame="elegant">Redondeado premium</div>
+        </div>
+    </div>
+
+    <div class="logo-zone">
         <button class="btn-logo" id="selectLogoBtn">➕ Subir logo para centro</button>
         <div id="logoMiniContainer" style="display: none;" class="logo-preview-mini">
             <img id="miniLogoImg" class="mini-logo" alt="logo preview">
-            <button id="removeLogoBtn" class="clear-logo" title="Quitar logo">✖</button>
+            <button id="removeLogoBtn" class="clear-logo">✖</button>
         </div>
         <input type="file" id="logoUpload" accept="image/png, image/jpeg, image/webp" style="display: none;">
     </div>
@@ -344,7 +358,7 @@
     <button id="generateQRBtn" class="btn-generate">✨ generar qr para tu negocio</button>
 
     <div class="qr-preview">
-        <div id="qrExportArea" class="qr-frame">
+        <div id="qrExportArea" class="qr-frame-border frame-none">
             <div class="qr-core" id="qrCoreWrap">
                 <img id="qrImg" src="" alt="QR code">
                 <div id="logoOverlay" class="logo-overlay-center" style="display: none;">
@@ -355,14 +369,13 @@
     </div>
 
     <button id="downloadPDFBtn" class="btn-pdf-only">📄 Descargar PDF (Máxima Calidad)</button>
-
     <hr>
     <div class="footer-copyright">© 2026 Nahuel Mamani. Todos los derechos reservados.</div>
 </div>
 
 <script>
     (function() {
-        // Elementos DOM
+        // Elementos
         const linkInput = document.getElementById('businessLink');
         const generateBtn = document.getElementById('generateQRBtn');
         const qrImgElement = document.getElementById('qrImg');
@@ -377,6 +390,23 @@
         const qrExportArea = document.getElementById('qrExportArea');
         const customColorPicker = document.getElementById('customColorPicker');
         const colorHexDisplay = document.getElementById('colorHexDisplay');
+        const logoSizeSlider = document.getElementById('logoSizeSlider');
+        const logoSizePercent = document.getElementById('logoSizePercent');
+        
+        // Marco: selección
+        let currentFrame = "none";
+        const frameOptions = document.querySelectorAll('.frame-option');
+        frameOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                frameOptions.forEach(o => o.classList.remove('active'));
+                opt.classList.add('active');
+                currentFrame = opt.getAttribute('data-frame');
+                qrExportArea.className = `qr-frame-border frame-${currentFrame}`;
+                if (currentQRDataURL) {
+                    applyLogoSize(); 
+                }
+            });
+        });
 
         // Estados
         let currentQRDataURL = null;
@@ -384,27 +414,35 @@
         let logoActive = false;
         let currentColorHex = "#000000";
 
-        // Actualizar display del color
+        // Tamaño logo (porcentaje respecto al QR)
+        let logoPercent = 22;
+        logoSizeSlider.addEventListener('input', (e) => {
+            logoPercent = parseInt(e.target.value);
+            logoSizePercent.innerText = logoPercent + "%";
+            applyLogoSize();
+        });
+        
+        function applyLogoSize() {
+            if (logoOverlayDiv) {
+                logoOverlayDiv.style.width = logoPercent + '%';
+                logoOverlayDiv.style.maxWidth = (logoPercent * 3.8) + 'px';
+            }
+        }
+
+        // Actualizar color
         customColorPicker.addEventListener('input', (e) => {
             currentColorHex = e.target.value;
             colorHexDisplay.textContent = currentColorHex;
-            // Si hay un link válido, regenerar automáticamente con nuevo color
-            if (linkInput.value.trim() !== "") {
-                updateFullQR();
-            }
+            if (linkInput.value.trim() !== "") updateFullQR();
         });
 
-        // Generar QR con tamaño GRANDÍSIMO (600px internos para máxima calidad, visual 420px)
+        // Generar QR con tamaño 600px interno
         function generateStyledQR(text, size = 600, foregroundColor) {
             return new Promise((resolve, reject) => {
-                if (!text || text.trim() === "") {
-                    reject(new Error("Ingresa un enlace válido"));
-                    return;
-                }
+                if (!text || text.trim() === "") reject(new Error("Ingresa un enlace"));
                 const tempDiv = document.createElement('div');
                 tempDiv.style.position = 'absolute';
                 tempDiv.style.top = '-9999px';
-                tempDiv.style.left = '-9999px';
                 document.body.appendChild(tempDiv);
                 try {
                     const qr = new QRCode(tempDiv, {
@@ -418,72 +456,52 @@
                     setTimeout(() => {
                         const canvas = tempDiv.querySelector('canvas');
                         if (canvas) {
-                            const data = canvas.toDataURL('image/png');
+                            resolve(canvas.toDataURL('image/png'));
                             document.body.removeChild(tempDiv);
-                            resolve({ dataURL: data, canvasElement: canvas });
                         } else {
-                            const imgTag = tempDiv.querySelector('img');
-                            if (imgTag && imgTag.src) {
-                                resolve({ dataURL: imgTag.src, canvasElement: null });
-                            } else {
-                                reject(new Error("Error al generar QR con color personalizado"));
-                                document.body.removeChild(tempDiv);
-                            }
+                            reject(new Error("Error al generar QR"));
+                            document.body.removeChild(tempDiv);
                         }
                     }, 100);
-                } catch (err) {
-                    document.body.removeChild(tempDiv);
-                    reject(err);
-                }
+                } catch(err) { document.body.removeChild(tempDiv); reject(err); }
             });
         }
 
-        // Actualizar QR en pantalla (visual 420px, fuente 600px)
         async function updateFullQR() {
             const linkValue = linkInput.value.trim();
-            if (!linkValue) {
-                alert("🔔 Ingresa el enlace de tu negocio");
-                return false;
-            }
+            if (!linkValue) { alert("🔔 Ingresa el enlace de tu negocio"); return false; }
             try {
                 const activeColor = customColorPicker.value;
                 currentColorHex = activeColor;
-                const qrResult = await generateStyledQR(linkValue, 600, currentColorHex);
-                currentQRDataURL = qrResult.dataURL;
+                const qrData = await generateStyledQR(linkValue, 600, currentColorHex);
+                currentQRDataURL = qrData;
                 qrImgElement.src = currentQRDataURL;
-                
                 if (logoActive && currentLogoDataURL) {
                     overlayLogoImg.src = currentLogoDataURL;
                     logoOverlayDiv.style.display = 'flex';
+                    applyLogoSize();
                 } else {
                     logoOverlayDiv.style.display = 'none';
                 }
                 return true;
-            } catch (error) {
-                alert("Error: " + error.message);
-                return false;
-            }
+            } catch (error) { alert("Error: " + error.message); return false; }
         }
 
-        // Manejo de logo
         function handleLogoImage(file) {
             if (!file) return;
-            if (!file.type.startsWith('image/')) {
-                alert("Solo imágenes PNG o JPG para tu logo");
-                return;
-            }
+            if (!file.type.startsWith('image/')) { alert("Solo imágenes PNG o JPG"); return; }
             const reader = new FileReader();
             reader.onload = (e) => {
-                const imgData = e.target.result;
-                currentLogoDataURL = imgData;
+                currentLogoDataURL = e.target.result;
                 logoActive = true;
-                miniLogoImg.src = imgData;
+                miniLogoImg.src = currentLogoDataURL;
                 logoMiniContainer.style.display = 'flex';
                 if (currentQRDataURL) {
-                    overlayLogoImg.src = imgData;
+                    overlayLogoImg.src = currentLogoDataURL;
                     logoOverlayDiv.style.display = 'flex';
+                    applyLogoSize();
                 } else {
-                    overlayLogoImg.src = imgData;
+                    overlayLogoImg.src = currentLogoDataURL;
                 }
             };
             reader.readAsDataURL(file);
@@ -493,127 +511,86 @@
             logoActive = false;
             currentLogoDataURL = null;
             logoMiniContainer.style.display = 'none';
-            miniLogoImg.src = '';
             logoOverlayDiv.style.display = 'none';
             overlayLogoImg.src = '';
             logoUpload.value = '';
-            if (currentQRDataURL) {
-                logoOverlayDiv.style.display = 'none';
-            }
         }
 
-        // Captura con calidad EXTREMA para PDF
+        // Captura con marco incluido
         async function captureUltraHDCanvas() {
-            if (!currentQRDataURL) {
-                throw new Error("Generá el QR primero");
-            }
+            if (!currentQRDataURL) throw new Error("Generá el QR primero");
             await new Promise(r => setTimeout(r, 60));
             const container = qrExportArea;
-            if (!container) throw new Error("Área QR no encontrada");
-            
             const canvas = await html2canvas(container, {
-                scale: 5.5,                
+                scale: 5.2,
                 backgroundColor: '#ffffff',
                 logging: false,
                 useCORS: false,
-                allowTaint: false,
-                imageTimeout: 0,
-                onclone: (clonedDoc, element) => {
-                    const clonedContainer = clonedDoc.getElementById('qrExportArea');
-                    if (clonedContainer) clonedContainer.style.transform = 'none';
-                }
+                allowTaint: false
             });
             return canvas;
         }
 
         async function generatePremiumPDF() {
-            if (!currentQRDataURL) {
-                alert("✨ Primero generá el QR para tu negocio");
-                return false;
-            }
+            if (!currentQRDataURL) { alert("✨ Primero generá el QR para tu negocio"); return; }
             try {
-                downloadPDFBtn.innerText = "⏳ Generando PDF profesional...";
+                downloadPDFBtn.innerText = "⏳ Generando PDF...";
                 downloadPDFBtn.disabled = true;
-                
                 const ultraCanvas = await captureUltraHDCanvas();
                 const imgDataURL = ultraCanvas.toDataURL('image/png');
-                
                 const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF({
-                    orientation: 'portrait',
-                    unit: 'mm',
-                    format: 'a4',
-                    compress: false
-                });
-                
-                const pageWidth = pdf.internal.pageSize.getWidth();   // ~210mm
-                const pageHeight = pdf.internal.pageSize.getHeight();  // ~297mm
-                
-                // QR más grande en el PDF: 130mm de ancho (protagonista)
-                const targetWidthMM = 130;
+                const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: false });
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                const targetWidthMM = 135;
                 const aspectRatio = ultraCanvas.height / ultraCanvas.width;
                 const targetHeightMM = targetWidthMM * aspectRatio;
-                
                 const xPos = (pageWidth - targetWidthMM) / 2;
-                let yPos = (pageHeight - targetHeightMM) / 3.5;
+                let yPos = (pageHeight - targetHeightMM) / 3.2;
                 if (yPos < 28) yPos = 28;
-                
                 pdf.addImage(imgDataURL, 'PNG', xPos, yPos, targetWidthMM, targetHeightMM, undefined, 'NONE');
-                
                 const linkText = linkInput.value.trim();
                 if (linkText) {
                     pdf.setFontSize(11);
                     pdf.setFont('helvetica', 'bold');
                     pdf.setTextColor(20, 60, 75);
-                    pdf.text(linkText, pageWidth / 2, yPos + targetHeightMM + 10, { align: 'center' });
+                    pdf.text(linkText, pageWidth/2, yPos + targetHeightMM + 10, { align: 'center' });
                 }
-                
                 pdf.setFontSize(9);
-                pdf.setFont('helvetica', 'normal');
                 pdf.setTextColor(90, 115, 130);
-                pdf.text("Lavalle App · Código QR profesional", pageWidth / 2, pageHeight - 22, { align: 'center' });
-                
+                pdf.text("Lavalle App · Código QR profesional", pageWidth/2, pageHeight - 22, { align: 'center' });
                 pdf.setFontSize(7.5);
                 pdf.setTextColor(130, 150, 168);
-                pdf.text("© 2026 Nahuel Mamani. Todos los derechos reservados.", pageWidth / 2, pageHeight - 12, { align: 'center' });
-                
+                pdf.text("© 2026 Nahuel Mamani. Todos los derechos reservados.", pageWidth/2, pageHeight - 12, { align: 'center' });
                 pdf.save(`QR_LavalleApp_${Date.now()}.pdf`);
-                
                 downloadPDFBtn.innerText = "📄 Descargar PDF (Máxima Calidad)";
                 downloadPDFBtn.disabled = false;
-                return true;
-            } catch (error) {
-                console.error(error);
-                downloadPDFBtn.innerText = "📄 Descargar PDF (Máxima Calidad)";
+            } catch(err) {
+                downloadPDFBtn.innerText = "📄 Descargar PDF";
                 downloadPDFBtn.disabled = false;
-                alert("Error generando PDF: " + error.message);
-                return false;
+                alert("Error PDF: "+err.message);
             }
         }
 
-        // Event listeners
+        // Eventos
         selectLogoBtn.addEventListener('click', () => logoUpload.click());
-        logoUpload.addEventListener('change', (e) => {
-            if (e.target.files && e.target.files[0]) handleLogoImage(e.target.files[0]);
-        });
-        removeLogoBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            resetLogo();
-        });
-        generateBtn.addEventListener('click', async () => {
-            await updateFullQR();
-        });
-        downloadPDFBtn.addEventListener('click', async () => {
-            await generatePremiumPDF();
-        });
+        logoUpload.addEventListener('change', (e) => { if(e.target.files[0]) handleLogoImage(e.target.files[0]); });
+        removeLogoBtn.addEventListener('click', () => resetLogo());
+        generateBtn.addEventListener('click', async () => { await updateFullQR(); });
+        downloadPDFBtn.addEventListener('click', async () => { await generatePremiumPDF(); });
         
-        // Inicializar QR con la URL de ejemplo y color negro #000000
+        // Inicializar
         window.addEventListener('load', async () => {
             linkInput.value = "https://lavalleapp.com.ar/";
             customColorPicker.value = "#000000";
             colorHexDisplay.textContent = "#000000";
-            currentColorHex = "#000000";
+            logoSizeSlider.value = "22";
+            logoPercent = 22;
+            logoSizePercent.innerText = "22%";
+            currentFrame = "none";
+            qrExportArea.className = "qr-frame-border frame-none";
             await updateFullQR();
+            applyLogoSize();
         });
     })();
 </script>
