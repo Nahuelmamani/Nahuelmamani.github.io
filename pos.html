@@ -1,0 +1,678 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Feriasoft Pos | Panel de Control</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #eef2f7;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* BARRA SUPERIOR - MISMA EN ESCRITORIO, TABLET Y MÓVIL */
+        .top-nav {
+            background: linear-gradient(135deg, #0b2b3b, #1a4a6f);
+            backdrop-filter: blur(2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 0.5rem 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            background: #ffb347;
+            width: 32px;
+            height: 32px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1e2f3a;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            white-space: nowrap;
+        }
+
+        /* Menú horizontal - visible siempre (misma vista en todos los dispositivos) */
+        .menu-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            background: rgba(255,255,255,0.12);
+            padding: 4px 8px;
+            border-radius: 48px;
+            backdrop-filter: blur(4px);
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #f0f9ff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            letter-spacing: 0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .nav-btn i {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.active {
+            background: #ffb347;
+            color: #0a2a38;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Control de zoom - compacto para todos los tamaños */
+        .zoom-control {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.3);
+            padding: 3px 10px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            flex-shrink: 0;
+        }
+        .zoom-control label {
+            font-size: 0.65rem;
+            color: white;
+            font-weight: 600;
+        }
+        .zoom-select {
+            background: #1e2f3a;
+            color: white;
+            border: 1px solid #ffb347;
+            border-radius: 20px;
+            padding: 2px 6px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* CONTENEDOR DE PANELES */
+        .panels-container {
+            flex: 1;
+            position: relative;
+            background: #cbd5e1;
+            overflow: auto;
+        }
+
+        .panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.2s ease;
+            z-index: 1;
+            transform: scale(0.75);
+            transform-origin: top left;
+            width: 133.33%;
+            height: 133.33%;
+            overflow: auto;
+        }
+
+        .panel.active-panel {
+            visibility: visible;
+            opacity: 1;
+            z-index: 10;
+        }
+
+        .panel-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .loading-overlay.active {
+            opacity: 1;
+        }
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid #ffb347;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ========== RESPONSIVE: ESCRITORIO, TABLET Y MÓVIL CON MISMA VISTA ========== */
+        /* Tablet (pantallas entre 681px y 1024px) */
+        @media (max-width: 1024px) and (min-width: 681px) {
+            .nav-btn {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+            }
+            .panel {
+                transform: scale(0.73);
+                width: 137%;
+                height: 137%;
+            }
+        }
+
+        /* Móvil grande (681px) */
+        @media (max-width: 680px) {
+            .top-nav {
+                padding: 0.4rem 0.8rem;
+                gap: 0.4rem;
+            }
+            .logo-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 1rem;
+            }
+            .logo-text {
+                font-size: 0.85rem;
+            }
+            .nav-btn {
+                font-size: 0.65rem;
+                padding: 4px 8px;
+            }
+            .nav-btn i {
+                font-size: 0.8rem;
+            }
+            .zoom-control label {
+                display: inline-block;
+                font-size: 0.6rem;
+            }
+            .zoom-select {
+                font-size: 0.6rem;
+                padding: 2px 5px;
+            }
+            .panel {
+                transform: scale(0.72);
+                width: 138%;
+                height: 138%;
+            }
+        }
+
+        /* Móvil pequeño (480px) */
+        @media (max-width: 480px) {
+            .nav-btn {
+                font-size: 0.6rem;
+                padding: 3px 6px;
+            }
+            .menu-buttons {
+                gap: 4px;
+                padding: 3px 6px;
+            }
+            .panel {
+                transform: scale(0.68);
+                width: 147%;
+                height: 147%;
+            }
+        }
+
+        /* Pantallas muy pequeñas (400px) - ocultar texto del logo y mostrar solo íconos en menú */
+        @media (max-width: 400px) {
+            .logo-text {
+                display: none;
+            }
+            .logo-icon {
+                margin-right: 0;
+            }
+            .nav-btn span {
+                display: none;
+            }
+            .nav-btn i {
+                margin: 0;
+            }
+            .nav-btn {
+                padding: 4px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-nav">
+    <div class="logo-area" id="logoReloadHint" title="Doble clic para recargar panel actual">
+        <div class="logo-icon">📱</div>
+        <div class="logo-text">Feriasoft Pos</div>
+    </div>
+    
+    <!-- Menú horizontal con NUEVO BOTÓN STOCK -->
+    <div class="menu-buttons" id="menuContainer">
+        <button class="nav-btn" data-page="inventario">
+            <i>📦</i> <span>Inventario</span>
+        </button>
+        <button class="nav-btn" data-page="venta">
+            <i>💰</i> <span>Venta</span>
+        </button>
+        <button class="nav-btn" data-page="pendiente">
+            <i>⏳</i> <span>Pendiente</span>
+        </button>
+        <button class="nav-btn" data-page="cierre">
+            <i>🔐</i> <span>Cierre caja</span>
+        </button>
+        <button class="nav-btn" data-page="stock">
+            <i>📊</i> <span>Stock</span>
+        </button>
+    </div>
+    
+    <div class="zoom-control">
+        <label>🔍 Zoom:</label>
+        <select id="zoomLevelSelect" class="zoom-select">
+            <option value="0.65">65%</option>
+            <option value="0.75" selected>75%</option>
+            <option value="0.82">82%</option>
+            <option value="0.90">90%</option>
+            <option value="1.00">100%</option>
+        </select>
+    </div>
+</div>
+
+<div class="panels-container" id="panelsContainer">
+    <!-- Los paneles se generan dinámicamente con JS -->
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // CONFIGURACIÓN COMPLETA CON LOS 5 ENLACES (INCLUYENDO NUEVO STOCK)
+    // Solo VENTA mantiene sesión persistente
+    // --------------------------------------------------------------
+    const PAGES = {
+        inventario: {
+            id: 'inventario',
+            title: 'Inventario',
+            url: 'https://script.google.com/macros/s/AKfycbxVE3QcK5pEZD0l0-WTcmkLiOs83MXaLZUBg6kTtMOiNoyHO6ZJojVOAZU9JnRPMzMt/exec',
+            persistent: false
+        },
+        venta: {
+            id: 'venta',
+            title: 'Venta',
+            url: 'https://script.google.com/macros/s/AKfycbw70rBEMmpz0h9r2PUTnasPOsFFUBi7ycwYjC_M3TrR0evPzlm_A7KKrd06wFThlVB6/exec',
+            persistent: true    // ✅ Única que mantiene sesión al cambiar
+        },
+        pendiente: {
+            id: 'pendiente',
+            title: 'Pendiente',
+            url: 'https://script.google.com/macros/s/AKfycbz-s0BH3qvtXAS-DXzQVQYYuPeOeDOBDFTzG0ul9AZC4eNGYo28Fo3Dkldm-k0tsPS9/exec',
+            persistent: false
+        },
+        cierre: {
+            id: 'cierre',
+            title: 'Cierre caja',
+            url: 'https://script.google.com/macros/s/AKfycbzVYcU7rk44Kc7ovf2f6-BxLbMcAtBY_QORwTDySjHu1Zf5zmSuyx9eSyDuNaj6XgEE/exec',
+            persistent: false
+        },
+        stock: {
+            id: 'stock',
+            title: 'Stock',
+            // NUEVO ENLACE DE GOOGLE SHEETS
+            url: 'https://docs.google.com/spreadsheets/d/14X0VX6MWSEbQpCshnFZngAa0p00JevZTjb-0Ygmq13k/edit?usp=sharing',
+            persistent: false
+        }
+    };
+
+    const DEFAULT_ZOOM = 0.75;
+    let currentPageId = 'venta';
+    let panels = {};                 // Almacena Venta (persistente)
+    let preloadedPanels = {};       // Precarga de inventario, pendiente, cierre, stock
+    let tempPanel = null;           // Panel no persistente activo
+    
+    const panelsContainer = document.getElementById('panelsContainer');
+    const zoomSelect = document.getElementById('zoomLevelSelect');
+
+    function logMessage(msg, isError = false) {
+        if (isError) console.error(`[Feriasoft] ${msg}`);
+        else console.log(`[Feriasoft] ${msg}`);
+    }
+
+    // Aplicar zoom a un panel específico
+    function applyZoomToPanel(panelElement, zoomValue) {
+        if (!panelElement) return;
+        const zoomVal = parseFloat(zoomValue);
+        if (isNaN(zoomVal)) return;
+        panelElement.style.transform = `scale(${zoomVal})`;
+        const inverseScale = 1 / zoomVal;
+        panelElement.style.width = `${inverseScale * 100}%`;
+        panelElement.style.height = `${inverseScale * 100}%`;
+    }
+
+    // Aplicar zoom a todos los paneles existentes
+    function applyZoomToAllPanels(zoomValue) {
+        const zoomVal = parseFloat(zoomValue);
+        if (isNaN(zoomVal)) return;
+        if (panels['venta']?.element) applyZoomToPanel(panels['venta'].element, zoomVal);
+        if (tempPanel?.element) applyZoomToPanel(tempPanel.element, zoomVal);
+        for (let key in preloadedPanels) {
+            if (preloadedPanels[key]?.element) applyZoomToPanel(preloadedPanels[key].element, zoomVal);
+        }
+        localStorage.setItem('feriasoft_zoom', zoomVal);
+        logMessage(`Zoom ajustado a ${Math.round(zoomVal * 100)}%`);
+    }
+
+    // Crear elemento panel con iframe y loader
+    function createPanelElement(pageId, config, applyCurrentZoom = true) {
+        const panelDiv = document.createElement('div');
+        panelDiv.className = 'panel';
+        panelDiv.id = `panel-${pageId}`;
+        panelDiv.setAttribute('data-page', pageId);
+        
+        const iframe = document.createElement('iframe');
+        iframe.className = 'panel-iframe';
+        iframe.setAttribute('title', config.title);
+        iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-downloads allow-top-navigation allow-popups-to-escape-sandbox allow-storage-access-by-user-activation');
+        iframe.src = config.url;
+        iframe.loading = 'eager';
+        
+        const loaderDiv = document.createElement('div');
+        loaderDiv.className = 'loading-overlay';
+        loaderDiv.innerHTML = '<div class="spinner"></div>';
+        panelDiv.appendChild(loaderDiv);
+        
+        iframe.addEventListener('load', () => {
+            loaderDiv.classList.remove('active');
+            logMessage(`${config.title} cargado correctamente`);
+        });
+        iframe.addEventListener('error', () => {
+            loaderDiv.classList.remove('active');
+            logMessage(`Error al cargar ${config.title}`, true);
+        });
+        loaderDiv.classList.add('active');
+        panelDiv.appendChild(iframe);
+        
+        if (applyCurrentZoom) {
+            const savedZoom = localStorage.getItem('feriasoft_zoom');
+            const currentZoom = savedZoom ? parseFloat(savedZoom) : DEFAULT_ZOOM;
+            applyZoomToPanel(panelDiv, currentZoom);
+        }
+        return { panelDiv, iframe, loaderDiv };
+    }
+
+    // Precargar todas las páginas NO persistentes en segundo plano (sin mostrarlas)
+    function preloadAllNonPersistentPages() {
+        const nonPersistent = Object.entries(PAGES).filter(([id, cfg]) => !cfg.persistent);
+        nonPersistent.forEach(([pageId, config]) => {
+            if (!preloadedPanels[pageId]) {
+                const { panelDiv, iframe, loaderDiv } = createPanelElement(pageId, config, true);
+                panelDiv.style.visibility = 'hidden';
+                panelDiv.style.opacity = '0';
+                panelsContainer.appendChild(panelDiv);
+                preloadedPanels[pageId] = {
+                    element: panelDiv,
+                    iframe: iframe,
+                    loaderDiv: loaderDiv,
+                    config: config,
+                    isActive: false
+                };
+                logMessage(`Precargando ${config.title} en segundo plano...`);
+            }
+        });
+    }
+
+    // Mostrar página NO PERSISTENTE (usa precarga si existe)
+    function showNonPersistentPage(pageId, config) {
+        // Ocultar panel persistente (Venta)
+        if (panels['venta']?.element) {
+            panels['venta'].element.classList.remove('active-panel');
+        }
+        
+        // Limpiar panel temporal anterior
+        if (tempPanel) {
+            tempPanel.element.classList.remove('active-panel');
+            tempPanel.element.style.visibility = 'hidden';
+            tempPanel.element.style.opacity = '0';
+        }
+        
+        // Buscar en precarga o crear nuevo
+        let targetPanel = preloadedPanels[pageId];
+        if (!targetPanel) {
+            const { panelDiv, iframe, loaderDiv } = createPanelElement(pageId, config, true);
+            panelsContainer.appendChild(panelDiv);
+            targetPanel = { element: panelDiv, iframe, loaderDiv, config, isActive: false };
+            preloadedPanels[pageId] = targetPanel;
+            logMessage(`Creando panel rápido para ${config.title}`);
+        }
+        
+        // Ocultar otros paneles precargados
+        for (let key in preloadedPanels) {
+            if (preloadedPanels[key]?.element && key !== pageId) {
+                preloadedPanels[key].element.classList.remove('active-panel');
+                preloadedPanels[key].element.style.visibility = 'hidden';
+                preloadedPanels[key].element.style.opacity = '0';
+            }
+        }
+        
+        // Mostrar el panel objetivo
+        targetPanel.element.classList.add('active-panel');
+        targetPanel.element.style.visibility = 'visible';
+        targetPanel.element.style.opacity = '1';
+        tempPanel = targetPanel;
+        currentPageId = pageId;
+        updateActiveButtons(pageId);
+        logMessage(`${config.title} mostrado (carga rápida por precarga)`);
+    }
+
+    // Mostrar VENTA (persistente) - mantiene sesión
+    function showPersistentPage(pageId, config) {
+        // Ocultar panel temporal si existe
+        if (tempPanel) {
+            tempPanel.element.classList.remove('active-panel');
+            tempPanel.element.style.visibility = 'hidden';
+            tempPanel.element.style.opacity = '0';
+            tempPanel = null;
+        }
+        
+        // Ocultar paneles precargados visibles
+        for (let key in preloadedPanels) {
+            if (preloadedPanels[key]?.element) {
+                preloadedPanels[key].element.classList.remove('active-panel');
+                preloadedPanels[key].element.style.visibility = 'hidden';
+                preloadedPanels[key].element.style.opacity = '0';
+            }
+        }
+        
+        // Crear panel persistente si no existe
+        if (!panels[pageId]) {
+            const { panelDiv, iframe, loaderDiv } = createPanelElement(pageId, config, true);
+            panelsContainer.appendChild(panelDiv);
+            panels[pageId] = { element: panelDiv, iframe, loaderDiv, config };
+            logMessage(`${config.title} persistente creado (mantiene sesión)`);
+        }
+        
+        // Ocultar otros persistentes (solo habrá Venta)
+        for (let key in panels) {
+            if (panels[key]?.element) {
+                panels[key].element.classList.remove('active-panel');
+            }
+        }
+        
+        panels[pageId].element.classList.add('active-panel');
+        currentPageId = pageId;
+        updateActiveButtons(pageId);
+        logMessage(`${config.title} activado - SESIÓN PERSISTENTE (no se cierra al cambiar)`);
+    }
+
+    // Cambiar de página principal
+    function switchToPage(pageId) {
+        const config = PAGES[pageId];
+        if (!config) {
+            logMessage(`Página "${pageId}" no existe`, true);
+            return;
+        }
+        if (currentPageId === pageId) {
+            logMessage(`Ya estás en ${config.title}`);
+            return;
+        }
+        
+        if (config.persistent) {
+            showPersistentPage(pageId, config);
+        } else {
+            showNonPersistentPage(pageId, config);
+        }
+    }
+
+    // Actualizar botones activos en el menú
+    function updateActiveButtons(activePageId) {
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            const page = btn.getAttribute('data-page');
+            if (page === activePageId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+
+    // Recargar panel actual (útil para refrescar manual)
+    function reloadCurrentPanel() {
+        if (currentPageId === 'venta' && panels['venta']?.iframe) {
+            const currentSrc = panels['venta'].iframe.src;
+            panels['venta'].iframe.src = currentSrc;
+            logMessage(`Recargando Venta (sesión persistente)`);
+        } else if (tempPanel?.iframe) {
+            const currentSrc = tempPanel.iframe.src;
+            tempPanel.iframe.src = currentSrc;
+            logMessage(`Recargando ${tempPanel.config.title}`);
+        } else {
+            logMessage(`No se puede recargar el panel actual`, true);
+        }
+    }
+
+    // Configurar eventos de zoom y carga inicial
+    function setupZoomEvents() {
+        if (zoomSelect) {
+            const savedZoom = localStorage.getItem('feriasoft_zoom');
+            if (savedZoom) {
+                zoomSelect.value = savedZoom;
+                applyZoomToAllPanels(savedZoom);
+            } else {
+                zoomSelect.value = DEFAULT_ZOOM;
+                applyZoomToAllPanels(DEFAULT_ZOOM);
+            }
+            
+            zoomSelect.addEventListener('change', (e) => {
+                applyZoomToAllPanels(e.target.value);
+            });
+        }
+    }
+
+    // Inicialización principal
+    function init() {
+        setupZoomEvents();
+        
+        // Mostrar VENTA al instante (página por defecto)
+        showPersistentPage('venta', PAGES.venta);
+        
+        // Precargar Inventario, Pendiente, Cierre caja y STOCK en segundo plano sin bloquear
+        if (window.requestIdleCallback) {
+            requestIdleCallback(() => preloadAllNonPersistentPages(), { timeout: 1500 });
+        } else {
+            setTimeout(preloadAllNonPersistentPages, 300);
+        }
+        
+        // Eventos de los botones del menú
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const page = btn.getAttribute('data-page');
+                if (page && page !== currentPageId) {
+                    switchToPage(page);
+                }
+            });
+        });
+        
+        // Doble clic en el logo para recargar panel actual
+        const logoArea = document.getElementById('logoReloadHint');
+        if (logoArea) {
+            logoArea.addEventListener('dblclick', () => {
+                reloadCurrentPanel();
+            });
+        }
+        
+        logMessage('Feriasoft Pos iniciado | 5 paneles: Inventario, Venta (persistente), Pendiente, Cierre caja, Stock');
+        logMessage('Vista unificada para escritorio, tablet y móvil | Zoom y sesiones optimizadas');
+    }
+    
+    // Iniciar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    
+    // Exponer API para debug
+    window.feriasoftAPI = {
+        switchTo: switchToPage,
+        reloadPanel: reloadCurrentPanel,
+        setZoom: (val) => applyZoomToAllPanels(val),
+        getStatus: () => ({ current: currentPageId, persistent: panels, temp: tempPanel })
+    };
+</script>
+</body>
+</html>
